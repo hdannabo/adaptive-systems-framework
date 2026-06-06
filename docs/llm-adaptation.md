@@ -1,165 +1,166 @@
-# ASF for LLMs — Adaptation Efficiency Module
+# ASF for LLMs — Adaptation Efficiency Analysis
 
 ## The Problem
 
-The current LLM industry has three structural problems that ASF directly addresses.
+The current LLM industry faces three structural inefficiencies:
+
+### 1. Token Cost Explosion
+Organizations are discovering AI is not free. CFOs cannot accurately track AI spending — token-based pricing makes costs unpredictable and hard to attribute to business outcomes. The question executives are increasingly asking: **does AI value justify AI spend?**
+
+### 2. Context Window Degradation
+Longer context windows sound powerful. Research shows performance often degrades as context grows. Models exhibit **context rot** — intelligence degradation before reaching advertised limits. More context does not linearly improve outcomes.
+
+### 3. Agent Cost vs Agent Value
+Agentic workflows consume dramatically more tokens than standard chat. Research suggests agentic tasks may consume orders of magnitude more tokens while not producing proportionally better results. The cost-to-value ratio of autonomous agents is poorly understood.
 
 ---
 
-### Problem 1 — Token Cost Explosion
+## ASF Applied to LLMs
 
-Companies are discovering AI usage is not free. Token-based pricing creates unpredictable costs. Most CFOs cannot accurately track AI spend. Executives are asking whether AI value justifies AI cost.
+Instead of measuring organizational adaptation, ASF measures **LLM adaptation efficiency** — how effectively a model converts information, context, and compute into useful outcomes.
 
-**ASF reframes the question:**
-> Stop measuring cost per token. Start measuring value per token.
-
-```
-Token ROI = Business Value Generated / Total Tokens Consumed
-```
-
----
-
-### Problem 2 — Context Window Degradation
-
-Large context windows are marketed as capability. Research shows performance often degrades as context fills — "context rot." A 1M token window does not mean 1M tokens of reliable reasoning.
-
-**ASF measures effective context utilization:**
-
-```
-Effective Context Utilization (ECU) =
-    Useful Output Tokens / Total Input Tokens Consumed
-
-Context Rot Score =
-    1 − (Performance at 80% fill / Performance at 20% fill)
-
-Score > 0.15 = significant degradation
-Score > 0.30 = severe — the window is a liability
-```
-
----
-
-### Problem 3 — Agent Cost vs Agent Value
-
-Agentic workflows consume dramatically more tokens than standard completions. Some research reports 10–100× token inflation from orchestration overhead. Higher spend does not guarantee better outcomes.
-
-**ASF measures agent efficiency:**
-
-```
-Agent Efficiency Ratio = Task Value / Token Cost
-
-Loop Overhead = (Agent Tokens − Baseline Tokens) / Baseline Tokens
-
-Cost Per Adaptation = Total Agent Cost / Successful Adaptations
-```
-
----
-
-## The LLM as an Adaptive System
-
-ASF treats an LLM interaction as a complete adaptive cycle:
+### The LLM Adaptive Cycle
 
 ```
 User Request
-     ↓
-Observation       ← how accurately does the model read the task?
-     ↓
-Reasoning         ← how efficiently does it process context?
-     ↓
-Tool Usage        ← how precisely does it invoke external capabilities?
-     ↓
-Execution         ← how reliably does it complete the action?
-     ↓
-Feedback          ← how quickly does it incorporate corrections?
-     ↓
-Learning / Memory ← does it improve within and across sessions?
-     ↓
-Outcome
+      ↓
+  Observation        ← how well does the model detect intent?
+      ↓
+  Reasoning          ← how efficiently does it interpret and plan?
+      ↓
+  Tool Usage         ← how precisely does it select and execute tools?
+      ↓
+  Execution          ← how reliably does it complete the task?
+      ↓
+  Feedback           ← how quickly does it incorporate corrections?
+      ↓
+  Learning / Memory  ← how effectively does it improve across sessions?
+      ↓
+  Outcome            ← did it produce the right result?
 ```
 
-Each stage has a measurable latency and friction source — identical to the organizational ASF model.
+Each layer maps to an ASF metric:
+
+| LLM Layer | ASF Metric | What It Measures |
+|---|---|---|
+| Observation | Observation Latency | Time to correctly identify user intent |
+| Reasoning | Interpretation Accuracy | Correctness of task understanding |
+| Tool Usage | Execution Latency | Precision and speed of tool calls |
+| Execution | Execution Latency | Task completion reliability |
+| Feedback | Feedback Delay | Speed of incorporating corrections |
+| Learning | Learning Velocity | Cross-session improvement rate |
 
 ---
 
-## LLM Adaptation Efficiency Formula
+## LLM Efficiency Formulas
 
+### Context Efficiency (CE)
 ```
-LLM Adaptation Efficiency =
-    (Task Accuracy           × 0.30)   ← did it get the right answer?
-  + (Context Utilization     × 0.20)   ← useful output per token consumed
-  + (Retrieval Precision     × 0.20)   ← did it find the right information?
-  + (Reasoning Depth         × 0.15)   ← multi-step coherence
-  + (Feedback Responsiveness × 0.15)   ← correction uptake speed
+CE = Useful_information_extracted / Total_tokens_consumed
+
+Range: 0.0 → 1.0
+Target: CE > 0.6 for production systems
+```
+
+### Reasoning Efficiency (RE)
+```
+RE = Successful_tasks / Tokens_consumed_per_task
+
+Higher = model achieves more per token
+```
+
+### Cost Efficiency (CoE)
+```
+CoE = Business_value_generated / AI_spend
+
+Must be > 1.0 for positive ROI
+```
+
+### Adaptation Efficiency (AE) — long-context degradation test
+```
+AE = Performance_at_N_tokens / Performance_at_baseline_tokens
+
+AE > 1.0 → model improves with more context (healthy)
+AE = 1.0 → neutral — no benefit from additional context
+AE < 1.0 → context rot — performance degrades with more context
+```
+
+### LLM Adaptation Efficiency Score (LAE)
+```
+LAE = (Task_success_rate × Outcome_quality) / (Token_cost_normalized × Latency_normalized)
 
 Scale: 0–100
 ```
 
 ---
 
-## Publicly Available LLM Landscape (2026)
+## Model Comparison (Illustrative — 2026)
 
-Based on publicly available benchmarks and reported performance. Not vendor-endorsed.
+Based on publicly available information and research findings.
 
-| Model | Context Window | Cost Profile | Retrieval | Reasoning | ASF Efficiency |
+| Model | Context | Cost | Retrieval | Reasoning | LAE Score |
 |---|---|---|---|---|---|
-| Claude (Anthropic) | 1M tokens | High | High | High | 88 |
-| GPT-5 (OpenAI) | Large | Medium | High | High | 86 |
-| Gemini (Google) | 1M+ tokens | Medium | High | Medium-High | 84 |
+| Claude (Sonnet) | 1M | High | High | High | 88 |
+| GPT-4o / GPT-5 | Large | Medium | High | High | 86 |
+| Gemini 1.5 Pro | 1M+ | Medium | High | Medium-High | 84 |
 | DeepSeek | Lower | Low | Medium | Medium | 78 |
 
-**Key insight:** A model with a smaller but more efficiently used context window outperforms a larger-window model suffering from context rot. Efficiency beats raw capacity.
+**Important:** These scores measure **efficiency**, not raw capability. A model with a smaller context window but higher CE and RE may outperform a larger-context model in production cost-efficiency scenarios.
 
 ---
 
-## ASF Friction Map for LLMs
+## The AI Value Realization Loop
 
-| ASF Friction Category | LLM Manifestation | Intervention |
-|---|---|---|
-| Technical friction | Context rot, hallucination, tool call failures | Prompt optimization, RAG tuning, smaller focused prompts |
-| Organizational friction | No eval framework, no cost governance | Token budgets, model selection policy, eval pipelines |
-| Human friction | Prompt quality variance, no feedback loops | Prompt libraries, user training, structured templates |
-| Governance friction | No AI policy, no output review | AI governance framework, human-in-the-loop checkpoints |
-| Data friction | Poor retrieval, stale knowledge bases | RAG hygiene, chunking strategy, re-ranking |
+ASF tracks AI investment through the full value chain:
+
+```
+AI Investment
+      ↓
+  AI Adoption          ← are teams actually using it?
+      ↓
+  AI Usage             ← how much and for what?
+      ↓
+  Operational Impact   ← hours saved, errors reduced, speed gained
+      ↓
+  Business Impact      ← revenue, cost avoidance, risk reduction
+      ↓
+  Value Realization    ← ROI vs spend
+```
+
+### Value Realization Metrics
+
+| Metric | Formula |
+|---|---|
+| Adoption Rate | Active users / Total licensed users |
+| Usage Intensity | Tokens consumed / Expected tokens |
+| Time Saved | Manual hours before − Manual hours after |
+| Cost Avoidance | Prevented cost / AI spend |
+| ROI | (Business value − AI spend) / AI spend |
+
+### The Adaptation Funnel for AI Programs
+
+```
+100  AI features deployed
+ 70  Adopted by teams          → 30% adoption failure
+ 50  Used regularly            → 20% usage drop-off
+ 35  Producing measurable impact → 15% impact gap
+ 20  Tracked and measured      → 15% measurement gap
+ 12  Feeding back into improvement → 8% learning gap
+  8  Generating lasting value  → 4% realization gap
+
+Total value loss: 92% of deployed AI features never reach full value realization
+```
+
+This is the AI equivalent of the ASF Adaptation Funnel.
 
 ---
 
-## Enterprise AI ROI via ASF
+## Why This Matters Now
 
-```
-AI Value Realization Score =
-    (Adoption Velocity       × 0.30)
-  + (Value Realization Speed × 0.25)
-  + (ROI Efficiency          × 0.25)
-  + (Cost Predictability     × 0.20)
+Every enterprise AI program in 2026 is facing the same question their CFO is asking:
 
-ROI Efficiency =
-    Measured Business Value / Total AI Spend
+> "We've spent $X on AI. Where did it go?"
 
-Value Realization Lag =
-    First Measurable Value Date − AI Deployment Date  (weeks)
-```
+ASF provides the diagnostic framework to answer that question — not with a revenue number, but with a process map that shows exactly where value is being lost and what interventions will recover it.
 
-**The ASF diagnosis for low AI ROI:**
-
-```
-Symptom:     High AI spend, low measured value
-Friction:    Skill gap + ownership ambiguity + no feedback loops
-Pattern:     Token costs rising, adoption flat, ROI unclear
-Intervention:
-  P0: Define measurable value metrics before scaling spend
-  P0: Assign clear AI product ownership
-  P1: Build adoption telemetry — who is using what, how often
-  P1: Reduce time-to-first-value with guided onboarding
-  P2: Implement token budget governance per team/use case
-```
-
----
-
-## The Core ASF Insight for AI
-
-> Organizations are not failing because AI models are bad.
-> They are failing because their **adaptation latency** — the time between deploying AI and realizing value — is too long.
-
-The model is not the bottleneck.
-The organization is.
-
-ASF measures the organizational adaptation latency around AI — and tells you exactly where the friction is.
+This is ASF's strongest commercial application.
