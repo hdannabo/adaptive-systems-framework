@@ -1,0 +1,141 @@
+asf_analysis:
+  version: "0.1"
+  title: "AKS Cluster Upgrade Program"
+  organization: "[Enterprise Platform Team]"
+
+  input_event:
+    description: "Kubernetes version end-of-life requiring mandatory cluster upgrades across fleet"
+    type: operational
+    date_recognized: "2024-01-01"
+
+  system_requirement:
+    description: "Safe, automated, repeatable cluster upgrade process across 150+ AKS/EKS/GKE clusters"
+    priority: critical
+    deadline: "2024-Q3"
+
+  current_operating_state:
+    technical_maturity: manual
+    organizational_maturity: siloed
+    key_constraints:
+      - "App owners required to manually validate workload compatibility before each upgrade"
+      - "No automated pre-upgrade smoke tests"
+      - "Rollback process undocumented and untested"
+      - "No centralized dependency inventory across clusters"
+
+  delta_analysis:
+    capability_gaps:
+      - "Automated pre-upgrade validation pipeline"
+      - "Smoke test suite per workload class"
+      - "Rollback runbook and automation"
+    process_gaps:
+      - "Centralized upgrade scheduling and coordination"
+      - "App owner dependency inventory"
+      - "Upgrade risk tiering by cluster criticality"
+    tooling_gaps:
+      - "No GitOps-driven upgrade pipeline"
+      - "No automated API deprecation scanner"
+      - "No rollback confidence tooling"
+    gap_size: large
+
+  friction_analysis:
+    sources:
+      manual_dependency:
+        present: true
+        description: "Every upgrade requires manual sign-off from app owners — no automated validation"
+        estimated_delay_weeks: 4
+      governance_delay:
+        present: true
+        description: "Change approval process requires CAB review for each cluster upgrade"
+        estimated_delay_weeks: 2
+      legacy_systems:
+        present: true
+        description: "Several workloads using deprecated Kubernetes APIs not yet migrated"
+        estimated_delay_weeks: 3
+      data_quality:
+        present: false
+        description: ""
+        estimated_delay_weeks: 0
+      organizational_complexity:
+        present: true
+        description: "200+ app teams across business units with no centralized upgrade coordination"
+        estimated_delay_weeks: 2
+      skill_gap:
+        present: true
+        description: "App teams lack Kubernetes upgrade expertise; platform team is bottleneck"
+        estimated_delay_weeks: 2
+      ownership_ambiguity:
+        present: true
+        description: "Unclear who owns upgrade readiness — platform team vs app team"
+        estimated_delay_weeks: 1
+
+  adaptation_latency:
+    date_recognized: "2024-01-01"
+    date_adapted: "2024-07-01"        # projected
+    latency_weeks: 26
+    latency_target_weeks: 8
+
+  control_layer:
+    security_review: true
+    compliance_controls: true
+    observability: true
+    rollback_strategy: true
+    human_approval_checkpoints: true
+    ai_governance: false
+    notes: >
+      Control layer is well-defined but currently manual.
+      Key intervention: automate security and compatibility checks inside pipeline
+      rather than as blocking human review gates.
+
+  intervention_plan:
+    actions:
+      - action: "Build automated pre-upgrade validation pipeline (API deprecation scan, workload compatibility)"
+        owner: "Platform Engineering"
+        priority: p0
+        effort_weeks: 4
+        expected_latency_reduction_weeks: 6
+
+      - action: "Create standardized rollback runbook and automate rollback trigger"
+        owner: "Platform Engineering"
+        priority: p0
+        effort_weeks: 2
+        expected_latency_reduction_weeks: 3
+
+      - action: "Build centralized dependency inventory (cluster → workload → API version)"
+        owner: "Platform Engineering"
+        priority: p1
+        effort_weeks: 3
+        expected_latency_reduction_weeks: 4
+
+      - action: "Replace CAB review gate with automated compliance check in upgrade pipeline"
+        owner: "Platform Engineering + Governance"
+        priority: p1
+        effort_weeks: 3
+        expected_latency_reduction_weeks: 2
+
+      - action: "Publish upgrade runbook and self-service tooling for app teams"
+        owner: "Platform Engineering"
+        priority: p2
+        effort_weeks: 2
+        expected_latency_reduction_weeks: 3
+
+  measured_outcome:
+    metrics:
+      delivery_time_reduction_pct: 70    # 26 weeks → 8 weeks target
+      manual_effort_reduction_pct: 80
+      incident_rate_change_pct: -60      # fewer rollback incidents from better pre-checks
+      deployment_frequency_change_pct: 200
+      cost_reduction_pct: 0              # not primary metric for this case
+    notes: >
+      Primary success metric: upgrade cycle time reduction from 26 weeks to 8 weeks.
+      Secondary: zero customer-impacting incidents during upgrade execution.
+
+  feedback_loop:
+    next_review_date: "2024-10-01"
+    updated_operating_state: >
+      After intervention: partial-automation maturity.
+      Remaining manual touchpoints: critical cluster upgrades still require
+      human approval checkpoint before execution window.
+    lessons_learned:
+      - "Ownership ambiguity resolved by publishing RACI before pipeline build"
+      - "CAB automation required governance team co-ownership to succeed"
+      - "Dependency inventory was the highest-leverage single intervention"
