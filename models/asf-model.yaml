@@ -1,0 +1,109 @@
+# ASF Model Schema — Canonical Definition
+# Use this as the base template for any ASF analysis
+
+asf_analysis:
+  version: "0.1"
+
+  # --- INPUT ---
+  input_event:
+    description: ""          # What triggered the need to adapt?
+    type: ""                 # external | internal | regulatory | market | operational
+    date_recognized: ""      # ISO 8601 — when was the need first recognized?
+
+  # --- REQUIREMENT ---
+  system_requirement:
+    description: ""          # What new capability must the system develop?
+    priority: ""             # critical | high | medium | low
+    deadline: ""             # ISO 8601 or relative (e.g. "Q3 2025")
+
+  # --- CURRENT STATE ---
+  current_operating_state:
+    technical_maturity: ""   # manual | partial-automation | automated | self-healing
+    organizational_maturity: "" # siloed | aligned | collaborative | adaptive
+    key_constraints:
+      - ""
+
+  # --- DELTA ---
+  delta_analysis:
+    capability_gaps:
+      - ""
+    process_gaps:
+      - ""
+    tooling_gaps:
+      - ""
+    gap_size: ""             # small | medium | large | critical
+
+  # --- FRICTION ---
+  friction_analysis:
+    sources:
+      manual_dependency:
+        present: false
+        description: ""
+        estimated_delay_weeks: 0
+      governance_delay:
+        present: false
+        description: ""
+        estimated_delay_weeks: 0
+      legacy_systems:
+        present: false
+        description: ""
+        estimated_delay_weeks: 0
+      data_quality:
+        present: false
+        description: ""
+        estimated_delay_weeks: 0
+      organizational_complexity:
+        present: false
+        description: ""
+        estimated_delay_weeks: 0
+      skill_gap:
+        present: false
+        description: ""
+        estimated_delay_weeks: 0
+      ownership_ambiguity:
+        present: false
+        description: ""
+        estimated_delay_weeks: 0
+
+  # --- LATENCY ---
+  adaptation_latency:
+    date_recognized: ""      # ISO 8601
+    date_adapted: ""         # ISO 8601 (actual or projected)
+    latency_weeks: 0         # calculated: date_adapted - date_recognized
+    latency_target_weeks: 0  # what is acceptable?
+
+  # --- CONTROL ---
+  control_layer:
+    security_review: false
+    compliance_controls: false
+    observability: false
+    rollback_strategy: false
+    human_approval_checkpoints: false
+    ai_governance: false
+    notes: ""
+
+  # --- INTERVENTION ---
+  intervention_plan:
+    actions:
+      - action: ""
+        owner: ""
+        priority: ""          # p0 | p1 | p2
+        effort_weeks: 0
+        expected_latency_reduction_weeks: 0
+
+  # --- OUTCOME ---
+  measured_outcome:
+    metrics:
+      delivery_time_reduction_pct: 0
+      manual_effort_reduction_pct: 0
+      incident_rate_change_pct: 0
+      deployment_frequency_change_pct: 0
+      cost_reduction_pct: 0
+    notes: ""
+
+  # --- FEEDBACK ---
+  feedback_loop:
+    next_review_date: ""
+    updated_operating_state: ""
+    lessons_learned:
+      - ""
