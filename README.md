@@ -174,3 +174,24 @@ AT&T · Procter & Gamble · Cisco · Spirion
 Azure Solutions Architect Expert (AZ-305) · Azure AI Engineer (AI-102) · CKA · Six Sigma Green Belt
 
 [hemanth1917@icloud.com](mailto:hemanth1917@icloud.com)
+
+---
+
+## License & Copyright
+
+Copyright © 2026 Hemanth Kumar Dannaboyina. All rights reserved.
+
+The Adaptive Systems Framework (ASF) — including the theoretical model, scoring methodology, formula definitions, dataset, and all associated documentation — is original research and intellectual property of the author.
+
+**Research and personal use:** You may read, reference, and cite this work with attribution.
+
+**Commercial use:** Contact the author before using ASF methodology, scoring models, or datasets in commercial products or services.
+
+**Attribution:** If you reference ASF in research, presentations, or publications, please cite:
+
+```
+Dannaboyina, H.K. (2026). Adaptive Systems Framework (ASF).
+GitHub: https://github.com/hdannabo/adaptive-systems-framework
+```
+
+[hemanth1917@icloud.com](mailto:hemanth1917@icloud.com)
