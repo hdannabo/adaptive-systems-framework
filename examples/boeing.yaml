@@ -1,0 +1,15 @@
+system_name: Boeing
+domain: Manufacturing & Industrial
+system_type: Aerospace Manufacturing
+adaptation_scenario: Quality governance in complex production
+
+input_event: Safety incidents and regulatory pressure
+adaptation_requirement: End-to-end manufacturing quality visibility and governance
+current_operating_state: Strong engineering capability but complex siloed production
+
+observation_latency: 3
+decision_latency: 4
+execution_latency: 5
+feedback_delay: 4
+learning_velocity: 2
+dependency_index: 5
