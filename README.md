@@ -2,136 +2,101 @@
 
 > **Why do some systems adapt faster than others when exposed to the same information?**
 
-ASF is a research and engineering framework that diagnoses adaptation bottlenecks in organizations, AI systems, platform engineering, manufacturing, telecom, and supply chains — then generates prioritized interventions to close the gap.
+ASF is a systems-engineering and AI-era research framework for measuring, diagnosing, and accelerating adaptation in organizations, AI systems, and operational platforms.
 
-Built by a Forward-Deployed AI Infrastructure & Platform Engineer with 7+ years designing and operating production systems at Fortune 500 scale.
+Built by a Forward-Deployed AI Infrastructure & Platform Engineer with 7+ years designing and operating production systems at Fortune 500 scale — AT&T, Procter & Gamble, Cisco.
+
+---
+
+## Core Hypothesis
+
+> Systems succeed when their rate of adaptation exceeds the rate of environmental change.
 
 ---
 
 ## The Core Finding
 
-Across 100 analyzed systems — from Toyota to Kodak, AT&T to Netflix:
+Across 100 analyzed systems — Toyota to Kodak, Netflix to Boeing, OpenAI to AT&T:
 
-> Organizations rarely fail because they don't know what to do.  
-> They fail because **manual dependency, governance friction, and organizational complexity delay adaptation** long after the need is recognized.
+> Organizations rarely fail because they don't know what to do.
+> The real issue is the delay between recognizing a required change and operationalizing the response.
 
-ASF makes that delay measurable. And fixable.
+**The Kodak Theorem:** Recognition is not the bottleneck. Decision latency and execution friction are.
 
 ---
 
-## How It Works
+## Theoretical Foundations
+
+ASF is grounded in six established frameworks:
+
+| Framework | Key Contributors | What ASF Takes |
+|---|---|---|
+| Systems Thinking | Forrester, Meadows, Senge | Feedback loops, delays, learning velocity |
+| OODA Loop | John Boyd | Tempo as the primary competitive variable |
+| Cybernetics | Wiener, Ashby | Law of Requisite Variety, feedback control |
+| MAPE-K | IBM Research (Kephart & Chess) | Monitor-Analyze-Plan-Execute architecture |
+| Adaptive Systems | Santa Fe Institute | Emergence, fitness landscapes |
+| Learning Organizations | Peter Senge | Learning velocity as organizational capability |
+
+---
+
+## Engineering Formulas
+
+ASF produces measurable quantities, not just scores.
 
 ```
-Input (YAML or interactive)
-          ↓
-  Six-dimension analysis
-  Observation · Decision · Execution
-  Feedback · Learning · Dependency
-          ↓
-  Weighted scoring
-  Adaptation Latency Score (1–5)
-  Risk Band: Low / Medium / High
-          ↓
-  Root cause mapping
-  Bottleneck dimension identified
-  Primary friction source named
-          ↓
-  Prioritized interventions
-  P0 / P1 / P2 ranked by impact
-          ↓
-  JSON export for downstream use
+Total Adaptation Latency (TAL):
+  TAL = Observation Latency + Decision Latency + Execution Latency
+      = T_operational − T_available
+
+Adaptation Latency Score (ALS, 0–100):
+  ALS = 100 − [(OL×0.15) + (DL×0.25) + (EL×0.30) + (FD×0.15) + (DI×0.15) − (LV×0.10)] × 100
+
+LLM Adaptation Efficiency (LAE):
+  LAE = (Task_success_rate × Outcome_quality) / (Token_cost × Latency)
+
+Adaptation Funnel Loss (AFL):
+  AFL = 1 − (Signals_adapted / Signals_observed)
 ```
+
+See [`docs/formulas.md`](docs/formulas.md) for the complete formula reference.
+
+---
+
+## ASF for LLMs
+
+One of ASF's strongest current applications: measuring LLM efficiency in production.
+
+**The three LLM problems ASF addresses:**
+1. Token cost explosion — organizations can't track AI ROI
+2. Context window degradation — more context ≠ better results
+3. Agent cost vs agent value — agentic workflows burn tokens without proportional value
+
+**Key metrics:**
+- Context Efficiency: `CE = Useful_information / Total_tokens`
+- Cost Efficiency: `CoE = Business_value / AI_spend`
+- Adaptation Efficiency: `AE = Performance_gain / Additional_context` (< 1.0 = context rot)
+
+See [`docs/llm-adaptation.md`](docs/llm-adaptation.md) for full analysis.
 
 ---
 
 ## Quickstart
 
 ```bash
-git clone https://github.com/hdannabo/adaptive-systems-framework
+git clone https://github.com/hdannabo/adaptive-systems-framework.git
 cd adaptive-systems-framework
-
 pip install pyyaml
 
-# Analyze AT&T
+# Analyze a single system
 python cli.py --file examples/att.yaml
 
-# Analyze Toyota
-python cli.py --file examples/toyota.yaml
+# Batch analyze all 100 cases
+python asf_analyze.py
 
-# Interactive mode — analyze any system
-python cli.py
-
-# Export JSON report
-python cli.py --file examples/boeing.yaml --export outputs/boeing.json
-```
-
----
-
-## Demo Output
-
-```
-  System         AT&T
-  Domain         Telecom & Networks
-  Scenario       AI-native network operations
-
-  Latency Score  4.00 / 5.0  ████████████████░░░░  Risk: HIGH
-  Friction Score 4.60 / 5.0
-  Adapt Capabil. 2.00 / 5.0
-
-  Layer Analysis
-  Observation latency    3/5  ████████████░░░░░░░░
-  Decision latency       4/5  ████████████████░░░░
-  Execution latency      5/5  ████████████████████  ◀ bottleneck
-  Feedback delay         4/5  ████████████████░░░░
-  Learning velocity      3/5  ████████░░░░░░░░░░░░
-  Dependency index       5/5  ████████████████████
-
-  Primary friction    Manual dependency / legacy systems
-  Bottleneck          Execution Latency
-
-  [P0]  Automate top 3 manual handoffs blocking delivery pipeline
-        Target: Execution Latency · Est. reduction: 6w · Effort: high
-
-  [P0]  Map and eliminate top 5 manual dependencies in the critical path
-        Target: Dependency Index · Est. reduction: 6w · Effort: medium
-```
-
----
-
-## Scoring Model
-
-```
-Adaptation Latency Score =
-    (Observation Latency  × 0.15)
-  + (Decision Latency     × 0.25)  ← highest weight: decisions kill orgs
-  + (Execution Latency    × 0.30)  ← highest weight: execution is the gap
-  + (Feedback Delay       × 0.15)
-  + (Dependency Index     × 0.15)
-  − (Learning Velocity    × 0.10)  ← reduces score: learning accelerates adaptation
-```
-
-| Score | Risk Band | What It Means |
-|---|---|---|
-| 1.0 – 2.4 | Low | System adapts well — maintain trajectory |
-| 2.5 – 3.4 | Medium | Targeted interventions recommended |
-| 3.5 – 5.0 | High | Systemic intervention required |
-
----
-
-## Input Format
-
-```yaml
-system_name: Your Organization
-domain: Telecom & Networks
-system_type: Telecom Operator
-adaptation_scenario: AI-native network operations
-
-observation_latency: 3    # 1=fast, 5=slow
-decision_latency: 4
-execution_latency: 5
-feedback_delay: 4
-learning_velocity: 3      # 1=slow, 5=fast
-dependency_index: 5       # 1=low dependency, 5=high dependency
+# Filter by domain or risk
+python asf_analyze.py --domain "Telecom & Networks"
+python asf_analyze.py --risk High --top 10
 ```
 
 ---
@@ -140,46 +105,49 @@ dependency_index: 5       # 1=low dependency, 5=high dependency
 
 ```
 adaptive-systems-framework/
-├── cli.py                          # Main CLI analyzer
-├── src/
-│   └── asf/
-│       ├── models.py               # Core data models
-│       ├── analyzer.py             # Analysis pipeline
-│       ├── scoring/engine.py       # Scoring computation
-│       └── recommendations/engine.py  # Intervention logic
-├── examples/
-│   ├── att.yaml                    # High-latency case
-│   ├── boeing.yaml                 # Governance failure case
-│   └── toyota.yaml                 # Low-latency benchmark
+├── cli.py                          # Single-system analyzer
+├── asf_analyze.py                  # Batch analyzer — all 100 cases
+├── src/asf/                        # Python engine
+│   ├── models.py                   # Core data models
+│   ├── analyzer.py                 # Analysis pipeline
+│   ├── scoring/engine.py           # Scoring computation
+│   └── recommendations/engine.py  # Intervention logic
 ├── docs/
+│   ├── formulas.md                 # Engineering formulas — TAL, ALS, AFL, LAE
+│   ├── theoretical-foundations.md  # MAPE, OODA, Cybernetics, Senge, Meadows
+│   ├── llm-adaptation.md           # ASF for LLMs — token cost, context rot, ROI
+│   ├── deep-cases.md               # 10 deep cases with formula analysis
 │   ├── vision.md                   # Universal adaptive systems model
 │   ├── product-architecture.md     # Full system design
 │   ├── case-studies.md             # Real-world evidence
-│   └── company-taxonomy.md         # 100+ companies classified
+│   └── company-taxonomy.md         # 100+ organizations classified
+├── examples/
+│   ├── att.yaml                    # HIGH risk — execution bottleneck
+│   ├── toyota.yaml                 # LOW risk — world-class benchmark
+│   ├── boeing.yaml                 # HIGH risk — governance failure
+│   └── aks-upgrade.yaml            # Platform engineering case
 ├── research/
 │   ├── asf_100_cases.csv           # 100-case dataset
-│   ├── dataset-readme.md           # Key findings
+│   ├── asf-dashboard.html          # Interactive dashboard (open locally)
 │   ├── hypotheses.md               # 8 testable hypotheses
-│   └── asf-dashboard.html          # Interactive dashboard
+│   └── dataset-readme.md           # Key findings
 └── models/
-    └── asf-model.yaml              # Canonical schema
+    └── asf-model.yaml              # Canonical ASF schema
 ```
 
 ---
 
-## 100-Case Dataset
+## 100-Case Dataset — Key Findings
 
-10 domains · 100 systems · fully scored
+| Domain | Avg ALS | Best Case | Worst Case |
+|---|---|---|---|
+| AI Systems | 88/100 | OpenAI (88) | — |
+| Manufacturing | 75/100 | Toyota (95) | Boeing (42) |
+| Entertainment | 72/100 | Netflix (93) | Warner (38) |
+| Telecom | 58/100 | T-Mobile (78) | AT&T (38) |
+| Historical failures | 22/100 | Adobe (72) | Sears (12) |
 
-| Domain | Avg Score | Notable |
-|---|---|---|
-| AI Systems | 2.53 | Lowest latency — minimal legacy |
-| Data & Cloud | 2.64 | Fast execution culture |
-| Manufacturing | 2.92 | Toyota (1.20) anchors the low end |
-| Historical failures | 4.26 | Kodak, Nokia, Blockbuster, Sears |
-| Telecom | 3.58 | AT&T (4.20) — legacy system drag |
-
-Open the [interactive dashboard](research/asf-dashboard.html) locally to explore all 100 cases.
+Open [`research/asf-dashboard.html`](research/asf-dashboard.html) locally — no server needed.
 
 ---
 
@@ -187,18 +155,19 @@ Open the [interactive dashboard](research/asf-dashboard.html) locally to explore
 
 | Version | Scope | Status |
 |---|---|---|
-| v0.1 | Research, 100-case dataset, scoring formula | ✅ Done |
-| v0.2 | Python engine, CLI, JSON export, 3 examples | ✅ Done |
-| v0.3 | LLM-assisted analysis from annual reports / postmortems | Planned |
+| v0.1 | Research framework, 100-case dataset | ✅ Done |
+| v0.2 | Python engine, CLI, batch analyzer | ✅ Done |
+| v0.3 | LLM-assisted analysis from annual reports | Planned |
 | v0.4 | REST API + web dashboard | Planned |
-| v1.0 | Adaptive Systems Copilot | Future |
+| v1.0 | ASF Copilot — analyze any system automatically | Future |
 
 ---
 
 ## About
 
-Hemanth Kumar Dannaboyina  
-Forward-Deployed AI Infrastructure & Platform Engineer  
-AT&T · Procter & Gamble · Cisco · Spirion  
-Azure Solutions Architect Expert (AZ-305) · AI Engineer (AI-102) · CKA  
+**Hemanth Kumar Dannaboyina**
+Forward-Deployed AI Infrastructure & Platform Engineer
+AT&T · Procter & Gamble · Cisco · Spirion
+Azure Solutions Architect Expert (AZ-305) · Azure AI Engineer (AI-102) · CKA · Six Sigma Green Belt
+
 [hemanth1917@icloud.com](mailto:hemanth1917@icloud.com)
