@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ASF — Enterprise AI Benchmark</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;font-size:14px}
+.wrap{max-width:1200px;margin:0 auto;padding:24px 20px}
+h1{font-size:22px;font-weight:600;color:#58a6ff;margin-bottom:6px}
+.sub{font-size:13px;color:#8b949e;line-height:1.6;max-width:700px;margin-bottom:6px}
+.badge{display:inline-block;font-size:11px;padding:3px 10px;border-radius:20px;background:#161b22;border:1px solid #30363d;color:#8b949e;margin-bottom:24px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:20px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:14px;cursor:pointer;transition:border-color .15s}
+.card:hover{border-color:#58a6ff}
+.card.sel{border-color:#e6edf3;border-width:2px}
+.cn{font-size:14px;font-weight:600;color:#e6edf3;margin-bottom:2px}
+.ct{font-size:11px;color:#8b949e;margin-bottom:10px}
+.cs{font-size:26px;font-weight:700}
+.cr{font-size:11px;margin-top:3px}
+.g{color:#3fb950}.y{color:#d29922}.r{color:#f85149}
+.detail{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px 24px;margin-bottom:20px}
+.srow{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.ring{width:72px;height:72px;flex-shrink:0;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.rn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700}
+.stitle{font-size:15px;font-weight:600;color:#e6edf3;margin-bottom:4px}
+.ssub{font-size:12px;color:#8b949e;line-height:1.5}
+.stmt{background:#0d1117;border-left:3px solid #30363d;border-radius:0 6px 6px 0;padding:12px 14px;margin-bottom:14px;font-size:13px;line-height:1.8;color:#e6edf3}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.kpi{background:#0d1117;border-radius:8px;padding:10px 12px}
+.kl{font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.kv{font-size:15px;font-weight:700;color:#e6edf3}
+.ks{font-size:10px;color:#8b949e;margin-top:2px}
+h3{font-size:11px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.dim{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.dl{font-size:12px;color:#8b949e;width:130px;flex-shrink:0}
+.dt{flex:1;height:5px;background:#21262d;border-radius:3px;overflow:hidden}
+.df{height:100%;border-radius:3px}
+.dv{font-size:12px;font-weight:700;width:28px;text-align:right;flex-shrink:0}
+.dn{font-size:11px;color:#6e7681;width:210px;flex-shrink:0}
+.findings{margin:14px 0}
+.finding{display:flex;gap:8px;padding:10px 12px;border:1px solid #21262d;border-radius:8px;margin-bottom:7px}
+.fb{font-size:10px;padding:2px 7px;border-radius:6px;flex-shrink:0;height:fit-content;margin-top:1px;font-weight:600}
+.fs{background:#1a3525;color:#3fb950}
+.ff{background:#2d2000;color:#d29922}
+.fg{background:#1a2d3d;color:#58a6ff}
+.ft{font-size:12px;color:#e6edf3;line-height:1.5}
+.fe{font-size:11px;color:#6e7681;margin-top:2px}
+.ints{margin-top:14px}
+.int{display:flex;gap:8px;padding:10px 12px;border:1px solid #21262d;border-radius:8px;margin-bottom:7px}
+.p0b{font-size:10px;padding:2px 7px;border-radius:6px;flex-shrink:0;height:fit-content;margin-top:1px;font-weight:600;background:#3c0614;color:#f85149}
+.p1b{font-size:10px;padding:2px 7px;border-radius:6px;flex-shrink:0;height:fit-content;margin-top:1px;font-weight:600;background:#2d2000;color:#d29922}
+.p2b{font-size:10px;padding:2px 7px;border-radius:6px;flex-shrink:0;height:fit-content;margin-top:1px;font-weight:600;background:#1a2d3d;color:#58a6ff}
+.it{font-size:12px;color:#e6edf3;line-height:1.5}
+.iw{font-size:11px;color:#8b949e;margin-top:2px}
+.compare{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px 24px;margin-bottom:20px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead th{text-align:left;padding:8px 12px;border-bottom:1px solid #30363d;color:#8b949e;font-weight:600;font-size:11px;text-transform:uppercase}
+tbody td{padding:8px 12px;border-bottom:1px solid #21262d}
+.src{font-size:11px;color:#6e7681;padding:10px 12px;background:#0d1117;border-radius:8px;margin-top:14px}
+footer{text-align:center;font-size:11px;color:#6e7681;padding:16px 0;border-top:1px solid #21262d}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>ASF — Enterprise AI Benchmark</h1>
+<p class="sub">Five companies scored on AI adaptation efficiency using only publicly disclosed data. Each company's AI program is diagnosed across six ASF dimensions — observation, decision, execution, feedback, learning, dependency.</p>
+<span class="badge">Public data only · SEC filings · Corporate reports · Press releases · 2025–2026</span>
+
+<div class="cards">
+  <div class="card sel" onclick="show('nvidia',this)"><div class="cn">NVIDIA</div><div class="ct">AI Infrastructure</div><div class="cs g">91</div><div class="cr g">Low risk</div></div>
+  <div class="card" onclick="show('datadog',this)"><div class="cn">Datadog</div><div class="ct">AI Observability</div><div class="cs g">84</div><div class="cr g">Low risk</div></div>
+  <div class="card" onclick="show('adobe',this)"><div class="cn">Adobe</div><div class="ct">Creative AI</div><div class="cs y">71</div><div class="cr y">Medium risk</div></div>
+  <div class="card" onclick="show('att',this)"><div class="cn">AT&T</div><div class="ct">Telecom AI</div><div class="cs y">62</div><div class="cr y">Medium risk</div></div>
+  <div class="card" onclick="show('meta',this)"><div class="cn">Meta</div><div class="ct">Social / GenAI</div><div class="cs y">58</div><div class="cr y">Medium risk</div></div>
+</div>
+
+<div id="detail" class="detail"></div>
+
+<div class="compare">
+  <h3 style="margin-bottom:14px">Cross-company comparison</h3>
+  <table>
+    <thead><tr>
+      <th>Dimension</th>
+      <th style="color:#3fb950;text-align:center">NVIDIA</th>
+      <th style="color:#3fb950;text-align:center">Datadog</th>
+      <th style="color:#d29922;text-align:center">Adobe</th>
+      <th style="color:#d29922;text-align:center">AT&T</th>
+      <th style="color:#d29922;text-align:center">Meta</th>
+    </tr></thead>
+    <tbody>
+      <tr><td style="color:#8b949e">Observation latency</td><td style="text-align:center;color:#3fb950;font-weight:600">95</td><td style="text-align:center;color:#3fb950;font-weight:600">92</td><td style="text-align:center;color:#3fb950;font-weight:600">78</td><td style="text-align:center;color:#3fb950;font-weight:600">72</td><td style="text-align:center;color:#3fb950;font-weight:600">75</td></tr>
+      <tr><td style="color:#8b949e">Decision latency</td><td style="text-align:center;color:#3fb950;font-weight:600">96</td><td style="text-align:center;color:#3fb950;font-weight:600">82</td><td style="text-align:center;color:#3fb950;font-weight:600">72</td><td style="text-align:center;color:#d29922;font-weight:600">58</td><td style="text-align:center;color:#3fb950;font-weight:600">70</td></tr>
+      <tr><td style="color:#8b949e">Execution latency</td><td style="text-align:center;color:#d29922;font-weight:600">72</td><td style="text-align:center;color:#3fb950;font-weight:600">80</td><td style="text-align:center;color:#3fb950;font-weight:600">75</td><td style="text-align:center;color:#f85149;font-weight:600">48</td><td style="text-align:center;color:#d29922;font-weight:600">65</td></tr>
+      <tr><td style="color:#8b949e">Feedback delay</td><td style="text-align:center;color:#3fb950;font-weight:600">90</td><td style="text-align:center;color:#3fb950;font-weight:600">95</td><td style="text-align:center;color:#f85149;font-weight:600">48</td><td style="text-align:center;color:#d29922;font-weight:600">62</td><td style="text-align:center;color:#f85149;font-weight:600">32</td></tr>
+      <tr><td style="color:#8b949e">Learning velocity</td><td style="text-align:center;color:#3fb950;font-weight:600">97</td><td style="text-align:center;color:#3fb950;font-weight:600">85</td><td style="text-align:center;color:#d29922;font-weight:600">66</td><td style="text-align:center;color:#3fb950;font-weight:600">75</td><td style="text-align:center;color:#d29922;font-weight:600">52</td></tr>
+      <tr style="background:#0d1117"><td style="font-weight:600;color:#e6edf3">ASF Score</td>
+        <td style="text-align:center;font-weight:700;font-size:16px;color:#3fb950">91</td>
+        <td style="text-align:center;font-weight:700;font-size:16px;color:#3fb950">84</td>
+        <td style="text-align:center;font-weight:700;font-size:16px;color:#d29922">71</td>
+        <td style="text-align:center;font-weight:700;font-size:16px;color:#d29922">62</td>
+        <td style="text-align:center;font-weight:700;font-size:16px;color:#d29922">58</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>ASF · <a href="https://github.com/hdannabo/adaptive-systems-framework" style="color:#58a6ff;text-decoration:none">github.com/hdannabo/adaptive-systems-framework</a> · Copyright © 2026 Hemanth Kumar Dannaboyina · Public data only</footer>
+</div>
+
+<script>
+const DATA = {
+  nvidia:{score:91,risk:'Low',color:'#3fb950',title:'Fastest adaptation cycle in the dataset',sub:'NVIDIA IS the AI infrastructure. Internal adoption of AI tools is native. Blackwell demonstrates near-zero decision latency — the full data-center-scale pivot executed in one product cycle.',
+    stmt:'NVIDIA operates AI infrastructure at $57B+ quarterly revenue. The Blackwell architecture was conceived, announced, and shipped responding to hyperscaler AI demand. Internal AI tooling embedded across engineering, sales, and operations. ASF Score: <strong>91/100 — Low risk</strong>.',
+    kpis:[{l:'Quarterly revenue',v:'$57B',s:'Q3 FY2026'},{l:'AI adoption',v:'Native',s:'AI-first culture'},{l:'Decision latency',v:'Very low',s:'CEO-driven speed'},{l:'Primary friction',v:'Supply chain',s:'Physical floor'}],
+    dims:[{l:'Observation',v:95,n:'Deep customer signal access'},{l:'Decision',v:96,n:'CEO-driven, fast commitment'},{l:'Execution',v:72,n:'Hardware: 18–24 month cycles'},{l:'Feedback',v:90,n:'Revenue signals real-time'},{l:'Learning',v:97,n:'CUDA compounds year over year'}],
+    findings:[{t:'fs',l:'Strength',f:'Fastest recognition-to-execution cycle — Blackwell conceived, announced, and shipped in a single product generation responding to hyperscaler AI demand',e:'Source: NVIDIA Q3 FY2026 8-K, product announcements'},{t:'fs',l:'Strength',f:'CUDA ecosystem compounds — each hardware generation is more valuable than the last due to the software layer built on top',e:'Source: NVIDIA developer ecosystem disclosures'},{t:'ff',l:'Friction',f:'Execution latency has a physical floor — semiconductor manufacturing cycles cannot be compressed below 18–24 months',e:'Source: Public supply chain disclosures, TSMC partnership announcements'}],
+    ints:[{p:'p2b',t:'Invest in software-layer adaptation speed to compensate for hardware latency — CUDA, NIM, and platform tools adapt in weeks vs months for hardware',w:'Already executing this well. The dual-track model is the reference pattern for hardware-constrained organizations.'}]},
+  datadog:{score:84,risk:'Low',color:'#3fb950',title:'AI-native observability — eats its own dog food',sub:'Datadog is simultaneously an AI observability product and an AI-powered organization. LLM Observability, AI cost tracking, and agent monitoring are internal tools before they become products.',
+    stmt:'Datadog stock up 35% over 12 months, driven by AI-first customer growth. LLM Observability product in production. FedRAMP High authorization in progress for government expansion. ASF Score: <strong>84/100 — Low risk</strong>. Primary strength: Feedback loop — real-time telemetry is their core business.',
+    kpis:[{l:'Stock 12-month',v:'+35%',s:'AI-driven growth'},{l:'LLM observability',v:'Live',s:'Production product'},{l:'FedRAMP',v:'In process',s:'High authorization'},{l:'AI concentration risk',v:'High',s:'Key watch item'}],
+    dims:[{l:'Observation',v:92,n:'Real-time telemetry is their product'},{l:'Decision',v:82,n:'Data-driven, fast product cycles'},{l:'Execution',v:80,n:'Cloud-native, continuous delivery'},{l:'Feedback',v:95,n:'Real-time dashboards — own product'},{l:'Learning',v:85,n:'Tight product iteration loops'}],
+    findings:[{t:'fs',l:'Strength',f:'Datadog solves the token governance problem for customers — LLM Observability, cost tracking per team, and agent monitoring are exactly what ASF recommends enterprises build',e:'Source: Datadog LLM Observability product documentation 2025'},{t:'ff',l:'Friction',f:'AI customer concentration — significant growth from AI-first companies; if enterprise AI ROI disappoints broadly, growth stalls',e:'Source: Datadog 2026 research report, analyst coverage'}],
+    ints:[{p:'p1b',t:'Diversify beyond AI-first customer concentration — FedRAMP High opens government contracts and reduces dependency on AI hype cycle',w:'Already executing this correctly. Government expansion is the right hedge.'}]},
+  adobe:{score:71,risk:'Medium',color:'#d29922',title:'Strong product growth, weak internal measurement',sub:"Adobe's AI product is growing 3× QoQ. But their own 2026 Digital Trends Report reveals only 44% of organizations have a GenAI ROI framework. Adobe is selling AI transformation to customers who cannot measure if it works.",
+    stmt:'Adobe FY2025 revenue $23.8B (+11% YoY). GenAI usage grew 3× QoQ. But Adobe\'s own research: only 44% have GenAI measurement framework, 31% for agentic AI, 47% of respondents report exec-practitioner misalignment. ASF Score: <strong>71/100 — Medium risk</strong>. Bottleneck: Feedback delay.',
+    kpis:[{l:'FY2025 revenue',v:'$23.8B',s:'+11% YoY'},{l:'GenAI usage',v:'3×',s:'QoQ growth'},{l:'Have ROI framework',v:'44%',s:'GenAI measurement'},{l:'Agentic ROI framework',v:'31%',s:'Critically low'}],
+    dims:[{l:'Observation',v:78,n:'Strong product telemetry, MAU tracking'},{l:'Decision',v:72,n:'Fast product, slower org alignment'},{l:'Execution',v:75,n:'Firefly, Foundry deploying at pace'},{l:'Feedback',v:48,n:'Only 44% have ROI frameworks'},{l:'Learning',v:66,n:'Exec-practitioner misalignment'}],
+    findings:[{t:'fs',l:'Strength',f:'Product adaptation fast — 3× QoQ GenAI usage growth and $25.2B ARR show market absorbing Adobe AI integration at pace',e:'Source: Adobe Q4 FY2025 earnings, Futurum analysis'},{t:'ff',l:'Friction',f:'Adobe\'s own research reveals the bottleneck: only 44% have GenAI ROI framework — selling AI transformation to customers who cannot measure if it works',e:'Source: Adobe 2026 Digital Trends Report, February 2026'},{t:'fg',l:'Gap',f:'One-third of respondents report exec-practitioner misalignment on AI strategy — 47% say alignment only partial',e:'Source: Adobe 2026 Digital Trends Report'}],
+    ints:[{p:'p0b',t:'Build and publish an AI ROI measurement framework — Adobe cannot credibly sell AI transformation while its own research shows 56% of customers lack measurement tools',w:'This is the Kodak signal: strong product execution, weak feedback loop. If ROI is not measured, adaptation stalls after initial adoption wave.'},{p:'p1b',t:'Close the exec-practitioner gap — 61% cite executive misunderstanding of AI as top driver of misalignment, not resistance to change',w:'The intervention is education at the executive level, not mandates at the practitioner level.'}]},
+  att:{score:62,risk:'Medium',color:'#d29922',title:'$1B proven — $4B target needs 4× acceleration',sub:'AT&T has demonstrated real AI value. The gap is scale: 68K of 160K employees adopted, and the $4B 2028 savings target requires compounding acceleration that current execution velocity does not yet support.',
+    stmt:'AT&T: $1B AI cost savings in 2025, 2×+ ROI on GenAI, 68,000+ employees on Ask AT&T. But 92,000 employees unadopted, agentic AI scaling without public evidence of token cost governance. $4B by 2028 = 4× current pace. ASF Score: <strong>62/100 — Medium risk</strong>. Bottleneck: Execution latency.',
+    kpis:[{l:'2025 AI savings',v:'$1B',s:'Publicly disclosed'},{l:'Employees on GenAI',v:'68K',s:'of ~160K total'},{l:'Adoption gap',v:'58%',s:'Not yet adopted'},{l:'2028 target',v:'$4B',s:'Requires 4× acceleration'}],
+    dims:[{l:'Observation',v:72,n:'CDO-led telemetry, strong signals'},{l:'Decision',v:58,n:'Governance council adds latency'},{l:'Execution',v:48,n:'42% workforce penetration'},{l:'Feedback',v:62,n:'Annual disclosure — real-time gaps'},{l:'Learning',v:75,n:'GenAI Collective ambassador program'}],
+    findings:[{t:'fs',l:'Strength',f:'Value realization is real — $1B savings, 2×+ ROI, $17M+ in specific operational savings documented. Fleet AI saves $7M/yr, route optimization $10M+/yr',e:'Source: AT&T Corporate Responsibility Report 2025, Klover.ai analysis'},{t:'ff',l:'Friction',f:'58% of workforce not yet adopted — 92,000 employees is the primary execution bottleneck on the path to $4B savings by 2028',e:'Source: Mobile World Live CDO Andy Markus interview'},{t:'fg',l:'Gap',f:'No public evidence of token cost governance for agentic workflows — agent token consumption is 10–1000× standard chat; uncontrolled scaling creates unpredictable cost exposure',e:'Source: ASF analysis of public disclosures'}],
+    ints:[{p:'p0b',t:'Close the 92,000-employee adoption gap — the single biggest lever between $1B and $4B savings target',w:'At current trajectory, $4B by 2028 is at risk. Each percentage point of adoption increase compounds across 160K employees.'},{p:'p0b',t:'Instrument token cost governance before scaling agentic workflows',w:'Agent overhead without controls is the highest-risk gap as AT&T accelerates agentic AI deployment.'},{p:'p1b',t:'Accelerate the GenAI Collective ambassador program — target 1,000 ambassadors across all business units',w:'Peer-to-peer adoption is the fastest path to closing the workforce gap without central enforcement.'}]},
+  meta:{score:58,risk:'Medium',color:'#d29922',title:'Mandating AI before measuring it — governance inversion',sub:"Meta has strong AI infrastructure. But the public record shows a critical pattern: mandating AI-driven impact in performance reviews in 2026 before establishing whether AI tools reliably produce measurable productivity gains.",
+    stmt:'Meta deployed Metamate (Llama + GPT-4), MyClaw, Second Brain. AI-driven impact now a core performance expectation from 2026. But: froze AI hiring Aug 2025, cut 600 AI roles Oct 2025, simultaneously mandating adoption. Gartner: only 1 in 5 AI investments delivers measurable ROI. ASF Score: <strong>58/100 — Medium risk</strong>. Bottleneck: Feedback delay — mandating before measuring.',
+    kpis:[{l:'Internal AI tools',v:'3+',s:'Metamate, MyClaw, Second Brain'},{l:'AI mandate from',v:'2026',s:'Core expectation'},{l:'AI roles cut',v:'600',s:'October 2025'},{l:'Productivity signal',v:'Mixed',s:'Not yet conclusive'}],
+    dims:[{l:'Observation',v:75,n:'Strong internal tool telemetry'},{l:'Decision',v:70,n:'Fast exec decisions — sometimes too fast'},{l:'Execution',v:65,n:'Tools deployed, adoption quality unclear'},{l:'Feedback',v:32,n:'Mandating before measuring — critical'},{l:'Learning',v:52,n:'Contradictory signals slow learning'}],
+    findings:[{t:'fs',l:'Strength',f:'Infrastructure depth is real — Llama, Metamate, MyClaw, Second Brain, and Zuckerberg\'s personal AI agent represent serious internal AI investment and deployment',e:'Source: Meta internal tool disclosures via Business Insider, FT, March 2026'},{t:'ff',l:'Friction',f:'Mandating AI-driven impact in performance reviews before establishing that AI tools reliably produce measurable productivity is governance inversion — enforcement before measurement',e:'Source: Meta performance memo (Business Insider), Gartner research on AI ROI'},{t:'fg',l:'Gap',f:'Contradictory execution signals — froze AI hiring and cut 600 AI roles while simultaneously mandating AI adoption. Creates organizational confusion that slows adaptation velocity.',e:'Source: Public reporting on Meta AI hiring freeze, October 2025'}],
+    ints:[{p:'p0b',t:'Build the measurement framework before enforcing the mandate — define what AI-driven impact means quantitatively before grading employees on it',w:"Mandating without measuring creates Goodhart's Law failure: employees optimize for metric (usage) not outcome (business value)."},{p:'p1b',t:'Resolve the contradictory signal — explain publicly why cutting AI roles and mandating AI adoption are both true simultaneously',w:'Ambiguity about AI strategy reduces organizational confidence and learning velocity across the company.'}]}
+};
+
+function show(id, card){
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('sel'));
+  card.classList.add('sel');
+  const d=DATA[id];
+  const circ=176;
+  const off=circ-(d.score/100)*circ;
+  const rc=d.score>=75?'#3fb950':d.score>=55?'#d29922':'#f85149';
+
+  document.getElementById('detail').innerHTML=`
+    <div class="srow">
+      <div class="ring">
+        <svg width="72" height="72" viewBox="0 0 72 72">
+          <circle cx="36" cy="36" r="28" fill="none" stroke-width="6" stroke="#21262d"/>
+          <circle cx="36" cy="36" r="28" fill="none" stroke-width="6" stroke="${rc}" stroke-dasharray="${circ}" stroke-dashoffset="${off}" stroke-linecap="round"/>
+        </svg>
+        <div class="rn" style="color:${rc}">${d.score}</div>
+      </div>
+      <div><div class="stitle">${d.title}</div><div class="ssub">${d.sub}</div></div>
+    </div>
+    <div class="stmt">${d.stmt}</div>
+    <div class="kpis">${d.kpis.map(k=>`<div class="kpi"><div class="kl">${k.l}</div><div class="kv">${k.v}</div><div class="ks">${k.s}</div></div>`).join('')}</div>
+    <h3>ASF dimensions</h3>
+    ${d.dims.map(dim=>{
+      const c=dim.v>=75?'#3fb950':dim.v>=55?'#d29922':'#f85149';
+      return `<div class="dim"><span class="dl">${dim.l}</span><div class="dt"><div class="df" style="width:${dim.v}%;background:${c}"></div></div><span class="dv" style="color:${c}">${dim.v}</span><span class="dn">${dim.n}</span></div>`;
+    }).join('')}
+    <div class="findings"><h3>Key findings</h3>
+    ${d.findings.map(f=>`<div class="finding"><span class="fb ${f.t}">${f.l}</span><div><div class="ft">${f.f}</div><div class="fe">${f.e}</div></div></div>`).join('')}
+    </div>
+    <div class="ints"><h3>ASF interventions</h3>
+    ${d.ints.map(i=>`<div class="int"><span class="${i.p}">${i.p==='p0b'?'P0':i.p==='p1b'?'P1':'P2'}</span><div><div class="it">${i.t}</div><div class="iw">${i.w}</div></div></div>`).join('')}
+    </div>
+    <div class="src">All data from public sources: SEC filings, corporate responsibility reports, earnings calls, press releases, and public executive statements. ASF scores are analytical estimates based on publicly available information.</div>
+  `;
+}
+
+show('nvidia', document.querySelector('.card.sel'));
+</script>
+</body>
+</html>
