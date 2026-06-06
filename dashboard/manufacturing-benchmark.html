@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASF — Manufacturing Adaptation Benchmark</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;font-size:14px}
+.wrap{max-width:1200px;margin:0 auto;padding:24px 20px}
+header{margin-bottom:24px}
+header h1{font-size:22px;font-weight:600;color:#58a6ff;margin-bottom:6px}
+header p{font-size:13px;color:#8b949e;line-height:1.6;max-width:680px}
+.badge{display:inline-block;font-size:11px;padding:3px 10px;border-radius:20px;background:#161b22;border:1px solid #30363d;color:#8b949e;margin-top:6px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:24px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px;cursor:pointer;transition:border-color .15s}
+.card:hover{border-color:#58a6ff}
+.card.sel{border-color:#e6edf3;border-width:2px}
+.card-name{font-size:14px;font-weight:600;color:#e6edf3;margin-bottom:2px}
+.card-country{font-size:11px;color:#8b949e;margin-bottom:10px}
+.card-score{font-size:26px;font-weight:700}
+.card-risk{font-size:11px;margin-top:3px}
+.green{color:#3fb950}.yellow{color:#d29922}.red{color:#f85149}
+.detail{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px 24px;margin-bottom:24px}
+.score-row{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.ring{width:72px;height:72px;flex-shrink:0;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700}
+.score-title{font-size:16px;font-weight:600;color:#e6edf3;margin-bottom:4px}
+.score-sub{font-size:12px;color:#8b949e;line-height:1.5}
+.statement{background:#0d1117;border-left:3px solid #30363d;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#e6edf3;line-height:1.7;border-radius:0 6px 6px 0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.kpi{background:#0d1117;border-radius:8px;padding:10px 12px}
+.kpi-l{font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.kpi-v{font-size:16px;font-weight:700;color:#e6edf3}
+.kpi-s{font-size:10px;color:#8b949e;margin-top:2px}
+h3{font-size:11px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.dim{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.dim-l{font-size:12px;color:#8b949e;width:140px;flex-shrink:0}
+.dim-t{flex:1;height:5px;background:#21262d;border-radius:3px;overflow:hidden}
+.dim-f{height:100%;border-radius:3px}
+.dim-v{font-size:12px;font-weight:700;width:36px;text-align:right;flex-shrink:0}
+.dim-n{font-size:11px;color:#6e7681;width:220px;flex-shrink:0}
+.findings{margin:16px 0}
+.finding{display:flex;gap:8px;padding:10px 12px;border:1px solid #21262d;border-radius:8px;margin-bottom:7px}
+.fb{font-size:10px;padding:2px 7px;border-radius:6px;flex-shrink:0;height:fit-content;margin-top:1px;font-weight:600}
+.fs{background:#1a3525;color:#3fb950}.ff{background:#2d2000;color:#d29922}.fg{background:#1a2d3d;color:#58a6ff}
+.ft{font-size:12px;color:#e6edf3;line-height:1.5}
+.fe{font-size:11px;color:#6e7681;margin-top:2px}
+.ints{margin-top:16px}
+.int{display:flex;gap:8px;padding:10px 12px;border:1px solid #21262d;border-radius:8px;margin-bottom:7px}
+.p0{font-size:10px;padding:2px 7px;border-radius:6px;flex-shrink:0;height:fit-content;margin-top:1px;font-weight:600;background:#3c0614;color:#f85149}
+.p1{font-size:10px;padding:2px 7px;border-radius:6px;flex-shrink:0;height:fit-content;margin-top:1px;font-weight:600;background:#2d2000;color:#d29922}
+.p2{font-size:10px;padding:2px 7px;border-radius:6px;flex-shrink:0;height:fit-content;margin-top:1px;font-weight:600;background:#1a2d3d;color:#58a6ff}
+.it{font-size:12px;color:#e6edf3;line-height:1.5}
+.iw{font-size:11px;color:#8b949e;margin-top:2px}
+.src{font-size:11px;color:#6e7681;padding:10px 12px;background:#0d1117;border-radius:8px;margin-top:16px}
+.compare{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px 24px;margin-bottom:24px}
+.compare-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:#21262d;border-radius:8px;overflow:hidden}
+.compare-col{background:#161b22;padding:10px 12px}
+.compare-col-h{background:#0d1117;padding:10px 12px}
+.compare-label{font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.compare-val{font-size:13px;font-weight:600}
+.compare-row-label{font-size:11px;color:#8b949e;margin-bottom:4px}
+footer{text-align:center;font-size:11px;color:#6e7681;padding:16px 0;border-top:1px solid #21262d}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>ASF — Manufacturing Adaptation Benchmark</h1>
+  <p>Six global manufacturers scored on adaptation efficiency using only publicly disclosed data. How fast does each system detect change, decide, execute, and learn?</p>
+  <span class="badge">Public data only · Japan · China · USA · Germany · 2025–2026</span>
+</header>
+
+<div class="cards">
+  <div class="card sel" onclick="show('toyota',this)">
+    <div class="card-name">Toyota</div><div class="card-country">Japan · Automotive</div>
+    <div class="card-score green">94</div><div class="card-risk green">Low risk</div>
+  </div>
+  <div class="card" onclick="show('foxconn',this)">
+    <div class="card-name">Foxconn</div><div class="card-country">Taiwan/China · Electronics</div>
+    <div class="card-score green">81</div><div class="card-risk green">Low risk</div>
+  </div>
+  <div class="card" onclick="show('siemens',this)">
+    <div class="card-name">Siemens</div><div class="card-country">Germany · Industrial</div>
+    <div class="card-score green">79</div><div class="card-risk green">Low risk</div>
+  </div>
+  <div class="card" onclick="show('byd',this)">
+    <div class="card-name">BYD</div><div class="card-country">China · EV / Battery</div>
+    <div class="card-score yellow">72</div><div class="card-risk yellow">Medium risk</div>
+  </div>
+  <div class="card" onclick="show('boeing',this)">
+    <div class="card-name">Boeing</div><div class="card-country">USA · Aerospace</div>
+    <div class="card-score red">41</div><div class="card-risk red">High risk</div>
+  </div>
+</div>
+
+<!-- Detail panels -->
+<div id="d-toyota" class="detail">
+  <div class="score-row">
+    <div class="ring"><svg width="72" height="72" viewBox="0 0 72 72"><circle cx="36" cy="36" r="28" fill="none" stroke-width="6" stroke="#21262d"/><circle cx="36" cy="36" r="28" fill="none" stroke-width="6" stroke="#3fb950" stroke-dasharray="176" stroke-dashoffset="10.6" stroke-linecap="round"/></svg><div class="ring-num green">94</div></div>
+    <div><div class="score-title">World benchmark — lowest adaptation latency in manufacturing</div><div class="score-sub">Toyota Production System is the reference model for adaptive manufacturing. Kaizen, Jidoka, and Andon cord create a near-zero-latency observation and feedback loop. AI in 2025 is accelerating what already worked.</div></div>
+  </div>
+  <div class="statement">Toyota committed ¥1.7 trillion ($10.6B) to AI and software in FY2025. The GAIA initiative spans 11 categories across the entire Toyota group. The Software Academy launched 100 AI training courses across 5 group companies. AI-powered planning reduced a 75-spreadsheet, 50-person process to 6–10 planners. In-house AI platform saves 10,000 hours of manual work annually. ASF Score: <strong>94/100 — Low risk</strong>. Primary strength: Learning velocity — 70+ years of compounding kaizen culture.</div>
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-l">AI investment FY2025</div><div class="kpi-v green">$10.6B</div><div class="kpi-s">¥1.7 trillion</div></div>
+    <div class="kpi"><div class="kpi-l">Hours saved (AI platform)</div><div class="kpi-v green">10K/yr</div><div class="kpi-s">Manual work eliminated</div></div>
+    <div class="kpi"><div class="kpi-l">Planning team reduction</div><div class="kpi-v green">50→6</div><div class="kpi-s">Agentic AI planning</div></div>
+    <div class="kpi"><div class="kpi-l">AI training courses</div><div class="kpi-v">100+</div><div class="kpi-s">Software Academy 2025</div></div>
+  </div>
+  <h3>ASF dimensions</h3>
+  <div class="dim"><span class="dim-l">Observation latency</span><div class="dim-t"><div class="dim-f" style="width:98%;background:#3fb950"></div></div><span class="dim-v green">98</span><span class="dim-n">Andon cord — any worker stops the line instantly</span></div>
+  <div class="dim"><span class="dim-l">Decision latency</span><div class="dim-t"><div class="dim-f" style="width:95%;background:#3fb950"></div></div><span class="dim-v green">95</span><span class="dim-n">Kaizen events — standardized problem-solving in hours</span></div>
+  <div class="dim"><span class="dim-l">Execution latency</span><div class="dim-t"><div class="dim-f" style="width:90%;background:#3fb950"></div></div><span class="dim-v green">90</span><span class="dim-n">PDCA cycles, standardized work, rapid implementation</span></div>
+  <div class="dim"><span class="dim-l">Feedback delay</span><div class="dim-t"><div class="dim-f" style="width:97%;background:#3fb950"></div></div><span class="dim-v green">97</span><span class="dim-n">Jidoka — defect detection built into every process</span></div>
+  <div class="dim"><span class="dim-l">Learning velocity</span><div class="dim-t"><div class="dim-f" style="width:99%;background:#3fb950"></div></div><span class="dim-v green">99</span><span class="dim-n">70+ years compounding kaizen — world benchmark</span></div>
+  <div class="findings">
+    <h3>Key findings</h3>
+    <div class="finding"><span class="fb fs">Strength</span><div><div class="ft">AI is accelerating what already worked — Toyota's adaptation system predates AI and is now being supercharged with $10.6B investment, GAIA initiative, and Software Academy</div><div class="fe">Source: Toyota FY2025 annual report, GAIA announcement, Deloitte Insights interview</div></div></div>
+    <div class="finding"><span class="fb fs">Strength</span><div><div class="ft">Agentic AI applied to real operational problems — 75-spreadsheet planning process reduced to 6 planners using AI agents that handle routine tasks while humans make strategic decisions</div><div class="fe">Source: Deloitte Insights, Toyota VP Digital Innovations interview Sept 2025</div></div></div>
+    <div class="finding"><span class="fb ff">Friction</span><div><div class="ft">EV transition adaptation — US Section 232 tariffs (25% since April 2025) forcing accelerated US assembly; supply chain geography is the primary adaptation challenge</div><div class="fe">Source: Automotive Manufacturing Solutions, Toyota public statements 2025</div></div></div>
+  </div>
+  <div class="ints"><h3>ASF interventions</h3>
+    <div class="int"><span class="p2">P2</span><div><div class="it">Continue dual-track adaptation — hardware/assembly localization for tariff response while software/AI capabilities scale globally via GAIA</div><div class="iw">Toyota is already doing this correctly. The intervention is to maintain the separation between fast-adapting software layer and slower-adapting physical infrastructure.</div></div></div>
+  </div>
+  <div class="src">Sources: Toyota FY2025 Annual Report, GAIA Initiative announcement (Toyota Newsroom), Deloitte Insights Toyota agentic AI case study, Automotive Manufacturing Solutions 2025, IoT Analytics industrial AI report</div>
+</div>
+
+<div id="d-foxconn" class="detail" style="display:none">
+  <div class="score-row">
+    <div class="ring"><svg width="72" height="72" viewBox="0 0 72 72"><circle cx="36" cy="36" r="28" fill="none" stroke-width="6" stroke="#21262d"/><circle cx="36" cy="36" r="28" fill="none" stroke-width="6" stroke="#3fb950" stroke-dasharray="176" stroke-dashoffset="33.4" stroke-linecap="round"/></svg><div class="ring-num green">81</div></div>
+    <div><div class="score-title">Low risk — fastest physical automation deployment in the dataset</div><div class="score-sub">Foxconn is executing the most aggressive automation pivot of any manufacturer — lights-out factories, 60,000+ workers replaced by robots, 40% global AI server market share, $2–3B annual AI investment. Execution speed is exceptional. Learning velocity is the gap.</div></div>
+  </div>
+  <div class="statement">Foxconn replaced 60,000+ workers with robots at its Kunshan plant. AI server revenue growing 50%+ in 2025, projected to surpass NT$1 trillion (~$34.7B). Q1 2025 net profit up 91% YoY driven by AI server demand. Investing $2–3B/year in AI. Launched joint venture with Intrinsic (Google) for intelligent robotics. Monitors 20,000+ robotic arms at Shenzhen with AI predictive maintenance. ASF Score: <strong>81/100 — Low risk</strong>. Primary strength: Execution speed. Primary friction: Workforce learning velocity lagging automation pace.</div>
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-l">Annual AI investment</div><div class="kpi-v green">$2–3B</div><div class="kpi-s">Per year commitment</div></div>
+    <div class="kpi"><div class="kpi-l">AI server market share</div><div class="kpi-v green">40%+</div><div class="kpi-s">Global leader</div></div>
+    <div class="kpi"><div class="kpi-l">Q1 2025 profit growth</div><div class="kpi-v green">+91%</div><div class="kpi-s">YoY — AI server driven</div></div>
+    <div class="kpi"><div class="kpi-l">Workers replaced</div><div class="kpi-v yellow">60K+</div><div class="kpi-s">Kunshan plant alone</div></div>
+  </div>
+  <h3>ASF dimensions</h3>
+  <div class="dim"><span class="dim-l">Observation latency</span><div class="dim-t"><div class="dim-f" style="width:88%;background:#3fb950"></div></div><span class="dim-v green">88</span><span class="dim-n">20,000 robotic arms monitored in real-time</span></div>
+  <div class="dim"><span class="dim-l">Decision latency</span><div class="dim-t"><div class="dim-f" style="width:85%;background:#3fb950"></div></div><span class="dim-v green">85</span><span class="dim-n">Fast executive decisions — chairman-driven pivots</span></div>
+  <div class="dim"><span class="dim-l">Execution latency</span><div class="dim-t"><div class="dim-f" style="width:90%;background:#3fb950"></div></div><span class="dim-v green">90</span><span class="dim-n">Fastest physical automation deployment globally</span></div>
+  <div class="dim"><span class="dim-l">Feedback delay</span><div class="dim-t"><div class="dim-f" style="width:82%;background:#3fb950"></div></div><span class="dim-v green">82</span><span class="dim-n">AI predictive maintenance, real-time production data</span></div>
+  <div class="dim"><span class="dim-l">Learning velocity</span><div class="dim-t"><div class="dim-f" style="width:58%;background:#d29922"></div></div><span class="dim-v yellow">58</span><span class="dim-n">Workforce skill transition lagging automation speed</span></div>
+  <div class="findings"><h3>Key findings</h3>
+    <div class="finding"><span class="fb fs">Strength</span><div><div class="ft">Fastest physical automation execution in global manufacturing — 60K workers replaced, lights-out production operational, 40% AI server market share demonstrates Foxconn adapts faster than any peer in physical execution</div><div class="fe">Source: Reuters, Klover.ai Foxconn AI strategy analysis 2025</div></div></div>
+    <div class="finding"><span class="fb ff">Friction</span><div><div class="ft">Human learning velocity gap — workforce skill transition to robot maintenance, AI supervision, and digital operations is lagging the physical automation pace, creating a dependency on a shrinking skilled labor pool</div><div class="fe">Source: Foxconn 5G robotics strategy analysis, public workforce data</div></div></div>
+    <div class="finding"><span class="fb fg">Gap</span><div><div class="ft">EV market timing risk — delayed EV 5% market share target, holding off investment until market conditions improve; this is correct adaptation behavior but creates a window of strategic uncertainty</div><div class="fe">Source: Reuters interview with Foxconn Chairman Young Liu, Oct 2025</div></div></div>
+  </div>
+  <div class="ints"><h3>ASF interventions</h3>
+    <div class="int"><span class="p0">P0</span><div><div class="it">Accelerate workforce learning velocity — invest in AI operations training at the same pace as physical automation deployment</div><div class="iw">The physical automation gap closes faster than the skill gap. Without deliberate investment in learning velocity, Foxconn creates a dependency ceiling on how fast automation can expand.</div></div></div>
+    <div class="int"><span class="p1">P1</span><div><div class="it">Formalize AI server manufacturing learning system — capture and replicate the production knowledge that enabled 40% market share across new product categories</div><div class="iw">The AI server advantage is replicable. Institutionalizing the production system that created it protects the moat.</div></div></div>
+  </div>
+  <div class="src">Sources: Reuters Foxconn Chairman interview, Klover.ai Foxconn AI strategy 2025, Intrinsic joint venture announcement, IEN workforce data, Foxconn Q1 2025 earnings</div>
+</div>
+
+<div id="d-siemens" class="detail" style="display:none">
+  <div class="score-row">
+    <div class="ring"><svg width="72" height="72" viewBox="0 0 72 72"><circle cx="36" cy="36" r="28" fill="none" stroke-width="6" stroke="#21262d"/><circle cx="36" cy="36" r="28" fill="none" stroke-width="6" stroke="#3fb950" stroke-dasharray="176" stroke-dashoffset="37" stroke-linecap="round"/></svg><div class="ring-num green">79</div></div>
+    <div><div class="score-title">Low risk — industrial AI leader with strong internal deployment</div><div class="score-sub">Siemens is both an industrial AI product company and an internal deployer of AI at scale. €6.1B R&D investment in FY2025 focused on software, automation, and AI. Edge AI predictive maintenance deployed across own factories. The friction is customer legacy system cycles — outside Siemens' direct control.</div></div>
+  </div>
+  <div class="statement">Siemens reported €77.8B revenue in FY2025, invested €6.1B in R&D focused on software and AI. Edge AI on Armv9-based sensors continuously monitors vibration, temperature, and energy draw in real-time — automatically adjusting machine parameters without human intervention. Siemens Industrial Copilot announced at CES 2025. AI reduces unplanned downtime which costs tens of thousands of dollars per minute at scale. ASF Score: <strong>79/100 — Low risk</strong>. Primary friction: Customer legacy hardware replacement cycles constrain how fast Siemens' AI products can reach full adoption.</div>
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-l">FY2025 revenue</div><div class="kpi-v green">€77.8B</div><div class="kpi-s">Strong performance</div></div>
+    <div class="kpi"><div class="kpi-l">R&D investment</div><div class="kpi-v green">€6.1B</div><div class="kpi-s">Software + AI focused</div></div>
+    <div class="kpi"><div class="kpi-l">Edge AI deployment</div><div class="kpi-v green">Live</div><div class="kpi-s">Own factories — production</div></div>
+    <div class="kpi"><div class="kpi-l">Downtime cost prevented</div><div class="kpi-v yellow">$10K+/min</div><div class="kpi-s">Industry benchmark</div></div>
+  </div>
+  <h3>ASF dimensions</h3>
+  <div class="dim"><span class="dim-l">Observation latency</span><div class="dim-t"><div class="dim-f" style="width:90%;background:#3fb950"></div></div><span class="dim-v green">90</span><span class="dim-n">Edge AI — real-time anomaly detection, no cloud lag</span></div>
+  <div class="dim"><span class="dim-l">Decision latency</span><div class="dim-t"><div class="dim-f" style="width:85%;background:#3fb950"></div></div><span class="dim-v green">85</span><span class="dim-n">Automated parameter adjustment — no human required</span></div>
+  <div class="dim"><span class="dim-l">Execution latency</span><div class="dim-t"><div class="dim-f" style="width:78%;background:#3fb950"></div></div><span class="dim-v green">78</span><span class="dim-n">Strong internal; customer cycles slower</span></div>
+  <div class="dim"><span class="dim-l">Feedback delay</span><div class="dim-t"><div class="dim-f" style="width:88%;background:#3fb950"></div></div><span class="dim-v green">88</span><span class="dim-n">Millisecond-level edge feedback — best in class</span></div>
+  <div class="dim"><span class="dim-l">Learning velocity</span><div class="dim-t"><div class="dim-f" style="width:75%;background:#3fb950"></div></div><span class="dim-v green">75</span><span class="dim-n">Strong R&D culture; product iteration systematic</span></div>
+  <div class="findings"><h3>Key findings</h3>
+    <div class="finding"><span class="fb fs">Strength</span><div><div class="ft">Edge AI eliminates cloud latency — Armv9-based sensors detect anomalies and automatically adjust machine parameters in real-time, achieving observation-to-execution in milliseconds</div><div class="fe">Source: Siemens/Arm edge AI case study, Emerj Siemens AI analysis April 2026</div></div></div>
+    <div class="finding"><span class="fb ff">Friction</span><div><div class="ft">Customer legacy hardware cycles — industrial equipment has 10–20 year replacement cycles; Siemens' AI products are ready but customer infrastructure limits adoption speed</div><div class="fe">Source: IoT Analytics industrial AI market report 2025</div></div></div>
+  </div>
+  <div class="ints"><h3>ASF interventions</h3>
+    <div class="int"><span class="p1">P1</span><div><div class="it">Build retrofit AI layer for legacy industrial equipment — reduce customer upgrade requirement from hardware replacement to software overlay</div><div class="iw">The biggest ASF lever for Siemens is reducing customer execution latency, not their own. Retrofit capability extends AI to the installed base without requiring hardware refresh.</div></div></div>
+  </div>
+  <div class="src">Sources: Siemens FY2025 annual report, Arm/Siemens edge AI case study Aug 2025, Emerj Siemens AI analysis Apr 2026, IoT Analytics industrial AI market report</div>
+</div>
+
+<div id="d-byd" class="detail" style="display:none">
+  <div class="score-row">
+    <div class="ring"><svg width="72" height="72" viewBox="0 0 72 72"><circle cx="36" cy="36" r="28" fill="none" stroke-width="6" stroke="#21262d"/><circle cx="36" cy="36" r="28" fill="none" stroke-width="6" stroke="#d29922" stroke-dasharray="176" stroke-dashoffset="50.9" stroke-linecap="round"/></svg><div class="ring-num yellow">71</div></div>
+    <div><div class="score-title">Medium risk — fast automation execution, strategic market friction</div><div class="score-sub">BYD has aggressively automated EV and battery manufacturing. The ASF friction is external — slashed 2025 sales target, biggest quarterly profit drop in 4 years, growing domestic competition. Execution is strong; market adaptation is the challenge.</div></div>
+  </div>
+  <div class="statement">BYD applies robotic systems for EV battery and chassis assembly across Shenzhen and Xi'an factories. Dark factory automation operational. However, BYD reported its biggest quarterly profit drop in 4+ years, slashed 2025 sales target to 4.6M vehicles from higher projections, and faces intensifying domestic competition. The adaptation gap is strategic, not operational — BYD can build fast but the market is shifting faster than pricing strategy can respond. ASF Score: <strong>71/100 — Medium risk</strong>. Bottleneck: Decision latency on pricing and market strategy.</div>
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-l">Automation level</div><div class="kpi-v green">High</div><div class="kpi-s">Dark factory operational</div></div>
+    <div class="kpi"><div class="kpi-l">2025 sales target</div><div class="kpi-v yellow">4.6M</div><div class="kpi-s">Reduced from higher target</div></div>
+    <div class="kpi"><div class="kpi-l">Profit trend</div><div class="kpi-v red">↓</div><div class="kpi-s">Biggest quarterly drop 4+ yrs</div></div>
+    <div class="kpi"><div class="kpi-l">Competition pressure</div><div class="kpi-v red">High</div><div class="kpi-s">Domestic + global rivals</div></div>
+  </div>
+  <h3>ASF dimensions</h3>
+  <div class="dim"><span class="dim-l">Observation latency</span><div class="dim-t"><div class="dim-f" style="width:75%;background:#3fb950"></div></div><span class="dim-v green">75</span><span class="dim-n">Strong factory telemetry, AI quality control</span></div>
+  <div class="dim"><span class="dim-l">Decision latency</span><div class="dim-t"><div class="dim-f" style="width:62%;background:#d29922"></div></div><span class="dim-v yellow">62</span><span class="dim-n">Market strategy decisions slower than operational ones</span></div>
+  <div class="dim"><span class="dim-l">Execution latency</span><div class="dim-t"><div class="dim-f" style="width:82%;background:#3fb950"></div></div><span class="dim-v green">82</span><span class="dim-n">World-class physical automation execution speed</span></div>
+  <div class="dim"><span class="dim-l">Feedback delay</span><div class="dim-t"><div class="dim-f" style="width:70%;background:#3fb950"></div></div><span class="dim-v green">70</span><span class="dim-n">Real-time production; market feedback slower</span></div>
+  <div class="dim"><span class="dim-l">Learning velocity</span><div class="dim-t"><div class="dim-f" style="width:65%;background:#d29922"></div></div><span class="dim-v yellow">65</span><span class="dim-n">Strong in manufacturing; market learning lagging</span></div>
+  <div class="findings"><h3>Key findings</h3>
+    <div class="finding"><span class="fb fs">Strength</span><div><div class="ft">Physical manufacturing adaptation is world-class — dark factory automation, robotic EV assembly, and AI quality control place BYD among the fastest physical executors globally</div><div class="fe">Source: China Crunch dark factories report, public manufacturing disclosures</div></div></div>
+    <div class="finding"><span class="fb ff">Friction</span><div><div class="ft">Market strategy adaptation lagging manufacturing capability — the ability to build faster than competitors is not translating to pricing and market positioning decisions at the same speed</div><div class="fe">Source: Reuters BYD profit report, Foxconn Chairman EV market commentary</div></div></div>
+  </div>
+  <div class="ints"><h3>ASF interventions</h3>
+    <div class="int"><span class="p0">P0</span><div><div class="it">Apply the same data-driven speed to market strategy that already works in manufacturing — real-time market signal integration into pricing and product decisions</div><div class="iw">BYD's manufacturing observation latency is near-zero. Its market strategy observation latency appears much higher. Closing that gap is the highest-leverage intervention.</div></div></div>
+  </div>
+  <div class="src">Sources: Reuters BYD profit report, China Crunch manufacturing automation, Foxconn Chairman Liu EV market commentary, public BYD production disclosures</div>
+</div>
+
+<div id="d-boeing" class="detail" style="display:none">
+  <div class="score-row">
+    <div class="ring"><svg width="72" height="72" viewBox="0 0 72 72"><circle cx="36" cy="36" r="28" fill="none" stroke-width="6" stroke="#21262d"/><circle cx="36" cy="36" r="28" fill="none" stroke-width="6" stroke="#f85149" stroke-dasharray="176" stroke-dashoffset="103.8" stroke-linecap="round"/></svg><div class="ring-num red">41</div></div>
+    <div><div class="score-title">High risk — AI capability exists, but governance failure preceded it</div><div class="score-sub">Boeing has significant AI capability — digital twins improving first-time quality by 40%, AI robotics in manufacturing. But the public safety record shows a fundamental ASF failure: governance friction accumulated until the control layer failed catastrophically. The bottleneck is not technology. It is organizational.</div></div>
+  </div>
+  <div class="statement">Boeing's former CEO publicly stated digital twin development yielded 40% improvement in first-time quality. AI robotics and computer vision are deployed in manufacturing. However, the door plug failures exposed a systemic quality governance failure — defect signals existed but did not reliably reach decision makers fast enough to prevent safety incidents. Current interventions (training, process simplification, safety culture) map exactly to ASF friction categories. ASF Score: <strong>41/100 — High risk</strong>. Primary bottleneck: Feedback delay — quality signals exist but the organizational path from signal to decision is broken.</div>
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-l">First-time quality (AI)</div><div class="kpi-v green">+40%</div><div class="kpi-s">Digital twin improvement</div></div>
+    <div class="kpi"><div class="kpi-l">Safety governance</div><div class="kpi-v red">Failed</div><div class="kpi-s">Door plug incidents</div></div>
+    <div class="kpi"><div class="kpi-l">Current interventions</div><div class="kpi-v yellow">Active</div><div class="kpi-s">Training + process reform</div></div>
+    <div class="kpi"><div class="kpi-l">AI capability</div><div class="kpi-v yellow">Strong</div><div class="kpi-s">Underutilized in governance</div></div>
+  </div>
+  <h3>ASF dimensions</h3>
+  <div class="dim"><span class="dim-l">Observation latency</span><div class="dim-t"><div class="dim-f" style="width:52%;background:#d29922"></div></div><span class="dim-v yellow">52</span><span class="dim-n">Signals existed but routing was broken</span></div>
+  <div class="dim"><span class="dim-l">Decision latency</span><div class="dim-t"><div class="dim-f" style="width:35%;background:#f85149"></div></div><span class="dim-v red">35</span><span class="dim-n">Multiple approval layers, slow escalation paths</span></div>
+  <div class="dim"><span class="dim-l">Execution latency</span><div class="dim-t"><div class="dim-f" style="width:38%;background:#f85149"></div></div><span class="dim-v red">38</span><span class="dim-n">Supply chain complexity, 12,000+ suppliers</span></div>
+  <div class="dim"><span class="dim-l">Feedback delay</span><div class="dim-t"><div class="dim-f" style="width:28%;background:#f85149"></div></div><span class="dim-v red">28</span><span class="dim-n">Quality outcomes lagging — annual metrics not daily</span></div>
+  <div class="dim"><span class="dim-l">Learning velocity</span><div class="dim-t"><div class="dim-f" style="width:40%;background:#f85149"></div></div><span class="dim-v red">40</span><span class="dim-n">Knowledge silos across programs, slow postmortems</span></div>
+  <div class="findings"><h3>Key findings</h3>
+    <div class="finding"><span class="fb fs">Strength</span><div><div class="ft">AI capability is real — digital twins delivering 40% first-time quality improvement, AI robotics deployed in manufacturing. The technology works. The organizational system around it does not.</div><div class="fe">Source: Boeing former CEO statements, DigitalDefynd Boeing AI case studies 2026</div></div></div>
+    <div class="finding"><span class="fb ff">Friction</span><div><div class="ft">Governance failure outlasted technical capability — quality signals existed, AI tools were deployed, but the organizational path from defect signal to executive decision was too slow and too fragmented to prevent safety failures</div><div class="fe">Source: Quality Magazine door plug analysis, public FAA and NTSB records</div></div></div>
+    <div class="finding"><span class="fb fg">Gap</span><div><div class="ft">Current remediation maps perfectly to ASF interventions — training (skill gap), process simplification (governance delay), defect elimination (data quality), safety culture (ownership ambiguity) — but these take years, not quarters</div><div class="fe">Source: Boeing public safety commitments, congressional testimony</div></div></div>
+  </div>
+  <div class="ints"><h3>ASF interventions</h3>
+    <div class="int"><span class="p0">P0</span><div><div class="it">Instrument real-time quality signal routing from factory floor to executive dashboard — eliminate the organizational gap between defect detection and decision</div><div class="iw">Boeing has the AI capability. The bottleneck is the organizational channel that quality signals travel through. Shortening that path is the highest-priority intervention.</div></div></div>
+    <div class="int"><span class="p0">P0</span><div><div class="it">Apply digital twin quality data to governance — if digital twins improve first-time quality by 40%, embed that data directly into safety approval workflows</div><div class="iw">The 40% quality improvement exists in the engineering system. It needs to reach the governance system.</div></div></div>
+    <div class="int"><span class="p1">P1</span><div><div class="it">Build cross-program learning system — quality lessons from one program must reach all programs within days, not years</div><div class="iw">Knowledge silos are the learning velocity bottleneck. A centralized quality knowledge base with mandatory cross-program sharing reduces recurrence.</div></div></div>
+  </div>
+  <div class="src">Sources: Boeing former CEO digital twin statements, Quality Magazine AI quality control analysis, DigitalDefynd Boeing AI case studies 2026, public FAA safety records</div>
+</div>
+
+<!-- Comparison table -->
+<div class="compare">
+  <h3 style="margin-bottom:16px">Cross-company comparison</h3>
+  <div style="overflow-x:auto">
+  <table style="width:100%;border-collapse:collapse;font-size:12px">
+    <thead>
+      <tr style="border-bottom:1px solid #30363d">
+        <th style="text-align:left;padding:8px 12px;color:#8b949e;font-weight:600;font-size:11px;text-transform:uppercase">Dimension</th>
+        <th style="text-align:center;padding:8px 12px;color:#3fb950;font-size:11px">Toyota</th>
+        <th style="text-align:center;padding:8px 12px;color:#3fb950;font-size:11px">Foxconn</th>
+        <th style="text-align:center;padding:8px 12px;color:#3fb950;font-size:11px">Siemens</th>
+        <th style="text-align:center;padding:8px 12px;color:#d29922;font-size:11px">BYD</th>
+        <th style="text-align:center;padding:8px 12px;color:#f85149;font-size:11px">Boeing</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid #21262d"><td style="padding:8px 12px;color:#8b949e">Observation latency</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">98</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">88</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">90</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">75</td><td style="text-align:center;padding:8px;color:#d29922;font-weight:600">52</td></tr>
+      <tr style="border-bottom:1px solid #21262d"><td style="padding:8px 12px;color:#8b949e">Decision latency</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">95</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">85</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">85</td><td style="text-align:center;padding:8px;color:#d29922;font-weight:600">62</td><td style="text-align:center;padding:8px;color:#f85149;font-weight:600">35</td></tr>
+      <tr style="border-bottom:1px solid #21262d"><td style="padding:8px 12px;color:#8b949e">Execution latency</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">90</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">90</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">78</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">82</td><td style="text-align:center;padding:8px;color:#f85149;font-weight:600">38</td></tr>
+      <tr style="border-bottom:1px solid #21262d"><td style="padding:8px 12px;color:#8b949e">Feedback delay</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">97</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">82</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">88</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">70</td><td style="text-align:center;padding:8px;color:#f85149;font-weight:600">28</td></tr>
+      <tr style="border-bottom:1px solid #21262d"><td style="padding:8px 12px;color:#8b949e">Learning velocity</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">99</td><td style="text-align:center;padding:8px;color:#d29922;font-weight:600">58</td><td style="text-align:center;padding:8px;color:#3fb950;font-weight:600">75</td><td style="text-align:center;padding:8px;color:#d29922;font-weight:600">65</td><td style="text-align:center;padding:8px;color:#f85149;font-weight:600">40</td></tr>
+      <tr style="background:#0d1117"><td style="padding:10px 12px;font-weight:600;color:#e6edf3">ASF Score</td><td style="text-align:center;padding:10px;font-weight:700;font-size:16px;color:#3fb950">94</td><td style="text-align:center;padding:10px;font-weight:700;font-size:16px;color:#3fb950">81</td><td style="text-align:center;padding:10px;font-weight:700;font-size:16px;color:#3fb950">79</td><td style="text-align:center;padding:10px;font-weight:700;font-size:16px;color:#d29922">71</td><td style="text-align:center;padding:10px;font-weight:700;font-size:16px;color:#f85149">41</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<footer>ASF — Adaptive Systems Framework · <a href="https://github.com/hdannabo/adaptive-systems-framework" style="color:#58a6ff;text-decoration:none">github.com/hdannabo/adaptive-systems-framework</a> · Copyright © 2026 Hemanth Kumar Dannaboyina · Public data only</footer>
+</div>
+
+<script>
+function show(id, card){
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('sel'));
+  card.classList.add('sel');
+  document.querySelectorAll('.detail').forEach(d=>d.style.display='none');
+  document.getElementById('d-'+id).style.display='block';
+}
+</script>
+</body>
+</html>
