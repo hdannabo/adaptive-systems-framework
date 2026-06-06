@@ -1,2 +1,1 @@
-# adaptive-systems-framework
-Adaptive Systems Framework (ASF)  A research project exploring why organizations, platforms, and complex systems adapt at different speeds when confronted with technological, operational, and market change.
+Adaptive Systems Framework analyzes how systems respond to input events by measuring the delta between required and current operating states, identifying friction, and reducing adaptation latency through controlled interventions.
