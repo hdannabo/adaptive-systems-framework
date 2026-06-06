@@ -1,0 +1,15 @@
+system_name: Toyota
+domain: Manufacturing & Industrial
+system_type: Manufacturing System
+adaptation_scenario: Continuous improvement at global scale
+
+input_event: Quality and cost pressures at global manufacturing scale
+adaptation_requirement: Rapid feedback loops and standardized improvement cycles
+current_operating_state: Mature lean operating system with kaizen culture
+
+observation_latency: 1
+decision_latency: 1
+execution_latency: 1
+feedback_delay: 1
+learning_velocity: 5
+dependency_index: 2
