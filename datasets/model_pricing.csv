@@ -1,0 +1,23 @@
+provider,model,input_cost_per_1m,output_cost_per_1m,context_window_k,reasoning_tokens,tier,notes
+OpenAI,GPT-4o,2.50,10.00,128,No,Frontier,Standard multimodal flagship
+OpenAI,GPT-4o mini,0.15,0.60,128,No,Efficient,Cost-optimized small model
+OpenAI,o3,10.00,40.00,200,Yes,Reasoning,Advanced reasoning model
+OpenAI,o4-mini,1.10,4.40,200,Yes,Reasoning,Efficient reasoning model
+OpenAI,GPT-5,5.00,30.00,200,No,Frontier,Latest flagship (estimated from public reports)
+Anthropic,Claude Opus 4.6,15.00,75.00,200,No,Frontier,Most capable Claude model
+Anthropic,Claude Sonnet 4.6,3.00,15.00,200,No,Balanced,Balanced performance/cost
+Anthropic,Claude Haiku 4.5,0.80,4.00,200,No,Efficient,Fast and lightweight
+Google,Gemini 1.5 Pro,1.25,5.00,1000,No,Frontier,Long context flagship
+Google,Gemini 1.5 Flash,0.075,0.30,1000,No,Efficient,Fast and cheap
+Google,Gemini 2.0 Pro,2.00,10.00,1000,No,Frontier,Latest Pro model
+Google,Gemini 2.5 Flash,0.15,0.60,1000,Yes,Reasoning,Efficient reasoning
+DeepSeek,DeepSeek V3,0.27,1.10,64,No,Frontier,Open-weight frontier
+DeepSeek,DeepSeek R1,0.55,2.19,128,Yes,Reasoning,Reasoning-focused model
+DeepSeek,DeepSeek V3.2,0.14,0.28,128,No,Efficient,Latest efficient version
+xAI,Grok-2,2.00,10.00,131,No,Frontier,xAI flagship
+xAI,Grok-2 mini,0.20,0.40,131,No,Efficient,Smaller Grok model
+Mistral,Mistral Large,2.00,6.00,128,No,Frontier,Flagship European model
+Mistral,Mistral Small,0.20,0.60,32,No,Efficient,Cost-optimized
+Mistral,Codestral,0.20,0.60,32,No,Specialized,Code-focused model
+Meta,Llama 3.3 70B,0.23,0.40,128,No,Open,Self-hosted open model
+Meta,Llama 3.1 405B,3.00,3.00,128,No,Open,Largest open model
