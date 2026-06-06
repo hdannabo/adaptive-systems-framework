@@ -91,10 +91,13 @@ pip install pyyaml
 # Analyze a single system
 python cli.py --file examples/att.yaml
 
+# Upload ANY document — annual report, postmortem, strategy doc
+python asf_document_analyzer.py --file report.pdf
+python asf_document_analyzer.py --file postmortem.txt --org "AT&T"
+python asf_document_analyzer.py --file strategy.docx --export output.json
+
 # Batch analyze all 100 cases
 python asf_analyze.py
-
-# Filter by domain or risk
 python asf_analyze.py --domain "Telecom & Networks"
 python asf_analyze.py --risk High --top 10
 ```
@@ -157,7 +160,7 @@ Open [`research/asf-dashboard.html`](research/asf-dashboard.html) locally — no
 |---|---|---|
 | v0.1 | Research framework, 100-case dataset | ✅ Done |
 | v0.2 | Python engine, CLI, batch analyzer | ✅ Done |
-| v0.3 | LLM-assisted analysis from annual reports | Planned |
+| v0.3 | Document analyzer — upload any doc, ASF generates analysis | ✅ Done |
 | v0.4 | REST API + web dashboard | Planned |
 | v1.0 | ASF Copilot — analyze any system automatically | Future |
 
