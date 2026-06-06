@@ -1,22 +1,60 @@
-# Adaptive Systems Framework (ASF)
+# ASF — Adaptive Systems Framework
 
-> **Why do some systems adapt faster than others when exposed to the same information?**
+**ASF identifies why organizations fail to convert AI investment, capability, and information into measurable value.**
 
-ASF is a systems-engineering and AI-era research framework for measuring, diagnosing, and accelerating adaptation in organizations, AI systems, and operational platforms.
-
-Built by a Forward-Deployed AI Infrastructure & Platform Engineer with 7+ years designing and operating production systems at Fortune 500 scale — AT&T, Procter & Gamble, Cisco.
+Upload a document. Score your AI program. Compare enterprises. ASF tells you where value is being lost and what to do about it.
 
 ---
 
-## Core Hypothesis
+## What it does
 
-> Systems succeed when their rate of adaptation exceeds the rate of environmental change.
+| Tool | What you get |
+|---|---|
+| **Token Governance Scorer** | Score your AI program 0–100. Primary bottleneck. P0/P1/P2 interventions. |
+| **Document Analyzer** | Upload any doc — annual report, postmortem, strategy. ASF diagnoses it. |
+| **Enterprise Benchmark** | NVIDIA, Meta, AT&T, Adobe, Datadog — scored from public data. |
+| **Manufacturing Benchmark** | Toyota, Foxconn, Siemens, Boeing, BYD — global manufacturing adaptation. |
+| **100-Case Dashboard** | 100 systems across 10 domains. Interactive. Open locally. |
+| **Token Economics** | 22 AI models scored on cost efficiency, context efficiency, agent risk. |
 
 ---
 
-## The Core Finding
+## Run it in 30 seconds
 
-Across 100 analyzed systems — Toyota to Kodak, Netflix to Boeing, OpenAI to AT&T:
+```bash
+git clone https://github.com/hdannabo/adaptive-systems-framework.git
+cd adaptive-systems-framework
+pip install pyyaml
+
+# Score any system from a YAML file
+python cli.py --file examples/att.yaml
+
+# Analyze any document
+python asf_document_analyzer.py --file your_report.pdf
+
+# Batch analyze all 100 cases
+python asf_analyze.py
+```
+
+---
+
+## Open the dashboards
+
+All dashboards are standalone HTML — open directly in any browser. No server needed.
+
+| Dashboard | Location | What it shows |
+|---|---|---|
+| Token Governance Scorer | `dashboard/token-governance.html` | Score your AI program live |
+| Enterprise AI Benchmark | `dashboard/enterprise-benchmark.html` | 5 companies, public data |
+| Manufacturing Benchmark | `dashboard/manufacturing-benchmark.html` | Global manufacturing ASF |
+| 100-Case Explorer | `research/asf-dashboard.html` | All 100 cases, filterable |
+| Token Economics | `research/ai-token-economics/token-economics-dashboard.html` | 22 models scored |
+
+---
+
+## The core finding
+
+Across 100 analyzed systems — Toyota to Kodak, NVIDIA to Boeing, Netflix to AT&T:
 
 > Organizations rarely fail because they don't know what to do.
 > The real issue is the delay between recognizing a required change and operationalizing the response.
@@ -25,143 +63,57 @@ Across 100 analyzed systems — Toyota to Kodak, Netflix to Boeing, OpenAI to AT
 
 ---
 
-## Theoretical Foundations
-
-ASF is grounded in six established frameworks:
-
-| Framework | Key Contributors | What ASF Takes |
-|---|---|---|
-| Systems Thinking | Forrester, Meadows, Senge | Feedback loops, delays, learning velocity |
-| OODA Loop | John Boyd | Tempo as the primary competitive variable |
-| Cybernetics | Wiener, Ashby | Law of Requisite Variety, feedback control |
-| MAPE-K | IBM Research (Kephart & Chess) | Monitor-Analyze-Plan-Execute architecture |
-| Adaptive Systems | Santa Fe Institute | Emergence, fitness landscapes |
-| Learning Organizations | Peter Senge | Learning velocity as organizational capability |
-
----
-
-## Engineering Formulas
-
-ASF produces measurable quantities, not just scores.
+## The formula
 
 ```
-Total Adaptation Latency (TAL):
-  TAL = Observation Latency + Decision Latency + Execution Latency
-      = T_operational − T_available
+Total Adaptation Latency =
+    Observation Latency (how fast you detect change)
+  + Decision Latency    (how fast you commit)
+  + Execution Latency   (how fast you implement)
+  + Feedback Delay      (how fast you see results)
 
-Adaptation Latency Score (ALS, 0–100):
-  ALS = 100 − [(OL×0.15) + (DL×0.25) + (EL×0.30) + (FD×0.15) + (DI×0.15) − (LV×0.10)] × 100
-
-LLM Adaptation Efficiency (LAE):
-  LAE = (Task_success_rate × Outcome_quality) / (Token_cost × Latency)
-
-Adaptation Funnel Loss (AFL):
-  AFL = 1 − (Signals_adapted / Signals_observed)
-```
-
-See [`docs/formulas.md`](docs/formulas.md) for the complete formula reference.
-
----
-
-## ASF for LLMs
-
-One of ASF's strongest current applications: measuring LLM efficiency in production.
-
-**The three LLM problems ASF addresses:**
-1. Token cost explosion — organizations can't track AI ROI
-2. Context window degradation — more context ≠ better results
-3. Agent cost vs agent value — agentic workflows burn tokens without proportional value
-
-**Key metrics:**
-- Context Efficiency: `CE = Useful_information / Total_tokens`
-- Cost Efficiency: `CoE = Business_value / AI_spend`
-- Adaptation Efficiency: `AE = Performance_gain / Additional_context` (< 1.0 = context rot)
-
-See [`docs/llm-adaptation.md`](docs/llm-adaptation.md) for full analysis.
-
----
-
-
-## ASF Token Governance Scorer
-
-The fastest way to use ASF — a single-page tool that:
-
-1. **Scores your AI program** — enter spend, users, adoption, hours saved → get a 0–100 governance score, primary bottleneck, and P0/P1/P2 interventions
-2. **Compares models** — click any model to see full ASF token efficiency profile
-3. **Analyzes documents** — paste an annual report or postmortem → ASF scans for adaptation signals and generates a diagnosis
-
-Open `dashboard/token-governance.html` locally — no server, no API keys needed.
-
-## Quickstart
-
-```bash
-git clone https://github.com/hdannabo/adaptive-systems-framework.git
-cd adaptive-systems-framework
-pip install pyyaml
-
-# Analyze a single system
-python cli.py --file examples/att.yaml
-
-# Upload ANY document — annual report, postmortem, strategy doc
-python asf_document_analyzer.py --file report.pdf
-python asf_document_analyzer.py --file postmortem.txt --org "AT&T"
-python asf_document_analyzer.py --file strategy.docx --export output.json
-
-# Batch analyze all 100 cases
-python asf_analyze.py
-python asf_analyze.py --domain "Telecom & Networks"
-python asf_analyze.py --risk High --top 10
+Minus: Learning Velocity (how fast you improve)
 ```
 
 ---
 
-## Repository Structure
+## Repository structure
 
 ```
 adaptive-systems-framework/
-├── cli.py                          # Single-system analyzer
-├── asf_analyze.py                  # Batch analyzer — all 100 cases
-├── src/asf/                        # Python engine
-│   ├── models.py                   # Core data models
-│   ├── analyzer.py                 # Analysis pipeline
-│   ├── scoring/engine.py           # Scoring computation
-│   └── recommendations/engine.py  # Intervention logic
+├── cli.py                          # Analyze any system from YAML
+├── asf_document_analyzer.py        # Upload doc → ASF diagnosis
+├── asf_analyze.py                  # Batch analyze 100 cases
+├── src/asf/                        # Python scoring engine
+├── dashboard/
+│   ├── token-governance.html       # Score your AI program
+│   ├── enterprise-benchmark.html   # Enterprise AI comparison
+│   └── manufacturing-benchmark.html # Manufacturing comparison
 ├── docs/
-│   ├── formulas.md                 # Engineering formulas — TAL, ALS, AFL, LAE
-│   ├── theoretical-foundations.md  # MAPE, OODA, Cybernetics, Senge, Meadows
-│   ├── llm-adaptation.md           # ASF for LLMs — token cost, context rot, ROI
-│   ├── deep-cases.md               # 10 deep cases with formula analysis
-│   ├── vision.md                   # Universal adaptive systems model
-│   ├── product-architecture.md     # Full system design
-│   ├── case-studies.md             # Real-world evidence
-│   └── company-taxonomy.md         # 100+ organizations classified
-├── examples/
-│   ├── att.yaml                    # HIGH risk — execution bottleneck
-│   ├── toyota.yaml                 # LOW risk — world-class benchmark
-│   ├── boeing.yaml                 # HIGH risk — governance failure
-│   └── aks-upgrade.yaml            # Platform engineering case
+│   ├── formulas.md                 # All ASF formulas
+│   ├── theoretical-foundations.md  # MAPE, OODA, Senge, Ashby
+│   ├── llm-adaptation.md           # ASF for LLMs
+│   ├── deep-cases.md               # 10 deep case studies
+│   └── vision.md                   # Universal adaptive systems model
 ├── research/
-│   ├── asf_100_cases.csv           # 100-case dataset
-│   ├── asf-dashboard.html          # Interactive dashboard (open locally)
-│   ├── hypotheses.md               # 8 testable hypotheses
-│   └── dataset-readme.md           # Key findings
+│   ├── asf-dashboard.html          # 100-case interactive dashboard
+│   ├── asf_100_cases.csv           # Full dataset
+│   └── ai-token-economics/         # Token pricing + efficiency scores
+├── examples/
+│   ├── att.yaml                    # HIGH risk — telecom
+│   ├── toyota.yaml                 # LOW risk — benchmark
+│   └── boeing.yaml                 # HIGH risk — governance failure
 └── models/
     └── asf-model.yaml              # Canonical ASF schema
 ```
 
 ---
 
-## 100-Case Dataset — Key Findings
+## Theoretical foundations
 
-| Domain | Avg ALS | Best Case | Worst Case |
-|---|---|---|---|
-| AI Systems | 88/100 | OpenAI (88) | — |
-| Manufacturing | 75/100 | Toyota (95) | Boeing (42) |
-| Entertainment | 72/100 | Netflix (93) | Warner (38) |
-| Telecom | 58/100 | T-Mobile (78) | AT&T (38) |
-| Historical failures | 22/100 | Adobe (72) | Sears (12) |
+ASF is grounded in six established frameworks: Systems Thinking (Senge, Meadows, Forrester), OODA Loop (John Boyd), Cybernetics (Wiener, Ashby), MAPE-K (IBM Research), Adaptive Systems (Santa Fe Institute), and Learning Organizations (Peter Senge).
 
-Open [`research/asf-dashboard.html`](research/asf-dashboard.html) locally — no server needed.
+See [`docs/theoretical-foundations.md`](docs/theoretical-foundations.md)
 
 ---
 
@@ -169,22 +121,11 @@ Open [`research/asf-dashboard.html`](research/asf-dashboard.html) locally — no
 
 | Version | Scope | Status |
 |---|---|---|
-| v0.1 | Research framework, 100-case dataset | ✅ Done |
+| v0.1 | Research, 100-case dataset | ✅ Done |
 | v0.2 | Python engine, CLI, batch analyzer | ✅ Done |
-| v0.3 | Document analyzer — upload any doc, ASF generates analysis | ✅ Done |
-| v0.4 | REST API + web dashboard | Planned |
-| v1.0 | ASF Copilot — analyze any system automatically | Future |
-
----
-
-## About
-
-**Hemanth Kumar Dannaboyina**
-Forward-Deployed AI Infrastructure & Platform Engineer
-AT&T · Procter & Gamble · Cisco · Spirion
-Azure Solutions Architect Expert (AZ-305) · Azure AI Engineer (AI-102) · CKA · Six Sigma Green Belt
-
-[hemanth1917@icloud.com](mailto:hemanth1917@icloud.com)
+| v0.3 | Document analyzer, governance scorer | ✅ Done |
+| v0.4 | REST API + web interface | Planned |
+| v1.0 | ASF Copilot — upload doc, get full report | Future |
 
 ---
 
@@ -192,17 +133,10 @@ Azure Solutions Architect Expert (AZ-305) · Azure AI Engineer (AI-102) · CKA �
 
 Copyright © 2026 Hemanth Kumar Dannaboyina. All rights reserved.
 
-The Adaptive Systems Framework (ASF) — including the theoretical model, scoring methodology, formula definitions, dataset, and all associated documentation — is original research and intellectual property of the author.
-
-**Research and personal use:** You may read, reference, and cite this work with attribution.
-
-**Commercial use:** Contact the author before using ASF methodology, scoring models, or datasets in commercial products or services.
-
-**Attribution:** If you reference ASF in research, presentations, or publications, please cite:
-
+Attribution for research use:
 ```
 Dannaboyina, H.K. (2026). Adaptive Systems Framework (ASF).
 GitHub: https://github.com/hdannabo/adaptive-systems-framework
 ```
 
-[hemanth1917@icloud.com](mailto:hemanth1917@icloud.com)
+[hemanth1917@icloud.com](mailto:hemanth1917@icloud.com) · AT&T · Procter & Gamble · Cisco · AZ-305 · AI-102 · CKA
