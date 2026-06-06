@@ -81,6 +81,17 @@ See [`docs/llm-adaptation.md`](docs/llm-adaptation.md) for full analysis.
 
 ---
 
+
+## ASF Token Governance Scorer
+
+The fastest way to use ASF — a single-page tool that:
+
+1. **Scores your AI program** — enter spend, users, adoption, hours saved → get a 0–100 governance score, primary bottleneck, and P0/P1/P2 interventions
+2. **Compares models** — click any model to see full ASF token efficiency profile
+3. **Analyzes documents** — paste an annual report or postmortem → ASF scans for adaptation signals and generates a diagnosis
+
+Open `dashboard/token-governance.html` locally — no server, no API keys needed.
+
 ## Quickstart
 
 ```bash
