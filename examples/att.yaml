@@ -1,0 +1,15 @@
+system_name: AT&T
+domain: Telecom & Networks
+system_type: Telecom Operator
+adaptation_scenario: AI-native network operations
+
+input_event: Network complexity and AI operations demand
+adaptation_requirement: Autonomous incident response and network intelligence
+current_operating_state: Traditional telecom operations with fragmented tooling
+
+observation_latency: 3
+decision_latency: 4
+execution_latency: 5
+feedback_delay: 4
+learning_velocity: 3
+dependency_index: 5
