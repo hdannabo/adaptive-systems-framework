@@ -131,25 +131,85 @@ def recommend(
 
 
 def summarize(input: AnalysisInput, scores: LayerScores) -> str:
+    """
+    Produce a CEO-grade summary.
+
+    Simon's standard:
+      BAD:  "HIGH risk system. Adaptation latency score 4.0/5.0."
+      GOOD: "This program is likely to miss its target by 18 months
+             because Execution Latency is the critical bottleneck."
+    """
     risk = scores.risk_band.value
     score = scores.adaptation_latency_score
     bottleneck = _bottleneck(scores)
     friction = _primary_friction(scores)
     label = _DIMENSION_MAP[bottleneck]["label"]
 
-    lines = [
-        f"{input.system_name} is a {risk.upper()} risk system with an adaptation latency score of {score}/5.0.",
-        f"Primary bottleneck: {label} — driven by {friction}.",
-    ]
-
-    if scores.risk_band == RiskBand.HIGH:
-        lines.append("Immediate systemic intervention required to reduce adaptation latency.")
-    elif scores.risk_band == RiskBand.MEDIUM:
-        lines.append("Targeted interventions recommended. Monitor adaptation rate quarterly.")
+    # Estimate miss timeline from score
+    # ALS 3.5–4.0 → ~12–18 months behind
+    # ALS 4.0–4.5 → ~18–24 months behind
+    # ALS 4.5–5.0 → 24+ months behind
+    # ALS 2.5–3.5 → 6–12 months at risk
+    if score >= 4.5:
+        delay = "likely to miss its target by 24 months or more"
+        urgency = "Fundamental restructuring required before further investment."
+    elif score >= 4.0:
+        delay = "at risk of missing its target by 18–24 months"
+        urgency = "Immediate executive intervention required."
+    elif score >= 3.5:
+        delay = "at risk of missing its target by 12–18 months"
+        urgency = "Targeted intervention required this quarter."
+    elif score >= 3.0:
+        delay = "at risk of missing its target by 6–12 months"
+        urgency = "Address the primary bottleneck within 90 days."
+    elif score >= 2.5:
+        delay = "slightly behind the required adaptation velocity"
+        urgency = "Monitor and address friction before it compounds."
     else:
-        lines.append("System is adapting well. Maintain current trajectory and learning velocity.")
+        delay = "adapting at or above the required velocity"
+        urgency = "Maintain current trajectory."
 
-    return " ".join(lines)
+    # What executives don't know — the non-obvious insight
+    friction_insight = {
+        "execution_latency": (
+            f"The constraint is not capability or budget — "
+            f"it is the speed of implementation. "
+            f"Manual dependencies and legacy systems are consuming adaptation time "
+            f"that cannot be recovered."
+        ),
+        "decision_latency": (
+            f"The constraint is governance, not execution. "
+            f"Approval cycles and ownership ambiguity are adding weeks to every decision. "
+            f"The organization can build faster than it can decide."
+        ),
+        "feedback_delay": (
+            f"The constraint is measurement, not implementation. "
+            f"Without real-time outcome visibility, the organization is making "
+            f"decisions without knowing whether previous decisions worked."
+        ),
+        "observation_latency": (
+            f"The constraint is signal detection, not response. "
+            f"By the time problems are visible, the adaptation window has narrowed."
+        ),
+        "dependency_index": (
+            f"The constraint is coordination overhead. "
+            f"Every change requires too many approvals and handoffs. "
+            f"Each dependency multiplies delay."
+        ),
+        "learning_velocity": (
+            f"The constraint is organizational learning. "
+            f"The same friction patterns are recurring without structural improvement."
+        ),
+    }
+
+    insight = friction_insight.get(bottleneck, "")
+
+    return (
+        f"This {input.system_type or 'program'} is {delay} "
+        f"because {label} is the critical bottleneck. "
+        f"{insight} "
+        f"{urgency}"
+    )
 
 
 def bottleneck_dimension(scores: LayerScores) -> str:
