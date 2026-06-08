@@ -111,6 +111,21 @@ def recommend(
             break
 
     interventions.sort(key=lambda x: (x.priority, -x.expected_reduction_weeks))
+
+    # Always return at least one intervention
+    if not interventions:
+        worst = sorted(dims.items(), key=lambda x: -x[1])[0][0]
+        entry = _DIMENSION_MAP[worst]
+        for action, priority, effort in entry["actions"][:1]:
+            interventions.append(Intervention(
+                priority=priority,
+                action=action,
+                target_dimension=entry["label"],
+                friction_type=entry["friction"],
+                expected_reduction_weeks=max(1, int(dims[worst] * 1.5)),
+                effort=effort,
+            ))
+
     return interventions[:top_n]
 
 
