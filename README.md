@@ -55,14 +55,15 @@ All dashboards are standalone HTML — open directly in any browser. No server n
 ## Dashboards
 
 All dashboards open locally in any browser — no server needed.
+GitHub Pages: **https://hdannabo.github.io/adaptive-systems-framework/**
 
-| Dashboard | What it shows | Screenshot |
-|---|---|---|
-| [`dashboard/token-governance.html`](dashboard/token-governance.html) | Score your AI program — enter spend, users, adoption → governance score + interventions | ![](screenshots/06-token-governance-scorer.png) |
-| [`dashboard/enterprise-benchmark.html`](dashboard/enterprise-benchmark.html) | NVIDIA, Datadog, Adobe, AT&T, Meta — scored from public data | ![](screenshots/07-enterprise-nvidia.png) |
-| [`dashboard/manufacturing-benchmark.html`](dashboard/manufacturing-benchmark.html) | Toyota, Foxconn, Siemens, BYD, Boeing — global manufacturing adaptation | ![](screenshots/04-manufacturing-toyota.png) |
-| [`dashboard/token-economics.html`](dashboard/token-economics.html) | 22 AI models scored — click any model for full ASF token efficiency output | ![](screenshots/09-token-economics-full.png) |
-| [`research/asf-dashboard.html`](research/asf-dashboard.html) | 100 cases across 10 domains — filterable by domain and risk band | ![](screenshots/02-100cases-dashboard.png) |
+| Dashboard | What it shows |
+|---|---|
+| [`dashboard/token-governance.html`](dashboard/token-governance.html) | Score your AI program — enter spend, users, adoption → governance score + P0/P1/P2 interventions |
+| [`dashboard/enterprise-benchmark.html`](dashboard/enterprise-benchmark.html) | NVIDIA, Datadog, Adobe, AT&T, Meta — scored from public data |
+| [`dashboard/manufacturing-benchmark.html`](dashboard/manufacturing-benchmark.html) | Toyota, Foxconn, Siemens, BYD, Boeing — global manufacturing adaptation |
+| [`dashboard/token-economics.html`](dashboard/token-economics.html) | 22 AI models scored — click any model for full ASF token efficiency output |
+| [`research/asf-dashboard.html`](research/asf-dashboard.html) | 100 cases across 10 domains — filterable by domain and risk band |
 
 ## The core finding
 
