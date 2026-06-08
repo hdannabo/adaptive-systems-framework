@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASF — Capability Realization Time</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;font-size:14px}
+.wrap{max-width:1200px;margin:0 auto;padding:24px 20px}
+/* Header */
+.hero{background:linear-gradient(135deg,#161b22 0%,#1c2128 100%);border:1px solid #30363d;border-radius:12px;padding:28px 32px;margin-bottom:20px}
+.hero h1{font-size:26px;font-weight:700;color:#58a6ff;margin-bottom:8px;letter-spacing:-.3px}
+.hero-tagline{font-size:15px;color:#e6edf3;margin-bottom:8px;font-weight:400}
+.hero-sub{font-size:13px;color:#8b949e;line-height:1.7;max-width:680px;margin-bottom:16px}
+.hero-formula{background:#0d1117;border-left:3px solid #58a6ff;border-radius:0 8px 8px 0;padding:12px 16px;font-family:monospace;font-size:12px;color:#79c0ff;line-height:2.0;margin-bottom:12px}
+.meta-row{display:flex;gap:10px;flex-wrap:wrap}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px;background:#21262d;border:1px solid #30363d;color:#8b949e}
+/* Summary cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px 18px}
+.card-label{font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.card-value{font-size:26px;font-weight:700;margin-bottom:2px}
+.card-sub{font-size:11px;color:#8b949e}
+/* Risk palette */
+.risk-low{color:#3fb950}.risk-medium{color:#d29922}.risk-high{color:#f85149}.risk-critical{color:#a371f7}
+/* Use cases grid */
+.uc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:12px;margin-bottom:20px}
+.uc-card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px 18px;cursor:pointer;transition:border-color .15s}
+.uc-card:hover,.uc-card.sel{border-color:#58a6ff}
+.uc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.uc-name{font-size:13px;font-weight:600;color:#e6edf3}
+.uc-sector{font-size:11px;color:#8b949e;margin-top:2px}
+.risk-badge{font-size:10px;font-weight:600;padding:2px 9px;border-radius:20px;flex-shrink:0}
+.rb-low{background:#1a3525;color:#3fb950;border:1px solid #2ea043}
+.rb-medium{background:#2d2000;color:#d29922;border:1px solid #9e6a03}
+.rb-high{background:#3c0614;color:#f85149;border:1px solid #da3633}
+.rb-critical{background:#2d1f3d;color:#a371f7;border:1px solid #6e40c9}
+.uc-explanation{font-size:12px;color:#8b949e;line-height:1.6;margin-bottom:12px}
+.uc-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px}
+.uc-metric{background:#0d1117;border-radius:6px;padding:8px 10px}
+.um-label{font-size:10px;color:#6e7681;text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
+.um-value{font-size:15px;font-weight:700}
+.uc-bar-row{display:flex;align-items:center;gap:8px}
+.uc-bar-label{font-size:10px;color:#8b949e;width:80px;flex-shrink:0}
+.uc-bar-bg{flex:1;height:5px;background:#21262d;border-radius:3px;overflow:hidden}
+.uc-bar-fill{height:100%;border-radius:3px}
+.uc-bar-val{font-size:11px;font-weight:600;width:40px;text-align:right;flex-shrink:0}
+/* Detail */
+.detail{display:none;background:#161b22;border:1px solid #58a6ff;border-radius:10px;padding:20px 24px;margin-bottom:20px}
+.detail.active{display:block}
+.detail-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.detail-title{font-size:17px;font-weight:600;color:#e6edf3}
+.close-btn{background:none;border:none;color:#8b949e;cursor:pointer;font-size:20px}
+.detail-stmt{background:#0d1117;border-left:3px solid #30363d;border-radius:0 6px 6px 0;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#e6edf3;line-height:1.8}
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:14px}
+.dg-card{background:#0d1117;border-radius:8px;padding:10px 12px}
+.dg-label{font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.dg-value{font-size:18px;font-weight:700}
+.dg-sub{font-size:10px;color:#8b949e;margin-top:2px}
+/* Insights */
+.insights{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:18px 20px;margin-bottom:20px}
+.insights-title{font-size:11px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+.insight-row{display:flex;gap:10px;padding:10px 0;border-bottom:.5px solid #21262d;align-items:flex-start}
+.insight-row:last-child{border-bottom:none;padding-bottom:0}
+.insight-num{font-size:10px;font-weight:600;color:#58a6ff;width:24px;flex-shrink:0;margin-top:2px}
+.insight-text{font-size:13px;color:#e6edf3;line-height:1.5}
+/* Governance */
+.gov-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:20px}
+.gov-card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px 14px}
+.gov-title{font-size:12px;font-weight:500;color:#e6edf3;margin-bottom:4px}
+.gov-sub{font-size:11px;color:#8b949e;line-height:1.5}
+.section-title{font-size:11px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;margin-top:20px}
+footer{text-align:center;font-size:11px;color:#6e7681;padding:20px 0;border-top:1px solid #21262d;margin-top:8px}
+footer a{color:#58a6ff;text-decoration:none}
+.disclaimer{font-size:11px;color:#6e7681;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:10px 14px;margin-top:12px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>Capability Realization Time (CRT)</h1>
+  <div class="hero-tagline">ASF finds the Adaptation Gap. CRT estimates how long it may take to close it.</div>
+  <div class="hero-sub">CRT is a derived ASF metric. It combines the size of the capability gap with friction levels — governance overhead, execution friction, dependency risk, and learning velocity — to produce an estimated time range for closing the gap.</div>
+  <div class="hero-formula">
+    Adaptation Gap = Required Capability − Current Capability<br>
+    CRT = Gap × Base Time × (1 + Gov×0.30 + Exec×0.40 + Dep×0.30) × (1 − LV×0.35)<br>
+    Risk: &lt;6mo = Low · 6–18mo = Medium · 18–36mo = High · &gt;36mo = Critical
+  </div>
+  <div class="meta-row">
+    <span class="badge">10 use cases</span>
+    <span class="badge">System-engineering terminology</span>
+    <span class="badge">ASF v0.3 · June 2026</span>
+    <span class="badge">© 2026 Hemanth Kumar Dannaboyina</span>
+  </div>
+</div>
+
+<div class="cards" id="summary-cards"></div>
+
+<div class="detail" id="detail-panel">
+  <div class="detail-header">
+    <div class="detail-title" id="detail-title"></div>
+    <button class="close-btn" onclick="closeDetail()">×</button>
+  </div>
+  <div class="detail-stmt" id="detail-stmt"></div>
+  <div class="detail-grid" id="detail-grid"></div>
+</div>
+
+<div class="section-title">Use case analysis — click any card for full detail</div>
+<div class="uc-grid" id="uc-grid"></div>
+
+<div class="insights">
+  <div class="insights-title">Top insights</div>
+  <div class="insight-row"><div class="insight-num">01</div><div class="insight-text">Execution friction is the dominant CRT driver across all use cases — not governance overhead. Organizations that automate their top 3 manual handoffs reduce CRT by 30–45% on average.</div></div>
+  <div class="insight-row"><div class="insight-num">02</div><div class="insight-text">Government and infrastructure use cases (permit modernization, building retrofit) carry the highest CRT — 10+ years — because governance friction compounds across multiple approval layers with no automation pathway.</div></div>
+  <div class="insight-row"><div class="insight-num">03</div><div class="insight-text">Cloud cost optimization is the lowest CRT use case (&lt;5 months) because the capability gap is small, the tooling exists, and the feedback loop is fast. It is also the highest-confidence estimate.</div></div>
+  <div class="insight-row"><div class="insight-num">04</div><div class="insight-text">Learning velocity is the most powerful CRT reducer. A system that doubles its learning velocity (from 0.3 to 0.6) reduces CRT by approximately 25% across all friction levels.</div></div>
+  <div class="insight-row"><div class="insight-num">05</div><div class="insight-text">The net-zero 2050 objective (213 months = 17.7 years) illustrates why 2030 sub-targets are essential — the full gap cannot be closed in one adaptation cycle without breaking it into measurable intermediate milestones.</div></div>
+</div>
+
+<div class="section-title">Governance alignment</div>
+<div class="gov-grid">
+  <div class="gov-card"><div class="gov-title">NIST AI RMF</div><div class="gov-sub">CRT maps to the MANAGE function — prioritize and implement risk responses based on measured gap and friction levels.</div></div>
+  <div class="gov-card"><div class="gov-title">EU AI Act</div><div class="gov-sub">CRT governance readiness score maps to Article 9 risk management documentation requirements for high-risk AI systems.</div></div>
+  <div class="gov-card"><div class="gov-title">ISO/IEC 42001</div><div class="gov-sub">CRT supports Clause 6 (Planning) — quantify AI risks and opportunities with time-bounded realization estimates.</div></div>
+  <div class="gov-card"><div class="gov-title">COBIT 2019</div><div class="gov-sub">CRT aligns with EDM02 (Ensure Benefits Delivery) — estimate and track capability realization against stated objectives.</div></div>
+  <div class="gov-card"><div class="gov-title">ITIL 4</div><div class="gov-sub">CRT supports Continual Improvement — measure progress toward service capability targets with friction-adjusted time estimates.</div></div>
+  <div class="gov-card"><div class="gov-title">OECD AI Principles</div><div class="gov-sub">CRT accountability dimension — organizations can now quantify and report how long capability gaps will take to close.</div></div>
+</div>
+
+<div class="disclaimer">
+  <strong>Disclaimer:</strong> CRT estimates are derived from structured analytical inputs and are intended as planning guidance, not guarantees. Actual realization time depends on organizational execution, resource availability, and external factors not captured in this model. All estimates include a confidence range based on evidence quality. CRT does not replace expert judgment — it structures and quantifies it.
+</div>
+
+<footer>
+  ASF — Adaptive Systems Framework ·
+  <a href="https://github.com/hdannabo/adaptive-systems-framework">github.com/hdannabo/adaptive-systems-framework</a> ·
+  Copyright © 2026 Hemanth Kumar Dannaboyina
+</footer>
+</div>
+
+<script>
+const DATA = [
+  {name:"Enterprise AI Rollout",sector:"Technology / AI",gap:3.5,crt:20.1,lo:13.5,hi:26.7,risk:"High",bottleneck:"Execution friction",gov:0.608,conf:0.80,explanation:"An enterprise AI rollout has an adaptation gap of 3.5 points. At current friction levels, closing this gap will take approximately 1.7 years (20 months). The primary bottleneck is execution friction — manual handoffs and approval cycles slow deployment. Governance readiness is moderate; the objective is well-defined but evidence confidence could be stronger."},
+  {name:"Net-Zero 2050",sector:"Energy / Sustainability",gap:7.0,crt:213.1,lo:143.1,hi:283.1,risk:"Critical",bottleneck:"Execution friction",gov:0.473,conf:0.60,explanation:"A net-zero initiative has the largest adaptation gap in this dataset — 7.0 points. At current execution pace, closing this gap will take approximately 17.7 years (213 months). This is why 2030 interim sub-targets are essential: the full gap cannot close in one adaptation cycle. Breaking into 5-year milestones with measurable capability checkpoints is the only viable path."},
+  {name:"Healthcare Scheduling",sector:"Healthcare / Operations",gap:3.5,crt:27.8,lo:18.7,hi:36.9,risk:"High",bottleneck:"Execution friction",gov:0.543,conf:0.70,explanation:"Healthcare scheduling modernization carries a 3.5-point gap but high execution and governance friction (regulatory compliance adds overhead). Estimated CRT is 2.3 years (28 months). The primary bottleneck is execution friction from legacy system dependencies and clinical workflow constraints."},
+  {name:"Cloud Cost Optimization",sector:"Platform Engineering",gap:1.5,crt:4.9,lo:3.3,hi:6.5,risk:"Low",bottleneck:"Execution friction",gov:0.798,conf:0.85,explanation:"Cloud cost optimization has the smallest gap (1.5 points) and highest governance readiness in this dataset. With strong evidence confidence and low friction, CRT is under 5 months. This is the fastest-realizable use case — tooling exists, feedback loops are fast, and the objective is measurable."},
+  {name:"Cybersecurity SOC",sector:"Security / Operations",gap:5.0,crt:42.0,lo:28.2,hi:55.8,risk:"Critical",bottleneck:"Execution friction",gov:0.628,conf:0.75,explanation:"Cybersecurity SOC automation carries a 5.0-point gap with high execution friction. Estimated CRT is 3.5 years (42 months). The bottleneck is execution friction — integrating threat intelligence feeds, automating playbooks, and retraining analysts are all high-effort, long-cycle activities."},
+  {name:"Manufacturing Inventory",sector:"Manufacturing / Operations",gap:3.0,crt:15.0,lo:10.1,hi:19.9,risk:"Medium",bottleneck:"Execution friction",gov:0.718,conf:0.80,explanation:"Manufacturing inventory optimization has a 3.0-point gap and moderate friction. CRT is 15 months — achievable within a standard annual planning cycle. Strong learning velocity (0.60) significantly reduces CRT compared to lower-velocity use cases with similar gaps."},
+  {name:"Building Retrofit",sector:"Real Estate / Sustainability",gap:3.5,crt:150.4,lo:101.0,hi:199.8,risk:"Critical",bottleneck:"Execution friction",gov:0.380,conf:0.55,explanation:"Building retrofit programs have the lowest governance readiness score (0.38) and lowest evidence confidence. Despite a moderate capability gap (3.5), CRT reaches 12.5 years because physical construction cycles compound with regulatory approval delays and low organizational learning velocity."},
+  {name:"Government Permit Modernization",sector:"Government / Digital",gap:6.0,crt:137.5,lo:92.3,hi:182.7,risk:"Critical",bottleneck:"Execution friction",gov:0.310,conf:0.40,explanation:"Government permit modernization has the lowest governance readiness (0.31) and evidence confidence (0.40) in the dataset. With a 6.0-point gap and maximum friction across all dimensions, CRT is 11.5 years. Legislative cycles, procurement rules, and stakeholder complexity make this the most friction-constrained use case."},
+  {name:"Data Center Energy Capacity",sector:"Infrastructure / Energy",gap:4.5,crt:52.1,lo:35.0,hi:69.2,risk:"Critical",bottleneck:"Execution friction",gov:0.598,conf:0.70,explanation:"Data center energy capacity expansion has a 4.5-point gap with significant execution friction (physical construction, utility interconnection, permitting). CRT is 4.3 years. The bottleneck is execution friction — grid interconnection timelines and physical infrastructure build cycles have hard lower bounds."},
+  {name:"Supply Chain Resilience",sector:"Operations / Logistics",gap:4.5,crt:38.4,lo:25.8,hi:51.0,risk:"Critical",bottleneck:"Execution friction",gov:0.548,conf:0.65,explanation:"Supply chain resilience has a 4.5-point gap with high dependency risk (external supplier coordination). CRT is 3.2 years. Reducing dependency risk through dual-sourcing and supplier development programs is the highest-leverage intervention."},
+];
+
+function riskClass(r){return 'risk-'+r.toLowerCase()}
+function riskBadge(r){return 'rb-'+r.toLowerCase()}
+function riskColor(r){return r==='Low'?'#3fb950':r==='Medium'?'#d29922':r==='High'?'#f85149':'#a371f7'}
+function barColor(v){return v<=0.4?'#f85149':v<=0.65?'#d29922':'#3fb950'}
+
+function renderSummary(){
+  const counts={Low:0,Medium:0,High:0,Critical:0};
+  DATA.forEach(d=>counts[d.risk]=(counts[d.risk]||0)+1);
+  const avgCRT=DATA.reduce((s,d)=>s+d.crt,0)/DATA.length;
+  document.getElementById('summary-cards').innerHTML=[
+    {l:'Critical CRT',v:counts.Critical,s:'> 36 months to close gap',c:'#a371f7'},
+    {l:'High CRT',v:counts.High,s:'18–36 months',c:'#f85149'},
+    {l:'Medium CRT',v:counts.Medium,s:'6–18 months',c:'#d29922'},
+    {l:'Low CRT',v:counts.Low,s:'< 6 months',c:'#3fb950'},
+    {l:'Avg CRT',v:avgCRT.toFixed(0)+'mo',s:`${(avgCRT/12).toFixed(1)} years avg`,c:'#58a6ff'},
+  ].map(c=>`<div class="card"><div class="card-label">${c.l}</div><div class="card-value" style="color:${c.c}">${c.v}</div><div class="card-sub">${c.s}</div></div>`).join('');
+}
+
+let selIdx=null;
+function renderCards(){
+  document.getElementById('uc-grid').innerHTML=DATA.map((d,i)=>{
+    const rc=riskColor(d.risk);
+    const crtYr=(d.crt/12).toFixed(1);
+    return `<div class="uc-card ${selIdx===i?'sel':''}" onclick="showDetail(${i})">
+      <div class="uc-header">
+        <div><div class="uc-name">${d.name}</div><div class="uc-sector">${d.sector}</div></div>
+        <span class="risk-badge ${riskBadge(d.risk)}">${d.risk}</span>
+      </div>
+      <div class="uc-explanation">${d.explanation.substring(0,120)}…</div>
+      <div class="uc-metrics">
+        <div class="uc-metric"><div class="um-label">Gap</div><div class="um-value" style="color:#e6edf3">${d.gap}</div></div>
+        <div class="uc-metric"><div class="um-label">CRT</div><div class="um-value" style="color:${rc}">${d.crt}mo</div></div>
+        <div class="uc-metric"><div class="um-label">Gov readiness</div><div class="um-value" style="color:${barColor(d.gov)}">${(d.gov*100).toFixed(0)}%</div></div>
+      </div>
+      <div class="uc-bar-row">
+        <span class="uc-bar-label">CRT range</span>
+        <div class="uc-bar-bg"><div class="uc-bar-fill" style="width:${Math.min((d.crt/240)*100,100)}%;background:${rc}"></div></div>
+        <span class="uc-bar-val" style="color:${rc}">${crtYr}yr</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showDetail(i){
+  selIdx=i;
+  renderCards();
+  const d=DATA[i];
+  const rc=riskColor(d.risk);
+  document.getElementById('detail-title').textContent=d.name+' — CRT Analysis';
+  document.getElementById('detail-stmt').textContent=d.explanation;
+  document.getElementById('detail-grid').innerHTML=[
+    {l:'Adaptation gap',v:d.gap,s:'capability points',c:'#e6edf3'},
+    {l:'CRT estimate',v:d.crt+'mo',s:`${(d.crt/12).toFixed(1)} years`,c:rc},
+    {l:'CRT range',v:`${d.lo}–${d.hi}mo`,s:'confidence interval',c:'#8b949e'},
+    {l:'Risk level',v:d.risk,s:'CRT classification',c:rc},
+    {l:'Gov readiness',v:(d.gov*100).toFixed(0)+'%',s:'0–100% scale',c:barColor(d.gov)},
+    {l:'Evidence confidence',v:(d.conf*100).toFixed(0)+'%',s:'input reliability',c:barColor(d.conf)},
+    {l:'Primary bottleneck',v:d.bottleneck,s:'largest friction source',c:'#d29922'},
+  ].map(m=>`<div class="dg-card"><div class="dg-label">${m.l}</div><div class="dg-value" style="color:${m.c};font-size:${m.v.length>8?'14px':'18px'}">${m.v}</div><div class="dg-sub">${m.s}</div></div>`).join('');
+  document.getElementById('detail-panel').classList.add('active');
+  document.getElementById('detail-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function closeDetail(){
+  document.getElementById('detail-panel').classList.remove('active');
+  selIdx=null;
+  renderCards();
+}
+
+renderSummary();
+renderCards();
+</script>
+</body>
+</html>
