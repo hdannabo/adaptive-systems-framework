@@ -15,6 +15,7 @@ import csv
 import json
 import sys
 from pathlib import Path
+from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
@@ -23,7 +24,9 @@ from src.asf import analyze, AnalysisInput
 RESET = "\033[0m"; BOLD = "\033[1m"; DIM = "\033[2m"
 RED = "\033[91m"; YELLOW = "\033[93m"; GREEN = "\033[92m"; CYAN = "\033[96m"
 
-def load_dataset(path="/home/claude/adaptive-systems-framework/research/asf_100_cases.csv"):
+def load_dataset(path=None):
+    if path is None:
+        path = str(Path(__file__).parent / "research" / "asf_100_cases.csv")
     cases = []
     with open(path) as f:
         for row in csv.DictReader(f):
