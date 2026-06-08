@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASF — Will Top 50 MNCs Hit Their 2030 Goals?</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;font-size:14px;min-height:100vh}
+.wrap{max-width:1440px;margin:0 auto;padding:24px 20px}
+
+/* Header */
+.header{background:linear-gradient(135deg,#161b22 0%,#1c2128 100%);border:1px solid #30363d;border-radius:12px;padding:28px 32px;margin-bottom:24px}
+.header h1{font-size:26px;font-weight:700;color:#e6edf3;margin-bottom:8px;letter-spacing:-0.3px}
+.header-sub{font-size:14px;color:#8b949e;line-height:1.7;max-width:720px;margin-bottom:16px}
+.header-meta{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.meta-badge{font-size:11px;padding:4px 12px;border-radius:20px;background:#21262d;border:1px solid #30363d;color:#8b949e}
+.meta-badge strong{color:#e6edf3}
+
+/* Verdict box */
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:24px}
+.v-card{border-radius:10px;padding:20px 22px;text-align:center}
+.v-card.miss{background:#3c0614;border:1px solid #da3633}
+.v-card.risk{background:#2d2000;border:1px solid #9e6a03}
+.v-card.track{background:#1a3525;border:1px solid #2ea043}
+.v-card.drift{background:#1a2d3d;border:1px solid #1f6feb}
+.v-num{font-size:42px;font-weight:700;margin-bottom:4px}
+.v-miss .v-num,.v-card.miss .v-num{color:#f85149}
+.v-card.risk .v-num{color:#d29922}
+.v-card.track .v-num{color:#3fb950}
+.v-card.drift .v-num{color:#58a6ff}
+.v-label{font-size:13px;font-weight:500;margin-bottom:4px}
+.v-card.miss .v-label{color:#f85149}
+.v-card.risk .v-label{color:#d29922}
+.v-card.track .v-label{color:#3fb950}
+.v-card.drift .v-label{color:#58a6ff}
+.v-sub{font-size:11px;color:#8b949e;line-height:1.5}
+
+/* The core insight */
+.insight{background:#161b22;border:1px solid #30363d;border-left:3px solid #58a6ff;border-radius:0 10px 10px 0;padding:16px 20px;margin-bottom:24px;font-size:14px;color:#e6edf3;line-height:1.8}
+.insight strong{color:#58a6ff}
+
+/* Filters */
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;padding:14px 16px;background:#161b22;border:1px solid #30363d;border-radius:10px;align-items:center}
+.filters label{font-size:11px;color:#8b949e;text-transform:uppercase;letter-spacing:.4px}
+select{padding:6px 10px;border:1px solid #30363d;border-radius:6px;background:#21262d;color:#e6edf3;font-size:12px;cursor:pointer;outline:none}
+select:focus{border-color:#58a6ff}
+.count-badge{font-size:12px;color:#8b949e;margin-left:auto}
+
+/* Company cards */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;margin-bottom:24px}
+.c-card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px 18px;cursor:pointer;transition:border-color .15s,transform .1s}
+.c-card:hover{border-color:#58a6ff;transform:translateY(-1px)}
+.c-card.selected{border-color:#e6edf3;border-width:2px}
+.c-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.c-name{font-size:14px;font-weight:600;color:#e6edf3}
+.c-sector{font-size:11px;color:#8b949e;margin-top:2px}
+.status-badge{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-left:8px}
+.sb-miss{background:#3c0614;color:#f85149;border:1px solid #da3633}
+.sb-risk{background:#2d2000;color:#d29922;border:1px solid #9e6a03}
+.sb-track{background:#1a3525;color:#3fb950;border:1px solid #2ea043}
+.sb-drift{background:#1a2d3d;color:#58a6ff;border:1px solid #1f6feb}
+.sb-aggressive{background:#2d1f3d;color:#a371f7;border:1px solid #6e40c9}
+
+.c-objective{font-size:11px;color:#8b949e;margin-bottom:12px;line-height:1.5}
+.c-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.c-metric{background:#0d1117;border-radius:6px;padding:8px 10px}
+.c-metric-label{font-size:10px;color:#6e7681;text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px}
+.c-metric-value{font-size:15px;font-weight:700;color:#e6edf3}
+.c-metric-sub{font-size:10px;color:#8b949e;margin-top:1px}
+
+.c-asf-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.c-asf-bar-bg{flex:1;height:6px;background:#21262d;border-radius:3px;overflow:hidden}
+.c-asf-bar{height:100%;border-radius:3px}
+.c-asf-score{font-size:13px;font-weight:700;min-width:36px;text-align:right}
+.c-asf-label{font-size:10px;color:#8b949e;min-width:70px}
+
+.c-bottleneck{font-size:11px;color:#8b949e;margin-bottom:8px}
+.c-bottleneck strong{color:#d29922}
+.c-evidence{font-size:11px;color:#6e7681;line-height:1.5;border-top:1px solid #21262d;padding-top:8px;margin-top:4px}
+
+/* Detail panel */
+.detail-panel{display:none;background:#161b22;border:1px solid #58a6ff;border-radius:10px;padding:24px;margin-bottom:24px}
+.detail-panel.active{display:block}
+.dp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.dp-title{font-size:18px;font-weight:600;color:#e6edf3}
+.dp-close{background:none;border:none;color:#8b949e;cursor:pointer;font-size:20px;padding:0 4px}
+.dp-close:hover{color:#e6edf3}
+.dp-statement{background:#0d1117;border-left:3px solid #30363d;border-radius:0 6px 6px 0;padding:14px 16px;margin-bottom:16px;font-size:13px;color:#e6edf3;line-height:1.8}
+.dp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px}
+.dp-metric{background:#0d1117;border-radius:8px;padding:12px 14px}
+.dp-m-label{font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.dp-m-value{font-size:20px;font-weight:700;color:#e6edf3}
+.dp-m-sub{font-size:11px;color:#8b949e;margin-top:2px}
+.dp-dims{margin-bottom:16px}
+.dp-dim-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.dp-dim-label{font-size:12px;color:#8b949e;width:140px;flex-shrink:0}
+.dp-dim-track{flex:1;height:5px;background:#21262d;border-radius:3px;overflow:hidden}
+.dp-dim-fill{height:100%;border-radius:3px}
+.dp-dim-val{font-size:12px;font-weight:600;width:28px;text-align:right;flex-shrink:0}
+.dp-dim-note{font-size:11px;color:#6e7681;width:160px;flex-shrink:0}
+.dp-intervention{padding:10px 12px;border:1px solid #21262d;border-radius:8px;margin-bottom:6px;display:flex;gap:8px}
+.int-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:6px;flex-shrink:0;height:fit-content;margin-top:2px}
+.p0{background:#3c0614;color:#f85149}
+.int-text{font-size:12px;color:#e6edf3;line-height:1.5}
+
+/* Summary table */
+.table-wrap{background:#161b22;border:1px solid #30363d;border-radius:10px;overflow:hidden;margin-bottom:24px}
+.table-header-bar{padding:14px 20px;border-bottom:1px solid #30363d;display:flex;justify-content:space-between;align-items:center}
+.table-header-bar h3{font-size:12px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.5px}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead th{text-align:left;padding:9px 12px;border-bottom:1px solid #30363d;color:#8b949e;font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap;cursor:pointer}
+thead th:hover{color:#e6edf3}
+tbody td{padding:9px 12px;border-bottom:1px solid #21262d;white-space:nowrap}
+tbody tr:hover{background:#1c2128;cursor:pointer}
+tbody tr.selected{background:#1a2d3d}
+
+/* Progress bar in table */
+.prog{display:flex;align-items:center;gap:6px}
+.prog-bg{width:50px;height:5px;background:#21262d;border-radius:3px;overflow:hidden;flex-shrink:0}
+.prog-fill{height:100%;border-radius:3px}
+
+footer{text-align:center;font-size:11px;color:#6e7681;padding:20px 0;border-top:1px solid #21262d;margin-top:8px}
+
+.green{color:#3fb950}.yellow{color:#d29922}.red{color:#f85149}.blue{color:#58a6ff}.purple{color:#a371f7}
+@media(max-width:700px){.cards-grid{grid-template-columns:1fr}.verdict{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="header">
+  <h1>Will the Top 50 MNCs Hit Their 2030 Goals?</h1>
+  <div class="header-sub">ASF (Adaptive Systems Framework) analyzed 49 of the world's largest companies against their publicly declared 2030 strategic objectives. For each company, ASF scores adaptation efficiency across six dimensions — how fast they detect change, decide, execute, receive feedback, learn, and reduce dependency — then predicts whether current adaptation velocity can close the gap to their 2030 target in time.</div>
+  <div class="header-meta">
+    <span class="meta-badge"><strong>49</strong> companies</span>
+    <span class="meta-badge"><strong>12</strong> sectors</span>
+    <span class="meta-badge"><strong>Public data only</strong> — SEC filings, annual reports, press releases</span>
+    <span class="meta-badge"><strong>ASF v0.3</strong> — June 2026</span>
+    <span class="meta-badge">© 2026 Hemanth Kumar Dannaboyina</span>
+  </div>
+</div>
+
+<div class="verdict">
+  <div class="v-card miss">
+    <div class="v-num red" id="v-miss">7</div>
+    <div class="v-label" style="color:#f85149">Will Miss Target</div>
+    <div class="v-sub">Current adaptation velocity cannot close the gap by 2030</div>
+  </div>
+  <div class="v-card risk">
+    <div class="v-num yellow" id="v-risk">23</div>
+    <div class="v-label" style="color:#d29922">At Risk</div>
+    <div class="v-sub">On the edge — execution friction could cause miss</div>
+  </div>
+  <div class="v-card track">
+    <div class="v-num green" id="v-track">17</div>
+    <div class="v-label" style="color:#3fb950">On Track</div>
+    <div class="v-sub">Adaptation velocity sufficient to hit 2030 objective</div>
+  </div>
+  <div class="v-card drift">
+    <div class="v-num blue" id="v-drift">2</div>
+    <div class="v-label" style="color:#58a6ff">Special Cases</div>
+    <div class="v-sub">Drifting or pursuing aggressive targets beyond normal range</div>
+  </div>
+</div>
+
+<div class="insight">
+  <strong>The core finding:</strong> Only 39% of the top 50 MNCs are on track for their 2030 objectives. The dominant bottleneck across all sectors is <strong>Execution Latency</strong> — organizations recognize what needs to change and even decide to act, but cannot implement fast enough. This matches the ASF definition of the adaptation gap: <em>the awareness time that a system can act upon to stick to its objective.</em>
+  The companies most at risk are not failing because they lack vision. Boeing, AT&T, Volkswagen, and BP all have clear 2030 targets. They are failing because <strong>manual dependency, governance friction, and legacy systems slow execution to a pace that cannot close the gap in time.</strong>
+</div>
+
+<div class="filters">
+  <label>Sector</label>
+  <select id="f-sector" onchange="applyFilters()"><option value="">All Sectors</option></select>
+  <label style="margin-left:8px">Status</label>
+  <select id="f-status" onchange="applyFilters()">
+    <option value="">All</option>
+    <option value="WILL MISS">Will Miss</option>
+    <option value="AT RISK">At Risk</option>
+    <option value="ON TRACK">On Track</option>
+    <option value="DRIFTING">Drifting</option>
+  </select>
+  <label style="margin-left:8px">Country</label>
+  <select id="f-country" onchange="applyFilters()"><option value="">All Countries</option></select>
+  <label style="margin-left:8px">Sort by</label>
+  <select id="f-sort" onchange="applyFilters()">
+    <option value="score-desc">Highest risk first</option>
+    <option value="score-asc">Lowest risk first</option>
+    <option value="gap-desc">Largest gap first</option>
+    <option value="alpha">Company name</option>
+  </select>
+  <span class="count-badge" id="count-badge">49 companies</span>
+</div>
+
+<div class="detail-panel" id="detail-panel">
+  <div class="dp-header">
+    <div class="dp-title" id="dp-title"></div>
+    <button class="dp-close" onclick="closeDetail()">×</button>
+  </div>
+  <div class="dp-statement" id="dp-statement"></div>
+  <div class="dp-grid" id="dp-grid"></div>
+  <div class="dp-dims" id="dp-dims"></div>
+  <div id="dp-interventions"></div>
+</div>
+
+<div class="cards-grid" id="cards-grid"></div>
+
+<div class="table-wrap">
+  <div class="table-header-bar">
+    <h3>Full ranking — all 49 companies</h3>
+    <span style="font-size:12px;color:#8b949e" id="tbl-count"></span>
+  </div>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th><th>Company</th><th>Country</th><th>2030 Objective</th>
+          <th>ASF Score</th><th>Gap Remaining</th><th>Status</th>
+          <th>Bottleneck</th>
+        </tr>
+      </thead>
+      <tbody id="tbl-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<footer>
+  ASF — Adaptive Systems Framework &nbsp;·&nbsp;
+  <a href="https://github.com/hdannabo/adaptive-systems-framework" style="color:#58a6ff;text-decoration:none">github.com/hdannabo/adaptive-systems-framework</a>
+  &nbsp;·&nbsp; All analysis based on publicly available data only. Not investment advice.
+  &nbsp;·&nbsp; Copyright © 2026 Hemanth Kumar Dannaboyina
+</footer>
+</div>
+
+<script>
+const RAW = [{"company": "Boeing", "sector": "Aerospace/Manufacturing", "country": "USA", "objective_2030": "Restore safety culture; production rate recovery; new aircraft", "metric": "737 MAX monthly production rate", "current": 18.0, "target": 38.0, "gap": 20.0, "pct_remaining": 52.6, "years_left": 4.0, "asf_score": 4.1, "risk_band": "High", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "WILL MISS", "will_miss_2030": true, "evidence": "18 planes/month vs 38 target; safety incidents; FAA oversight; governance failure compounding", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "AT&T", "sector": "Telecom", "country": "USA", "objective_2030": "$4B AI cost savings; full 5G coverage; fiber 50M+ homes", "metric": "AI cost savings ($B)", "current": 1.0, "target": 4.0, "gap": 3.0, "pct_remaining": 75.0, "years_left": 4.0, "asf_score": 4.0, "risk_band": "High", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "AT RISK", "will_miss_2030": true, "evidence": "$1B savings 2025; needs 4x acceleration; 58% workforce not yet adopted; execution bottleneck", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "Intel", "sector": "Semiconductors", "country": "USA", "objective_2030": "18A process leadership; US fab revival; AI chip competition", "metric": "Advanced process market share (%)", "current": 12.0, "target": 30.0, "gap": 18.0, "pct_remaining": 60.0, "years_left": 4.0, "asf_score": 3.8, "risk_band": "High", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "WILL MISS", "will_miss_2030": true, "evidence": "18A yield issues; leadership departed; NVIDIA/TSMC dominance; largest semiconductor gap", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "Volkswagen Group", "sector": "Automotive", "country": "Germany", "objective_2030": "70% EV sales in Europe; $180B EV investment", "metric": "EV share of EU sales (%)", "current": 18.0, "target": 70.0, "gap": 52.0, "pct_remaining": 74.3, "years_left": 4.0, "asf_score": 3.5, "risk_band": "High", "bottleneck": "Decision Latency", "primary_friction": "Governance / ownership ambiguity", "status": "WILL MISS", "will_miss_2030": true, "evidence": "18% EV share; 70% target in 4 years; plant closures; governance heavy; largest EU auto gap", "top_intervention": "Publish RACI for all adaptation decisions \u2014 eliminate ownership ambiguity"}, {"company": "BP", "sector": "Energy", "country": "UK", "objective_2030": "40% emissions reduction; 50GW renewables", "metric": "Renewable capacity (GW)", "current": 12.0, "target": 50.0, "gap": 38.0, "pct_remaining": 76.0, "years_left": 4.0, "asf_score": 3.5, "risk_band": "High", "bottleneck": "Decision Latency", "primary_friction": "Governance / ownership ambiguity", "status": "WILL MISS", "will_miss_2030": true, "evidence": "Strategy reversed under CEO change; downgraded renewables target 2024; execution gap confirmed", "top_intervention": "Publish RACI for all adaptation decisions \u2014 eliminate ownership ambiguity"}, {"company": "Verizon", "sector": "Telecom", "country": "USA", "objective_2030": "5G nationwide; private network leadership; $10B+ B2B AI revenue", "metric": "5G coverage (% US population)", "current": 68.0, "target": 90.0, "gap": 22.0, "pct_remaining": 24.4, "years_left": 4.0, "asf_score": 3.15, "risk_band": "Medium", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "AT RISK", "will_miss_2030": true, "evidence": "Governance overhead; spectrum auction delays; 22pp coverage gap in 4 years", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "Meta", "sector": "Social/AI", "country": "USA", "objective_2030": "Net zero operations; AI-driven revenue growth", "metric": "Operational carbon (MT CO2)", "current": 8.5, "target": 0.0, "gap": -8.5, "pct_remaining": 0, "years_left": 4.0, "asf_score": 3.0, "risk_band": "Medium", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "AT RISK", "will_miss_2030": true, "evidence": "Building methane-powered data centers for AI; net zero goal in tension with AI infrastructure", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "Goldman Sachs", "sector": "Banking/Finance", "country": "USA", "objective_2030": "AI-driven productivity; 30% efficiency gain", "metric": "Operational efficiency ratio (%)", "current": 68.0, "target": 55.0, "gap": -13.0, "pct_remaining": -23.6, "years_left": 4.0, "asf_score": 3.0, "risk_band": "Medium", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "AT RISK", "will_miss_2030": true, "evidence": "Heavy governance overhead; 13pp efficiency improvement in 4 years requires significant execution acceleration", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "FedEx", "sector": "Logistics", "country": "USA", "objective_2030": "Carbon neutral operations; 50% electric vehicles", "metric": "EV fleet (% of total)", "current": 8.0, "target": 50.0, "gap": 42.0, "pct_remaining": 84.0, "years_left": 4.0, "asf_score": 3.0, "risk_band": "Medium", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "WILL MISS", "will_miss_2030": true, "evidence": "8% EV fleet; 50% in 4 years requires massive capex; charging infrastructure gap", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "HSBC", "sector": "Banking", "country": "UK/Hong Kong", "objective_2030": "Net zero financed emissions; $750B-$1T sustainable finance", "metric": "Sustainable finance deployed ($T)", "current": 0.31, "target": 0.75, "gap": 0.4, "pct_remaining": 58.7, "years_left": 4.0, "asf_score": 2.85, "risk_band": "Medium", "bottleneck": "Dependency Index", "primary_friction": "Manual approvals / coordination overhead", "status": "AT RISK", "will_miss_2030": true, "evidence": "Financed emissions still rising; governance complexity across 64 markets", "top_intervention": "Map and eliminate top 5 manual dependencies in the critical path"}, {"company": "Berkshire Hathaway", "sector": "Diversified/Finance", "country": "USA", "objective_2030": "$1T+ in renewable energy via BHE; portfolio AI transformation", "metric": "Renewable energy capacity (GW)", "current": 28.0, "target": 50.0, "gap": 22.0, "pct_remaining": 44.0, "years_left": 4.0, "asf_score": 2.8, "risk_band": "Medium", "bottleneck": "Observation Latency", "primary_friction": "Data / tooling gap", "status": "AT RISK", "will_miss_2030": true, "evidence": "Buffett succession risk; BHE regulatory battles; slow AI adoption in portfolio companies", "top_intervention": "Instrument observability pipelines (Prometheus, Grafana, Application Insights)"}, {"company": "JPMorgan Chase", "sector": "Banking/Finance", "country": "USA", "objective_2030": "$2.5T sustainable financing; AI-powered operations", "metric": "Sustainable financing deployed ($T)", "current": 1.1, "target": 2.5, "gap": 1.4, "pct_remaining": 56.0, "years_left": 4.0, "asf_score": 2.7, "risk_band": "Medium", "bottleneck": "Dependency Index", "primary_friction": "Manual approvals / coordination overhead", "status": "AT RISK", "will_miss_2030": true, "evidence": "AI industry needs $650B revenue by 2030 for 10% ROI per JPM own report; internal adoption strong but ROI unproven", "top_intervention": "Map and eliminate top 5 manual dependencies in the critical path"}, {"company": "LVMH", "sector": "Luxury/Consumer", "country": "France", "objective_2030": "LIFE 360 sustainability program; carbon neutrality", "metric": "Carbon emissions vs 2019 (%)", "current": 85.0, "target": 50.0, "gap": -35.0, "pct_remaining": -70.0, "years_left": 4.0, "asf_score": 2.7, "risk_band": "Medium", "bottleneck": "Observation Latency", "primary_friction": "Data / tooling gap", "status": "AT RISK", "will_miss_2030": true, "evidence": "Luxury market slowdown; China demand declining; sustainability requires supply chain transformation", "top_intervention": "Instrument observability pipelines (Prometheus, Grafana, Application Insights)"}, {"company": "Deutsche Telekom", "sector": "Telecom", "country": "Germany", "objective_2030": "Net zero; European 5G leadership; T-Systems AI platform", "metric": "Carbon neutrality (% operations)", "current": 55.0, "target": 100.0, "gap": 45.0, "pct_remaining": 45.0, "years_left": 4.0, "asf_score": 2.7, "risk_band": "Medium", "bottleneck": "Observation Latency", "primary_friction": "Data / tooling gap", "status": "AT RISK", "will_miss_2030": true, "evidence": "EU regulatory complexity; 45pp remaining in 4 years requires acceleration", "top_intervention": "Instrument observability pipelines (Prometheus, Grafana, Application Insights)"}, {"company": "Johnson & Johnson", "sector": "Healthcare", "country": "USA", "objective_2030": "Carbon neutral operations; 10 new therapies; $60B+ MedTech", "metric": "MedTech revenue ($B)", "current": 30.0, "target": 60.0, "gap": 30.0, "pct_remaining": 50.0, "years_left": 4.0, "asf_score": 2.7, "risk_band": "Medium", "bottleneck": "Dependency Index", "primary_friction": "Manual approvals / coordination overhead", "status": "AT RISK", "will_miss_2030": true, "evidence": "Regulatory approval cycles 7-12 years; 2x revenue in 4 years requires acquisitions + organic", "top_intervention": "Map and eliminate top 5 manual dependencies in the critical path"}, {"company": "Pfizer", "sector": "Pharma", "country": "USA", "objective_2030": "Carbon neutral; oncology pipeline; post-COVID recovery", "metric": "Pipeline approvals (cumulative)", "current": 4.0, "target": 25.0, "gap": 21.0, "pct_remaining": 84.0, "years_left": 4.0, "asf_score": 2.7, "risk_band": "Medium", "bottleneck": "Dependency Index", "primary_friction": "Manual approvals / coordination overhead", "status": "AT RISK", "will_miss_2030": true, "evidence": "Post-COVID revenue decline; pipeline rebuilding; AI-accelerated R&D but regulatory bottleneck", "top_intervention": "Map and eliminate top 5 manual dependencies in the critical path"}, {"company": "Unilever", "sector": "Consumer Goods", "country": "UK/Netherlands", "objective_2030": "Net zero emissions; plastic elimination; purpose-led brands", "metric": "Virgin plastic reduction (%)", "current": 22.0, "target": 50.0, "gap": 28.0, "pct_remaining": 56.0, "years_left": 4.0, "asf_score": 2.7, "risk_band": "Medium", "bottleneck": "Observation Latency", "primary_friction": "Data / tooling gap", "status": "AT RISK", "will_miss_2030": true, "evidence": "Sustainability strategy under investor pressure; 28pp reduction remaining; execution uncertain", "top_intervention": "Instrument observability pipelines (Prometheus, Grafana, Application Insights)"}, {"company": "Nestl\u00e9", "sector": "Food/Consumer", "country": "Switzerland", "objective_2030": "Net zero; 50% regenerative agriculture; halve virgin plastics", "metric": "Regenerative agriculture (%)", "current": 18.0, "target": 50.0, "gap": 32.0, "pct_remaining": 64.0, "years_left": 4.0, "asf_score": 2.7, "risk_band": "Medium", "bottleneck": "Observation Latency", "primary_friction": "Data / tooling gap", "status": "AT RISK", "will_miss_2030": true, "evidence": "Supply chain transformation requires farmer behavior change \u2014 highest organizational friction", "top_intervention": "Instrument observability pipelines (Prometheus, Grafana, Application Insights)"}, {"company": "Coca-Cola", "sector": "Beverages", "country": "USA", "objective_2030": "25% recycled content; water replenishment; reduce sugar", "metric": "Recycled packaging content (%)", "current": 15.0, "target": 25.0, "gap": 10.0, "pct_remaining": 40.0, "years_left": 4.0, "asf_score": 2.7, "risk_band": "Medium", "bottleneck": "Observation Latency", "primary_friction": "Data / tooling gap", "status": "AT RISK", "will_miss_2030": true, "evidence": "Recycling infrastructure gap; 10pp increase in 4 years requires system-level change", "top_intervention": "Instrument observability pipelines (Prometheus, Grafana, Application Insights)"}, {"company": "Shell", "sector": "Energy", "country": "Netherlands/UK", "objective_2030": "Net zero by 2050; halve carbon intensity by 2030", "metric": "Carbon intensity (2016=100)", "current": 82.0, "target": 50.0, "gap": -32.0, "pct_remaining": -64.0, "years_left": 4.0, "asf_score": 2.55, "risk_band": "Medium", "bottleneck": "Decision Latency", "primary_friction": "Governance / ownership ambiguity", "status": "AT RISK", "will_miss_2030": true, "evidence": "32pp remaining intensity reduction in 4 years; transition capex vs fossil demand tension", "top_intervention": "Publish RACI for all adaptation decisions \u2014 eliminate ownership ambiguity"}, {"company": "Google / Alphabet", "sector": "Tech/AI", "country": "USA", "objective_2030": "Net zero carbon; 24/7 clean energy by 2030", "metric": "GHG emissions vs 2019 baseline", "current": 151.0, "target": 50.0, "gap": -101.0, "pct_remaining": -202.0, "years_left": 4.0, "asf_score": 2.45, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "AT RISK", "will_miss_2030": true, "evidence": "48% emissions rise since 2019; AI data center energy surging; softened language in 2023 report", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "BlackRock", "sector": "Asset Management", "country": "USA", "objective_2030": "$1T+ in sustainable/ESG AUM; AI analytics leadership", "metric": "ESG AUM ($T)", "current": 0.65, "target": 1.0, "gap": 0.3, "pct_remaining": 35.0, "years_left": 4.0, "asf_score": 2.3, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "AT RISK", "will_miss_2030": true, "evidence": "ESG political headwinds in US; regulatory pressure from both directions", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "Walmart", "sector": "Retail", "country": "USA", "objective_2030": "Project Gigaton (1B MT emission reduction); 65% store automation", "metric": "Stores automated (%)", "current": 52.0, "target": 65.0, "gap": 13.0, "pct_remaining": 20.0, "years_left": 4.0, "asf_score": 2.3, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "AT RISK", "will_miss_2030": true, "evidence": "Missing 2025 emissions goals; AI not yet impacting top-line sales; automation scaling slower than planned", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "Maersk", "sector": "Shipping/Logistics", "country": "Denmark", "objective_2030": "Net zero by 2040; green methanol fleet", "metric": "Green fuel vessels (% of fleet)", "current": 4.0, "target": 25.0, "gap": 21.0, "pct_remaining": 84.0, "years_left": 4.0, "asf_score": 2.3, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "AT RISK", "will_miss_2030": true, "evidence": "Green methanol supply chain developing; 21pp fleet conversion in 4 years is aggressive", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "Reliance Industries", "sector": "Diversified/Energy/Retail", "country": "India", "objective_2030": "Net zero; Jio AI platform; green energy $10B investment", "metric": "Green energy capacity (GW)", "current": 1.2, "target": 100.0, "gap": 98.8, "pct_remaining": 98.8, "years_left": 4.0, "asf_score": 2.3, "risk_band": "Low", "bottleneck": "Observation Latency", "primary_friction": "Data / tooling gap", "status": "WILL MISS", "will_miss_2030": true, "evidence": "100GW green by 2030 from 1.2GW current is the largest absolute gap in dataset; India grid infrastructure bottleneck", "top_intervention": "Instrument observability pipelines (Prometheus, Grafana, Application Insights)"}, {"company": "Nike", "sector": "Consumer/Retail", "country": "USA", "objective_2030": "Digital-first; $60B+ revenue; sustainability goals", "metric": "DTC revenue ($B)", "current": 44.5, "target": 60.0, "gap": 15.5, "pct_remaining": 25.8, "years_left": 4.0, "asf_score": 2.25, "risk_band": "Low", "bottleneck": "Decision Latency", "primary_friction": "Governance / ownership ambiguity", "status": "ON TRACK", "will_miss_2030": false, "evidence": "$44.5B DTC revenue; 150M member ecosystem; digital infrastructure strong", "top_intervention": "Publish RACI for all adaptation decisions \u2014 eliminate ownership ambiguity"}, {"company": "Anthropic", "sector": "AI Safety Lab", "country": "USA", "objective_2030": "Safe AGI; enterprise AI leadership", "metric": "Enterprise market share (%)", "current": 29.0, "target": 40.0, "gap": 11.0, "pct_remaining": 27.5, "years_left": 4.0, "asf_score": 2.2, "risk_band": "Low", "bottleneck": "Decision Latency", "primary_friction": "Governance / ownership ambiguity", "status": "ON TRACK", "will_miss_2030": false, "evidence": "29% enterprise share 2025 up from 18% in 2024; safety governance adds intentional latency", "top_intervention": "Publish RACI for all adaptation decisions \u2014 eliminate ownership ambiguity"}, {"company": "Saudi Aramco", "sector": "Energy", "country": "Saudi Arabia", "objective_2030": "Net zero operations by 2050; $1T+ valuation; AI operations", "metric": "Operational carbon intensity", "current": 100.0, "target": 90.0, "gap": -10.0, "pct_remaining": -11.1, "years_left": 4.0, "asf_score": 2.15, "risk_band": "Low", "bottleneck": "Observation Latency", "primary_friction": "Data / tooling gap", "status": "ON TRACK", "will_miss_2030": false, "evidence": "2030 sub-target achievable; massive capital; Vision 2030 alignment; longer 2050 target", "top_intervention": "Instrument observability pipelines (Prometheus, Grafana, Application Insights)"}, {"company": "Softbank", "sector": "Tech Investment", "country": "Japan", "objective_2030": "$100B AI investment portfolio; ARM chip dominance", "metric": "AI portfolio valuation ($B)", "current": 45.0, "target": 100.0, "gap": 55.0, "pct_remaining": 55.0, "years_left": 4.0, "asf_score": 2.15, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "AT RISK", "will_miss_2030": true, "evidence": "ARM IPO success; Vision Fund losses recovering; 2x valuation in 4 years requires exits", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "Roche", "sector": "Pharma/Diagnostics", "country": "Switzerland", "objective_2030": "Personalized medicine; carbon neutral; AI diagnostics", "metric": "AI diagnostic products (cumulative)", "current": 8.0, "target": 30.0, "gap": 22.0, "pct_remaining": 73.3, "years_left": 4.0, "asf_score": 2.05, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "ON TRACK", "will_miss_2030": false, "evidence": "Strong pipeline; AI diagnostics scaling; Swiss precision execution", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "General Electric (GE Vernova)", "sector": "Energy/Industrial", "country": "USA", "objective_2030": "Wind/grid leadership; $200B backlog delivery", "metric": "Order backlog delivered ($B)", "current": 52.0, "target": 200.0, "gap": 148.0, "pct_remaining": 74.0, "years_left": 4.0, "asf_score": 2.05, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "AT RISK", "will_miss_2030": true, "evidence": "Strong wind demand; supply chain constrained; $148B backlog delivery in 4 years requires 3x current pace", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "Apple", "sector": "Tech/Consumer", "country": "USA", "objective_2030": "Carbon neutral supply chain by 2030", "metric": "Supply chain emissions (MT CO2)", "current": 21.4, "target": 0.0, "gap": -21.4, "pct_remaining": 0, "years_left": 4.0, "asf_score": 1.9, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "ON TRACK", "will_miss_2030": false, "evidence": "Strongest supply chain emissions program; ahead of peers", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "Amazon Retail", "sector": "Retail/Logistics", "country": "USA", "objective_2030": "Same-day delivery majority; drone delivery scale", "metric": "Same-day delivery coverage (%)", "current": 45.0, "target": 80.0, "gap": 35.0, "pct_remaining": 43.8, "years_left": 4.0, "asf_score": 1.9, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "ON TRACK", "will_miss_2030": false, "evidence": "150K+ drone deliveries completed; expanding to 100 drone stores; strong execution velocity", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "Siemens", "sector": "Industrial/AI", "country": "Germany", "objective_2030": "Carbon neutral operations; industrial AI platform leadership", "metric": "Carbon neutrality (% operations)", "current": 62.0, "target": 100.0, "gap": 38.0, "pct_remaining": 38.0, "years_left": 4.0, "asf_score": 1.9, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "ON TRACK", "will_miss_2030": false, "evidence": "\u20ac6.1B R&D; edge AI deployed; strong industrial platform; 38pp remaining achievable", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "Samsung Electronics", "sector": "Semiconductors/Consumer", "country": "South Korea", "objective_2030": "Carbon neutral by 2050; HBM memory leadership; $400B investment", "metric": "HBM market share (%)", "current": 32.0, "target": 45.0, "gap": 13.0, "pct_remaining": 28.9, "years_left": 4.0, "asf_score": 1.9, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "ON TRACK", "will_miss_2030": false, "evidence": "HBM3E ramping; Samsung investment cycle strong; South Korea fastest AI adoption globally", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "Honeywell", "sector": "Industrial/Automation", "country": "USA", "objective_2030": "Carbon neutral; industrial AI platform; $50B+ revenue", "metric": "Revenue ($B)", "current": 36.8, "target": 50.0, "gap": 13.2, "pct_remaining": 26.4, "years_left": 4.0, "asf_score": 1.9, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "ON TRACK", "will_miss_2030": false, "evidence": "Strong industrial AI position; Quantinuum quantum computing; execution discipline", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "Infosys", "sector": "IT Services", "country": "India", "objective_2030": "Carbon neutral; AI-first services; $25B+ revenue", "metric": "Revenue ($B)", "current": 18.8, "target": 25.0, "gap": 6.2, "pct_remaining": 24.8, "years_left": 4.0, "asf_score": 1.9, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "ON TRACK", "will_miss_2030": false, "evidence": "AI services demand surging; 96% Indian professionals using AI; strong talent pool", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "BYD", "sector": "EV/Manufacturing", "country": "China", "objective_2030": "Global EV market leader; dark factory expansion", "metric": "Annual EV deliveries (M)", "current": 4.6, "target": 8.0, "gap": 3.4, "pct_remaining": 42.5, "years_left": 4.0, "asf_score": 1.85, "risk_band": "Low", "bottleneck": "Feedback Delay", "primary_friction": "Missing observability / measurement gaps", "status": "ON TRACK", "will_miss_2030": false, "evidence": "4.6M target 2025; strong manufacturing execution; price war creating market pressure", "top_intervention": "Add telemetry to all production systems \u2014 zero blind spots"}, {"company": "Microsoft", "sector": "Tech/Cloud", "country": "USA", "objective_2030": "Carbon negative by 2030; $500B US AI investment", "metric": "Carbon emissions (MT CO2)", "current": 15.3, "target": 0.0, "gap": -15.3, "pct_remaining": 0, "years_left": 4.0, "asf_score": 1.8, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "DRIFTING", "will_miss_2030": false, "evidence": "23.4% carbon increase since 2020 despite target; AI energy demand accelerating", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "Amazon", "sector": "Tech/Cloud/Retail", "country": "USA", "objective_2030": "100% renewable energy (already achieved 2024); net zero 2040", "metric": "Renewable energy %", "current": 100.0, "target": 100.0, "gap": 0.0, "pct_remaining": 0.0, "years_left": 4.0, "asf_score": 1.75, "risk_band": "Low", "bottleneck": "Feedback Delay", "primary_friction": "Missing observability / measurement gaps", "status": "ON TRACK", "will_miss_2030": false, "evidence": "100% renewable electricity achieved 2024 ahead of 2025 goal", "top_intervention": "Add telemetry to all production systems \u2014 zero blind spots"}, {"company": "Alibaba", "sector": "Tech/Commerce", "country": "China", "objective_2030": "Carbon neutral; $1T GMV; Qwen AI leadership", "metric": "AI cloud revenue ($B)", "current": 14.0, "target": 50.0, "gap": 36.0, "pct_remaining": 72.0, "years_left": 4.0, "asf_score": 1.75, "risk_band": "Low", "bottleneck": "Feedback Delay", "primary_friction": "Missing observability / measurement gaps", "status": "ON TRACK", "will_miss_2030": false, "evidence": "Qwen models competitive; cloud growth accelerating; domestic regulation stabilizing", "top_intervention": "Add telemetry to all production systems \u2014 zero blind spots"}, {"company": "Tencent", "sector": "Tech/Gaming/AI", "country": "China", "objective_2030": "Carbon neutral; Hunyuan AI platform; digital economy leadership", "metric": "AI active users (M)", "current": 120.0, "target": 500.0, "gap": 380.0, "pct_remaining": 76.0, "years_left": 4.0, "asf_score": 1.75, "risk_band": "Low", "bottleneck": "Feedback Delay", "primary_friction": "Missing observability / measurement gaps", "status": "ON TRACK", "will_miss_2030": false, "evidence": "WeChat ecosystem advantage; Hunyuan scaling; strong government alignment", "top_intervention": "Add telemetry to all production systems \u2014 zero blind spots"}, {"company": "Tesla", "sector": "EV/Energy", "country": "USA", "objective_2030": "20M vehicles annually; full self-driving; energy storage leadership", "metric": "Annual vehicle deliveries (M)", "current": 1.8, "target": 20.0, "gap": 18.2, "pct_remaining": 91.0, "years_left": 4.0, "asf_score": 1.65, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "WILL MISS", "will_miss_2030": true, "evidence": "1.8M deliveries 2024; 20M by 2030 = 11x growth in 6 years; execution gap is largest in dataset", "top_intervention": "Automate top 3 manual handoffs blocking delivery pipeline"}, {"company": "ICBC (China)", "sector": "Banking", "country": "China", "objective_2030": "Green finance leadership; AI banking; digital yuan", "metric": "Green loans ($T RMB)", "current": 4.2, "target": 7.0, "gap": 2.8, "pct_remaining": 40.0, "years_left": 4.0, "asf_score": 1.6, "risk_band": "Low", "bottleneck": "Feedback Delay", "primary_friction": "Missing observability / measurement gaps", "status": "ON TRACK", "will_miss_2030": false, "evidence": "Government-directed; strong execution; digital yuan infrastructure advancing", "top_intervention": "Add telemetry to all production systems \u2014 zero blind spots"}, {"company": "OpenAI", "sector": "AI Lab", "country": "USA", "objective_2030": "AGI development; $100B+ revenue", "metric": "Annual revenue ($B)", "current": 12.0, "target": 100.0, "gap": 88.0, "pct_remaining": 88.0, "years_left": 4.0, "asf_score": 1.35, "risk_band": "Low", "bottleneck": "Decision Latency", "primary_friction": "Governance / ownership ambiguity", "status": "AGGRESSIVE", "will_miss_2030": false, "evidence": "$12B ARR 2025; target requires 8x growth in 4 years \u2014 ambitious but plausible given market", "top_intervention": ""}, {"company": "Foxconn", "sector": "Manufacturing/AI", "country": "Taiwan/China", "objective_2030": "AI server market leadership; EV assembly; smart manufacturing", "metric": "AI server revenue ($B)", "current": 34.7, "target": 60.0, "gap": 25.3, "pct_remaining": 42.2, "years_left": 4.0, "asf_score": 1.15, "risk_band": "Low", "bottleneck": "Observation Latency", "primary_friction": "Data / tooling gap", "status": "ON TRACK", "will_miss_2030": false, "evidence": "40% global AI server share; 91% Q1 profit growth; strong execution; EV timing uncertain", "top_intervention": ""}, {"company": "TSMC", "sector": "Semiconductors", "country": "Taiwan", "objective_2030": "2nm mass production; 60% renewable energy; $100B US investment", "metric": "Renewable energy (% of consumption)", "current": 22.0, "target": 60.0, "gap": 38.0, "pct_remaining": 63.3, "years_left": 4.0, "asf_score": 1.1, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "AT RISK", "will_miss_2030": true, "evidence": "Renewable energy gap 38pp; Taiwan grid constrained; 2nm on track; US fab scaling", "top_intervention": ""}, {"company": "Toyota", "sector": "Automotive/Manufacturing", "country": "Japan", "objective_2030": "Carbon neutral vehicles; 3.5M EV/PHEV annual sales", "metric": "EV/PHEV annual sales (M)", "current": 0.6, "target": 3.5, "gap": 2.9, "pct_remaining": 82.9, "years_left": 4.0, "asf_score": 0.95, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "AT RISK", "will_miss_2030": true, "evidence": "Strong manufacturing but EV transition 3.5M target requires 6x current volume in 4 years; GAIA investment helps", "top_intervention": ""}, {"company": "NVIDIA", "sector": "AI Infrastructure", "country": "USA", "objective_2030": "$1T+ AI infrastructure market; CUDA ecosystem dominance", "metric": "AI market revenue ($B)", "current": 130.0, "target": 300.0, "gap": 170.0, "pct_remaining": 56.7, "years_left": 4.0, "asf_score": 0.8, "risk_band": "Low", "bottleneck": "Execution Latency", "primary_friction": "Manual dependency / legacy systems", "status": "ON TRACK", "will_miss_2030": false, "evidence": "$57B quarterly revenue; Blackwell demand exceeding supply; highest execution velocity", "top_intervention": ""}];
+let filtered = [...RAW];
+let selectedId = null;
+
+// Populate filters
+const sectors = [...new Set(RAW.map(d=>d.sector))].sort();
+const countries = [...new Set(RAW.map(d=>d.country))].sort();
+document.getElementById('f-sector').innerHTML += sectors.map(s=>`<option>${s}</option>`).join('');
+document.getElementById('f-country').innerHTML += countries.map(c=>`<option>${c}</option>`).join('');
+
+function statusClass(s){
+  if(s==='WILL MISS') return 'sb-miss';
+  if(s==='AT RISK') return 'sb-risk';
+  if(s==='ON TRACK') return 'sb-track';
+  if(s==='DRIFTING') return 'sb-drift';
+  return 'sb-aggressive';
+}
+function scoreColor(s){return s>=3.5?'#f85149':s>=2.5?'#d29922':'#3fb950';}
+function dimColor(v){return v<=2?'#3fb950':v<=3?'#d29922':'#f85149';}
+
+function applyFilters(){
+  const sec=document.getElementById('f-sector').value;
+  const sta=document.getElementById('f-status').value;
+  const cou=document.getElementById('f-country').value;
+  const sor=document.getElementById('f-sort').value;
+  filtered=RAW.filter(d=>{
+    if(sec&&d.sector!==sec)return false;
+    if(sta&&d.status!==sta)return false;
+    if(cou&&d.country!==cou)return false;
+    return true;
+  });
+  if(sor==='score-desc') filtered.sort((a,b)=>b.asf_score-a.asf_score);
+  else if(sor==='score-asc') filtered.sort((a,b)=>a.asf_score-b.asf_score);
+  else if(sor==='gap-desc') filtered.sort((a,b)=>b.pct_remaining-a.pct_remaining);
+  else filtered.sort((a,b)=>a.company.localeCompare(b.company));
+  
+  // Update verdict counts
+  document.getElementById('v-miss').textContent=filtered.filter(d=>d.status==='WILL MISS').length;
+  document.getElementById('v-risk').textContent=filtered.filter(d=>d.status==='AT RISK').length;
+  document.getElementById('v-track').textContent=filtered.filter(d=>d.status==='ON TRACK').length;
+  document.getElementById('v-drift').textContent=filtered.filter(d=>d.status==='DRIFTING'||d.status==='AGGRESSIVE').length;
+  document.getElementById('count-badge').textContent=`${filtered.length} companies`;
+  
+  renderCards();
+  renderTable();
+}
+
+function renderCards(){
+  document.getElementById('cards-grid').innerHTML=filtered.map((d,i)=>{
+    const sc=scoreColor(d.asf_score);
+    const pct=Math.min(Math.abs(d.pct_remaining),100);
+    const barW=Math.min((d.asf_score/5)*100,100);
+    const gapText=d.pct_remaining>0?`${d.pct_remaining.toFixed(0)}% gap remaining`:'Target exceeded';
+    return `<div class="c-card ${selectedId===d.company?'selected':''}" onclick="showDetail('${d.company.replace(/'/g,"\\'")}')">
+      <div class="c-header">
+        <div>
+          <div class="c-name">${d.company}</div>
+          <div class="c-sector">${d.sector} · ${d.country}</div>
+        </div>
+        <span class="status-badge ${statusClass(d.status)}">${d.status}</span>
+      </div>
+      <div class="c-objective">${d.objective_2030}</div>
+      <div class="c-metrics">
+        <div class="c-metric">
+          <div class="c-metric-label">Current</div>
+          <div class="c-metric-value">${d.current}</div>
+          <div class="c-metric-sub">${d.metric.length>20?d.metric.substring(0,20)+'…':d.metric}</div>
+        </div>
+        <div class="c-metric">
+          <div class="c-metric-label">2030 Target</div>
+          <div class="c-metric-value">${d.target}</div>
+          <div class="c-metric-sub">${gapText}</div>
+        </div>
+        <div class="c-metric">
+          <div class="c-metric-label">ASF Score</div>
+          <div class="c-metric-value" style="color:${sc}">${d.asf_score.toFixed(2)}</div>
+          <div class="c-metric-sub">${d.risk_band} risk</div>
+        </div>
+      </div>
+      <div class="c-asf-row">
+        <span class="c-asf-label" style="color:#8b949e;font-size:10px">Adaptation gap</span>
+        <div class="c-asf-bar-bg"><div class="c-asf-bar" style="width:${barW}%;background:${sc}"></div></div>
+        <span class="c-asf-score" style="color:${sc}">${d.asf_score.toFixed(1)}/5</span>
+      </div>
+      <div class="c-bottleneck">Bottleneck: <strong>${d.bottleneck}</strong></div>
+      <div class="c-evidence">${d.evidence}</div>
+    </div>`;
+  }).join('');
+}
+
+function showDetail(name){
+  const d=RAW.find(x=>x.company===name);
+  if(!d) return;
+  selectedId=name;
+  renderCards();
+  
+  const sc=scoreColor(d.asf_score);
+  document.getElementById('dp-title').textContent=`${d.company} — 2030 Analysis`;
+  
+  const pct=d.pct_remaining>0?`${d.pct_remaining.toFixed(0)}% of target remaining`:'Target already exceeded';
+  const verdict=d.status==='WILL MISS'?'will likely miss':'is at risk of missing';
+  const miss_verb=d.status==='ON TRACK'?'is on track to achieve':'is at risk of missing';
+  
+  document.getElementById('dp-statement').innerHTML=
+    `<strong>${d.company}</strong> is targeting <strong>${d.objective_2030}</strong> by 2030. 
+    Current metric: <strong>${d.current}</strong> vs target: <strong>${d.target}</strong> — ${pct}. 
+    ASF adaptation score: <strong style="color:${sc}">${d.asf_score.toFixed(2)}/5.0</strong> (${d.risk_band} risk). 
+    Primary bottleneck: <strong>${d.bottleneck}</strong> driven by ${d.primary_friction}. 
+    Status: <strong>${d.status}</strong>. Evidence: ${d.evidence}`;
+  
+  document.getElementById('dp-grid').innerHTML=[
+    {l:'ASF Score',v:`${d.asf_score.toFixed(2)}/5`,s:`${d.risk_band} risk`,c:sc},
+    {l:'Current metric',v:String(d.current),s:d.metric.substring(0,30),c:'#e6edf3'},
+    {l:'2030 Target',v:String(d.target),s:'By December 2030',c:'#e6edf3'},
+    {l:'Gap remaining',v:`${Math.abs(d.pct_remaining).toFixed(0)}%`,s:`${d.years_left} years left`,c:d.pct_remaining>50?'#f85149':'#d29922'},
+  ].map(m=>`<div class="dp-metric"><div class="dp-m-label">${m.l}</div><div class="dp-m-value" style="color:${m.c}">${m.v}</div><div class="dp-m-sub">${m.s}</div></div>`).join('');
+  
+  // Dims would require storing individual scores — show what we have
+  document.getElementById('dp-dims').innerHTML=`
+    <div style="font-size:11px;font-weight:500;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">ASF Framework Analysis</div>
+    <div style="font-size:12px;color:#8b949e;line-height:1.8">
+      Sector: ${d.sector} · Country: ${d.country}<br>
+      Primary friction: ${d.primary_friction}<br>
+      Bottleneck dimension: ${d.bottleneck}<br>
+      Objective gap: ${d.gap > 0 ? '+' : ''}${d.gap} ${d.metric}
+    </div>`;
+  
+  document.getElementById('dp-interventions').innerHTML=`
+    <div style="font-size:11px;font-weight:500;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 8px">Top recommended intervention</div>
+    <div class="dp-intervention">
+      <span class="int-badge p0">P0</span>
+      <div class="int-text">${d.top_intervention}</div>
+    </div>`;
+  
+  const panel=document.getElementById('detail-panel');
+  panel.classList.add('active');
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function closeDetail(){
+  document.getElementById('detail-panel').classList.remove('active');
+  selectedId=null;
+  renderCards();
+}
+
+function renderTable(){
+  document.getElementById('tbl-count').textContent=`${filtered.length} companies`;
+  document.getElementById('tbl-body').innerHTML=filtered.map((d,i)=>{
+    const sc=scoreColor(d.asf_score);
+    const pct=Math.min(Math.abs(d.pct_remaining),100);
+    return `<tr onclick="showDetail('${d.company.replace(/'/g,"\\'")}')">
+      <td style="color:#6e7681">${i+1}</td>
+      <td><strong style="color:#e6edf3">${d.company}</strong></td>
+      <td style="color:#8b949e">${d.country}</td>
+      <td style="color:#8b949e;max-width:200px;overflow:hidden;text-overflow:ellipsis">${d.objective_2030.substring(0,50)}${d.objective_2030.length>50?'…':''}</td>
+      <td>
+        <div class="prog">
+          <div class="prog-bg"><div class="prog-fill" style="width:${(d.asf_score/5)*100}%;background:${sc}"></div></div>
+          <span style="color:${sc};font-weight:700">${d.asf_score.toFixed(2)}</span>
+        </div>
+      </td>
+      <td style="color:${d.pct_remaining>50?'#f85149':d.pct_remaining>25?'#d29922':'#3fb950'};font-weight:600">${d.pct_remaining>0?d.pct_remaining.toFixed(0)+'%':'Done'}</td>
+      <td><span class="status-badge ${statusClass(d.status)}">${d.status}</span></td>
+      <td style="color:#8b949e;font-size:11px">${d.bottleneck}</td>
+    </tr>`;
+  }).join('');
+}
+
+applyFilters();
+</script>
+</body>
+</html>
