@@ -1,32 +1,79 @@
-# ASF — Adaptive Systems Framework
+# Adaptive Systems Framework (ASF)
 
-**ASF identifies why organizations fail to convert AI investment, capability, and information into measurable value.**
+**ASF measures the gap between what a system can do today and what it needs to do — then tells you how long it will take to close that gap.**
 
-Upload a document. Score your AI program. Compare enterprises. ASF tells you where value is being lost and what to do about it.
+> *Adaptation Gap = Required Capability − Current Capability*
+
+Used by platform engineers, AI governance teams, and enterprise architects to diagnose why AI programs, cloud migrations, and operational systems fail to deliver value on time.
 
 ---
 
-## What it does
+## What problem does ASF solve?
 
-| Tool | What you get |
+Organizations spend billions on AI, cloud, and digital transformation — and miss their targets. The gap is rarely strategy. It is almost always execution friction: manual dependencies, governance delays, legacy systems, and weak feedback loops that slow adaptation to a pace that cannot close the gap in time.
+
+ASF makes that friction visible, measurable, and actionable.
+
+---
+
+## Core formula
+
+```
+Adaptation Latency Score =
+    (Observation Latency  × 0.15)   how fast do you detect change?
+  + (Decision Latency     × 0.25)   how fast do you commit?
+  + (Execution Latency    × 0.30)   how fast do you implement?
+  + (Feedback Delay       × 0.15)   how fast do you see results?
+  + (Dependency Index     × 0.15)   how many manual steps block you?
+  − (Learning Velocity    × 0.10)   how fast do you improve?
+
+Scale: 1.0 (fastest) → 5.0 (slowest)
+Risk:  < 2.5 = Low · 2.5–3.5 = Medium · > 3.5 = High
+```
+
+**Capability Realization Time (CRT)** — derived metric:
+```
+CRT = f(Adaptation Gap, Governance Friction, Execution Friction, Learning Velocity)
+```
+CRT estimates how many months it will take to close the adaptation gap given current friction levels.
+
+---
+
+## Available tools
+
+| Tool | What it does |
 |---|---|
-| **Token Governance Scorer** | Score your AI program 0–100. Primary bottleneck. P0/P1/P2 interventions. |
-| **Document Analyzer** | Upload any doc — annual report, postmortem, strategy. ASF diagnoses it. |
-| **Enterprise Benchmark** | NVIDIA, Meta, AT&T, Adobe, Datadog — scored from public data. |
-| **Manufacturing Benchmark** | Toyota, Foxconn, Siemens, Boeing, BYD — global manufacturing adaptation. |
-| **100-Case Dashboard** | 100 systems across 10 domains. Interactive. Open locally. |
-| **Token Economics** | 22 AI models scored on cost efficiency, context efficiency, agent risk. |
+| `cli.py` | Analyze any system from a YAML file — scored in seconds |
+| `asf_analyze.py` | Batch analyze all 100 cases from the dataset |
+| `asf_document_analyzer.py` | Upload any document — ASF extracts adaptation signals |
+| `asf_conformance_agent.py` | Validate any LLM output against acceptance criteria |
 
 ---
 
-## Run it in 30 seconds
+## Live dashboards
+
+All dashboards are live on GitHub Pages — open in any browser, no install needed.
+
+| Dashboard | URL | What it shows |
+|---|---|---|
+| MNC 2030 Goals | [mnc-2030-goals](https://hdannabo.github.io/adaptive-systems-framework/dashboard/mnc-2030-goals.html) | Will 49 top MNCs hit their 2030 targets? |
+| Enterprise AI Benchmark | [enterprise-benchmark](https://hdannabo.github.io/adaptive-systems-framework/dashboard/enterprise-benchmark.html) | NVIDIA, AT&T, Meta, Adobe, Datadog |
+| Manufacturing Benchmark | [manufacturing-benchmark](https://hdannabo.github.io/adaptive-systems-framework/dashboard/manufacturing-benchmark.html) | Toyota, Boeing, Foxconn, Siemens, BYD |
+| Token Governance Scorer | [token-governance](https://hdannabo.github.io/adaptive-systems-framework/dashboard/token-governance.html) | Score your AI program — enter spend → get governance score |
+| Token Economics | [token-economics](https://hdannabo.github.io/adaptive-systems-framework/dashboard/token-economics.html) | 22 AI models scored on cost and context efficiency |
+| Capability Realization Time | [capability-realization-time](https://hdannabo.github.io/adaptive-systems-framework/dashboard/capability-realization-time.html) | Estimate how long it takes to close the adaptation gap |
+| 100-Case Explorer | [asf-dashboard](https://hdannabo.github.io/adaptive-systems-framework/research/asf-dashboard.html) | 100 systems across 10 domains, filterable |
+
+---
+
+## Run locally in 30 seconds
 
 ```bash
 git clone https://github.com/hdannabo/adaptive-systems-framework.git
 cd adaptive-systems-framework
-pip install pyyaml
+pip install -r requirements.txt
 
-# Score any system from a YAML file
+# Analyze a system from YAML
 python cli.py --file examples/att.yaml
 
 # Analyze any document
@@ -34,58 +81,13 @@ python asf_document_analyzer.py --file your_report.pdf
 
 # Batch analyze all 100 cases
 python asf_analyze.py
-```
 
----
+# Filter by risk or domain
+python asf_analyze.py --risk High
+python asf_analyze.py --domain "Telecom & Networks"
 
-## Open the dashboards
-
-All dashboards are standalone HTML — open directly in any browser. No server needed.
-
-| Dashboard | Location | What it shows |
-|---|---|---|
-| Token Governance Scorer | `dashboard/token-governance.html` | Score your AI program live |
-| Enterprise AI Benchmark | `dashboard/enterprise-benchmark.html` | 5 companies, public data |
-| Manufacturing Benchmark | `dashboard/manufacturing-benchmark.html` | Global manufacturing ASF |
-| 100-Case Explorer | `research/asf-dashboard.html` | All 100 cases, filterable |
-| Token Economics | `research/ai-token-economics/token-economics-dashboard.html` | 22 models scored |
-
----
-
-## Dashboards
-
-All dashboards open locally in any browser — no server needed.
-GitHub Pages: **https://hdannabo.github.io/adaptive-systems-framework/**
-
-| Dashboard | What it shows |
-|---|---|
-| [`dashboard/token-governance.html`](dashboard/token-governance.html) | Score your AI program — enter spend, users, adoption → governance score + P0/P1/P2 interventions |
-| [`dashboard/enterprise-benchmark.html`](dashboard/enterprise-benchmark.html) | NVIDIA, Datadog, Adobe, AT&T, Meta — scored from public data |
-| [`dashboard/manufacturing-benchmark.html`](dashboard/manufacturing-benchmark.html) | Toyota, Foxconn, Siemens, BYD, Boeing — global manufacturing adaptation |
-| [`dashboard/token-economics.html`](dashboard/token-economics.html) | 22 AI models scored — click any model for full ASF token efficiency output |
-| [`research/asf-dashboard.html`](research/asf-dashboard.html) | 100 cases across 10 domains — filterable by domain and risk band |
-
-## The core finding
-
-Across 100 analyzed systems — Toyota to Kodak, NVIDIA to Boeing, Netflix to AT&T:
-
-> Organizations rarely fail because they don't know what to do.
-> The real issue is the delay between recognizing a required change and operationalizing the response.
-
-**The Kodak Theorem:** Recognition is not the bottleneck. Decision latency and execution friction are.
-
----
-
-## The formula
-
-```
-Total Adaptation Latency =
-    Observation Latency (how fast you detect change)
-  + Decision Latency    (how fast you commit)
-  + Execution Latency   (how fast you implement)
-  + Feedback Delay      (how fast you see results)
-
-Minus: Learning Velocity (how fast you improve)
+# Validate an output against acceptance criteria
+python asf_conformance_agent.py --demo
 ```
 
 ---
@@ -94,39 +96,55 @@ Minus: Learning Velocity (how fast you improve)
 
 ```
 adaptive-systems-framework/
-├── cli.py                          # Analyze any system from YAML
-├── asf_document_analyzer.py        # Upload doc → ASF diagnosis
-├── asf_analyze.py                  # Batch analyze 100 cases
-├── src/asf/                        # Python scoring engine
+├── cli.py                            # Score any system from YAML
+├── asf_analyze.py                    # Batch analyze 100 cases
+├── asf_document_analyzer.py          # Document → ASF analysis
+├── asf_conformance_agent.py          # Output conformance validation
+├── src/asf/
+│   ├── models.py                     # Core data models
+│   ├── analyzer.py                   # Analysis pipeline
+│   ├── scoring/engine.py             # Deterministic scoring
+│   ├── scoring/crt_engine.py         # Capability Realization Time
+│   └── recommendations/engine.py    # Intervention generation
 ├── dashboard/
-│   ├── token-governance.html       # Score your AI program
-│   ├── enterprise-benchmark.html   # Enterprise AI comparison
-│   └── manufacturing-benchmark.html # Manufacturing comparison
+│   ├── mnc-2030-goals.html           # 49 MNCs vs 2030 targets
+│   ├── enterprise-benchmark.html     # Enterprise AI benchmark
+│   ├── manufacturing-benchmark.html  # Global manufacturing
+│   ├── token-governance.html         # AI governance scorer
+│   ├── token-economics.html          # Token efficiency scoring
+│   └── capability-realization-time.html  # CRT dashboard
 ├── docs/
-│   ├── formulas.md                 # All ASF formulas
-│   ├── theoretical-foundations.md  # MAPE, OODA, Senge, Ashby
-│   ├── llm-adaptation.md           # ASF for LLMs
-│   ├── deep-cases.md               # 10 deep case studies
-│   └── vision.md                   # Universal adaptive systems model
+│   ├── capability-realization-time.md    # CRT methodology
+│   ├── formulas.md                   # All ASF formulas
+│   ├── acceptance-criteria.md        # Product acceptance criteria
+│   ├── current-state.md              # Honest status assessment
+│   └── global-governance-validation.md  # NIST/EU/ISO/OECD alignment
 ├── research/
-│   ├── asf-dashboard.html          # 100-case interactive dashboard
-│   ├── asf_100_cases.csv           # Full dataset
-│   └── ai-token-economics/         # Token pricing + efficiency scores
-├── examples/
-│   ├── att.yaml                    # HIGH risk — telecom
-│   ├── toyota.yaml                 # LOW risk — benchmark
-│   └── boeing.yaml                 # HIGH risk — governance failure
-└── models/
-    └── asf-model.yaml              # Canonical ASF schema
+│   ├── asf_100_cases.csv             # 100-case dataset
+│   ├── mnc_2030_analysis.json        # 49 MNC analysis results
+│   └── global-llm-adoption.md        # 20+ country LLM data
+└── examples/
+    ├── att.yaml                      # HIGH risk — telecom
+    ├── toyota.yaml                   # LOW risk — benchmark
+    ├── boeing.yaml                   # HIGH risk — manufacturing
+    └── crt_examples.yaml             # CRT use case examples
 ```
 
 ---
 
-## Theoretical foundations
+## Current status
 
-ASF is grounded in six established frameworks: Systems Thinking (Senge, Meadows, Forrester), OODA Loop (John Boyd), Cybernetics (Wiener, Ashby), MAPE-K (IBM Research), Adaptive Systems (Santa Fe Institute), and Learning Organizations (Peter Senge).
-
-See [`docs/theoretical-foundations.md`](docs/theoretical-foundations.md)
+| Component | Status | Notes |
+|---|---|---|
+| Scoring engine | ✅ Production | Deterministic, tested, correct |
+| CLI analyzer | ✅ Working | YAML → scored report |
+| Batch analyzer | ✅ Working | 100 cases, filterable |
+| Document analyzer | ⚠️ Partial | Signal detection; LLM reasoning planned for v0.4 |
+| Conformance agent | ✅ Working | ALIGNED / DRIFTING / VIOLATED |
+| Dashboards | ✅ Live | GitHub Pages, no install |
+| CRT engine | ✅ v0.3 | Capability Realization Time scoring |
+| REST API | 🔲 Planned | Azure Functions — v0.4 |
+| LLM document reasoning | 🔲 Planned | Azure OpenAI integration — v0.4 |
 
 ---
 
@@ -134,11 +152,28 @@ See [`docs/theoretical-foundations.md`](docs/theoretical-foundations.md)
 
 | Version | Scope | Status |
 |---|---|---|
-| v0.1 | Research, 100-case dataset | ✅ Done |
-| v0.2 | Python engine, CLI, batch analyzer | ✅ Done |
-| v0.3 | Document analyzer, governance scorer | ✅ Done |
-| v0.4 | REST API + web interface | Planned |
-| v1.0 | ASF Copilot — upload doc, get full report | Future |
+| v0.1 | Research framework, 100-case dataset | ✅ Done |
+| v0.2 | Python scoring engine, CLI | ✅ Done |
+| v0.3 | Document analyzer, conformance agent, CRT, dashboards | ✅ Done |
+| v0.4 | Azure OpenAI document reasoning, REST API | Planned |
+| v1.0 | ASF Copilot — upload document, get full report | Future |
+
+---
+
+## Governance alignment
+
+ASF satisfies requirements across major AI governance frameworks:
+
+| Framework | Region | Alignment |
+|---|---|---|
+| NIST AI Risk Management Framework | USA | Strong — all four functions covered |
+| EU AI Act | Europe | Good — risk classification, documentation, monitoring |
+| ISO/IEC 42001 | International | Strong — all 10 clauses |
+| Australia NAIC | Australia | Good |
+| India MeitY Guidelines | India | Good |
+| OECD AI Principles | 42 countries | Strong |
+
+See [`docs/global-governance-validation.md`](docs/global-governance-validation.md)
 
 ---
 
@@ -146,10 +181,10 @@ See [`docs/theoretical-foundations.md`](docs/theoretical-foundations.md)
 
 Copyright © 2026 Hemanth Kumar Dannaboyina. All rights reserved.
 
-Attribution for research use:
+For research attribution:
 ```
 Dannaboyina, H.K. (2026). Adaptive Systems Framework (ASF).
-GitHub: https://github.com/hdannabo/adaptive-systems-framework
+https://github.com/hdannabo/adaptive-systems-framework
 ```
 
-[hemanth1917@icloud.com](mailto:hemanth1917@icloud.com) · AT&T · Procter & Gamble · Cisco · AZ-305 · AI-102 · CKA
+[hemanth1917@icloud.com](mailto:hemanth1917@icloud.com) · AT&T · P&G · Cisco · AZ-305 · AI-102 · CKA
