@@ -2,14 +2,14 @@
 """
 ASF Conformance Agent
 =====================
-The engineering translation of Dharma:
+The engineering translation of Conformance:
 A system that continuously checks whether LLM outputs are aligned
-with their defined acceptance criteria and business purpose.
+with their defined purpose and acceptance criteria.
 
 Core principle:
   Every LLM action has a defined purpose (acceptance criteria).
   Every output must be checked against that purpose.
-  Drift from purpose = governance failure = adharma in engineering terms.
+  Drift from purpose = governance failure = purpose drift in engineering terms.
 
 Usage:
     python asf_conformance_agent.py --task analyze_document --input report.pdf
@@ -31,7 +31,7 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 
 # ── Acceptance Criteria Registry ──────────────────────────────────────────────
-# This is the Dharma of the system.
+# This is the Conformance of the system.
 # Each task has a defined purpose. The agent checks every output against it.
 
 ACCEPTANCE_CRITERIA = {
@@ -178,7 +178,7 @@ ACCEPTANCE_CRITERIA = {
 }
 
 
-# ── Conformance Result ─────────────────────────────────────────────────────────
+# ── Conformance Result ───────────────────────────────────────────────────────
 
 @dataclass
 class CriterionResult:
@@ -204,8 +204,8 @@ class ConformanceReport:
     duration_ms: int
     within_token_budget: bool
     within_latency_budget: bool
-    dharma_status: str                  # ALIGNED | DRIFTING | VIOLATED
-    dharma_explanation: str
+    conformance_status: str                  # ALIGNED | DRIFTING | VIOLATED
+    conformance_explanation: str
     recommended_action: str
 
     def to_dict(self) -> dict:
@@ -220,7 +220,7 @@ class ConformanceAgent:
     """
     The sentinel.
 
-    In systems engineering terms, this is the Dharma layer —
+    In systems engineering terms, this is the Conformance layer —
     the mechanism that ensures every LLM output stays aligned
     with its defined purpose and acceptance criteria.
 
@@ -228,7 +228,7 @@ class ConformanceAgent:
       1. Did the output satisfy all acceptance criteria?
       2. Did the process stay within token budget?
       3. Did the process stay within latency budget?
-      4. Is the system aligned (dharma) or drifting (adharma)?
+      4. Is the system aligned (conformant) or drifting (purpose drift)?
     """
 
     def __init__(self, verbose: bool = True):
@@ -288,10 +288,10 @@ class ConformanceAgent:
         within_latency = duration_ms <= latency_budget if duration_ms > 0 else True
         overall_passed = critical_failures == 0 and within_token and within_latency
 
-        # Dharma classification
+        # Conformance classification
         if critical_failures == 0 and high_failures == 0 and within_token and within_latency:
-            dharma_status = "ALIGNED"
-            dharma_explanation = (
+            conformance_status = "ALIGNED"
+            conformance_explanation = (
                 f"System is operating within its defined purpose. "
                 f"All critical and high-priority criteria met. "
                 f"Token cost ${token_cost_usd:.4f} within budget ${token_budget:.2f}."
@@ -299,7 +299,7 @@ class ConformanceAgent:
             recommended_action = "Continue. Log this run as a learning baseline."
 
         elif critical_failures == 0 and (high_failures > 0 or not within_token or not within_latency):
-            dharma_status = "DRIFTING"
+            conformance_status = "DRIFTING"
             issues = []
             if high_failures > 0:
                 issues.append(f"{high_failures} high-priority criteria failed")
@@ -307,15 +307,15 @@ class ConformanceAgent:
                 issues.append(f"token cost ${token_cost_usd:.4f} exceeds budget ${token_budget:.2f}")
             if not within_latency:
                 issues.append(f"latency {duration_ms}ms exceeds budget {latency_budget}ms")
-            dharma_explanation = (
+            conformance_explanation = (
                 f"System is drifting from its defined purpose: {'; '.join(issues)}. "
                 "Core function delivered but governance constraints violated."
             )
             recommended_action = "Flag for review. Investigate cost or latency drift. Do not scale until resolved."
 
         else:
-            dharma_status = "VIOLATED"
-            dharma_explanation = (
+            conformance_status = "VIOLATED"
+            conformance_explanation = (
                 f"System violated its defined purpose: {critical_failures} critical criteria failed. "
                 "Output cannot be trusted or used."
             )
@@ -335,8 +335,8 @@ class ConformanceAgent:
             duration_ms=duration_ms,
             within_token_budget=within_token,
             within_latency_budget=within_latency,
-            dharma_status=dharma_status,
-            dharma_explanation=dharma_explanation,
+            conformance_status=conformance_status,
+            conformance_explanation=conformance_explanation,
             recommended_action=recommended_action,
         )
 
@@ -352,7 +352,7 @@ class ConformanceAgent:
         GREEN = "\033[92m"; YELLOW = "\033[93m"; RED = "\033[91m"; CYAN = "\033[96m"
 
         STATUS_COLOR = {"ALIGNED": GREEN, "DRIFTING": YELLOW, "VIOLATED": RED}
-        sc = STATUS_COLOR.get(r.dharma_status, RESET)
+        sc = STATUS_COLOR.get(r.conformance_status, RESET)
 
         print()
         print(f"{BOLD}{CYAN}{'─' * 64}{RESET}")
@@ -362,7 +362,7 @@ class ConformanceAgent:
         print(f"  ID          {DIM}{r.conformance_id}{RESET}")
         print(f"  Timestamp   {DIM}{r.timestamp}{RESET}")
         print(f"  Score       {BOLD}{int(r.score * 100)}%{RESET} ({sum(1 for c in r.criteria_results if c.passed)}/{len(r.criteria_results)} criteria passed)")
-        print(f"  Dharma      {sc}{BOLD}{r.dharma_status}{RESET}")
+        print(f"  Conformance {sc}{BOLD}{r.conformance_status}{RESET}")
         print()
 
         print(f"  {BOLD}Criteria results:{RESET}")
@@ -381,7 +381,7 @@ class ConformanceAgent:
             print(f"  Latency     {r.duration_ms}ms / budget {ACCEPTANCE_CRITERIA[r.task]['latency_budget_ms']}ms  "
                   f"{'✓' if r.within_latency_budget else '✗ TOO SLOW'}")
         print()
-        print(f"  {BOLD}Dharma:{RESET} {r.dharma_explanation}")
+        print(f"  {BOLD}Conformance:{RESET} {r.conformance_explanation}")
         print(f"  {BOLD}Action:{RESET} {r.recommended_action}")
         print()
         print(f"{BOLD}{CYAN}{'─' * 64}{RESET}")
@@ -393,9 +393,9 @@ class ConformanceAgent:
             return {"runs": 0, "message": "No history yet"}
 
         runs = len(self.history)
-        aligned = sum(1 for r in self.history if r.dharma_status == "ALIGNED")
-        drifting = sum(1 for r in self.history if r.dharma_status == "DRIFTING")
-        violated = sum(1 for r in self.history if r.dharma_status == "VIOLATED")
+        aligned = sum(1 for r in self.history if r.conformance_status == "ALIGNED")
+        drifting = sum(1 for r in self.history if r.conformance_status == "DRIFTING")
+        violated = sum(1 for r in self.history if r.conformance_status == "VIOLATED")
         avg_cost = sum(r.token_cost_usd for r in self.history) / runs
         avg_score = sum(r.score for r in self.history) / runs
 

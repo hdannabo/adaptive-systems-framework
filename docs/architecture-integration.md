@@ -57,15 +57,15 @@ report = agent.check(
     duration_ms=8200,
 )
 
-# report.dharma_status: ALIGNED | DRIFTING | VIOLATED
+# report.conformance_status: ALIGNED | DRIFTING | VIOLATED
 # ALIGNED  → deliver result
 # DRIFTING → deliver with warning, flag for review
 # VIOLATED → block result, log incident
 ```
 
 The three states map to engineering reality:
-- ALIGNED = system operating within purpose boundary (Dharma)
-- DRIFTING = output correct but governance constraints violated (cost, latency)
+- ALIGNED = system operating within purpose boundary (Conformance)
+- DRIFTING = output correct but governance constraints violated (cost, latency; Purpose Drift)
 - VIOLATED = output cannot be trusted — critical acceptance criteria failed
 
 ## Kyverno Integration — Policy as Code at Admission
