@@ -10,10 +10,10 @@ import sys
 import yaml
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from src.asf import analyze, AnalysisInput
-from src.asf.models import RiskBand
+from asf import analyze, AnalysisInput
+from asf.models import RiskBand
 
 RESET  = "\033[0m"
 BOLD   = "\033[1m"
