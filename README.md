@@ -187,4 +187,4 @@ Dannaboyina, H.K. (2026). Adaptive Systems Framework (ASF).
 https://github.com/hdannabo/adaptive-systems-framework
 ```
 
-[hemanth1917@icloud.com](mailto:hemanth1917@icloud.com) · AT&T · P&G · Cisco · AZ-305 · AI-102 · CKA
+[hemanth1917@icloud.com](mailto:hemanth1917@icloud.com)
