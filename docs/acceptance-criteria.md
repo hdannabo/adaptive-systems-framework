@@ -282,6 +282,3 @@ Until all 7 are true, it is a framework. After all 7 are true, it is a product.
 - Observability (2 hours)
 
 **Total: approximately 23 hours of engineering.**
-
-You have done harder things in a week at AT&T and P&G.
-The framework is built. The infrastructure is what remains.
