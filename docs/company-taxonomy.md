@@ -124,7 +124,7 @@ dominant friction sources, and control layer characteristics.
 | Nike | Digital transformation ongoing; direct-to-consumer shift well-executed |
 | Costco | Intentionally low-tech model; adaptation latency by design |
 | Coca-Cola | Brand adaptation fast; operational/supply chain adaptation slower |
-| P&G | Data and consumer behavior adaptation ongoing; organizational scale creates friction |
+| Unilever | Data and consumer behavior adaptation ongoing; organizational complexity |
 
 **Dominant pattern:** Customer behavior shifts are the primary input event. Data quality and organizational complexity are dominant friction sources. Companies that built data infrastructure early show lower latency.
 
