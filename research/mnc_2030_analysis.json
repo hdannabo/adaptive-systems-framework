@@ -53,7 +53,18 @@
         "status": "WILL MISS",
         "pct": 0
       }
-    ]
+    ],
+    "insight": "Boeing's production rate of 18 planes/month is 53% of the 38-plane target. Safety governance failures are compounding the production gap. Three 2030 objectives are simultaneously at risk.",
+    "impact": "Each month of delay costs approximately $140M in unrealized production revenue. At current velocity, Boeing will miss the 2030 production target by 20 planes/month \u2014 a $3.4B annual revenue gap.",
+    "recommendation": "Install real-time quality signal routing from factory floor to C-suite. Current defect-to-decision cycle is measured in weeks. This must be measured in hours.",
+    "expected_outcome": "Reducing quality decision latency from weeks to days adds 3\u20134 planes/month within 12 months, recovering approximately $420\u2013560M in annual revenue.",
+    "priority": "Critical",
+    "priority_reason": "Every month of delay costs $140M and reduces recovery probability.",
+    "cod_monthly_m": 140,
+    "cod_total_b": 3.36,
+    "recoverable_b": 2.19,
+    "delay_months_without_action": 24,
+    "delay_months_with_action": 8
   },
   {
     "company": "AT&T",
@@ -111,7 +122,18 @@
       "confidence": "Medium \u2014 based on publicly disclosed adoption rates and savings trajectory",
       "what_executives_dont_know": "The bottleneck is not AI capability or budget \u2014 it is workforce adoption. 58% of employees have access to AI tools and are not using them. This is a change management problem, not a technology problem."
     },
-    "cross_program_risk": "7 legacy replacement programs create coordination dependency \u2014 each program requires the same governance approval pipeline, creating a bottleneck that slows all three 2030 objectives simultaneously"
+    "cross_program_risk": "7 legacy replacement programs create coordination dependency \u2014 each program requires the same governance approval pipeline, creating a bottleneck that slows all three 2030 objectives simultaneously",
+    "insight": "AT&T has achieved $1B of its $4B AI savings target. 58% of the workforce \u2014 approximately 92,000 employees \u2014 has access to AI tools and is not using them. Three 2030 objectives are behind schedule.",
+    "impact": "At current adoption velocity, AT&T will reach $2.8B of the $4B target \u2014 a $1.2B shortfall. The adoption gap costs approximately $250M per month in unrealized savings.",
+    "recommendation": "Do not expand AI investment. Launch a mandatory adoption program targeting the 92,000 unadopted employees before Q3 2026. Adoption, not capability, is the constraint.",
+    "expected_outcome": "Every 10% adoption increase adds approximately $250M toward the target. Moving from 42% to 72% adoption recovers $750M of the gap.",
+    "priority": "Critical",
+    "priority_reason": "The savings gap compounds monthly. This is a change management problem that does not require additional budget.",
+    "cod_monthly_m": 250,
+    "cod_total_b": 3.0,
+    "recoverable_b": 1.65,
+    "delay_months_without_action": 18,
+    "delay_months_with_action": 6
   },
   {
     "company": "Intel",
@@ -167,7 +189,18 @@
       "expected_impact": "Successful 18A production would recover 8-12% market share from NVIDIA/TSMC within 24 months",
       "confidence": "Low-Medium \u2014 18A yield issues are publicly documented; recovery timeline uncertain",
       "what_executives_dont_know": "The leadership departures in 2024-2025 removed institutional knowledge that cannot be replaced quickly. The execution gap is as much a knowledge gap as a technology gap."
-    }
+    },
+    "insight": "Intel's 18A process node is experiencing yield issues. Market share in advanced semiconductors has fallen from 40% to 12%. Two key executives departed in 2024\u20132025, removing critical institutional knowledge.",
+    "impact": "Each quarter of 18A delay cedes GPU and AI chip market to NVIDIA and TSMC. Foundry revenue target of $15B requires 8x growth from current $1.8B \u2014 the gap widens monthly.",
+    "recommendation": "Concentrate 100% of engineering leadership on 18A yield improvement. Pause foundry customer acquisition until 18A is proven. Risk of distraction is greater than risk of lost customers.",
+    "expected_outcome": "Successful 18A production would recover 8\u201312% advanced process market share within 24 months, unlocking $4\u20136B in foundry revenue potential.",
+    "priority": "Critical",
+    "priority_reason": "18A is Intel's existential bet. Every month of yield failure closes the window for competitive recovery.",
+    "cod_monthly_m": 180,
+    "cod_total_b": 4.2,
+    "recoverable_b": 2.8,
+    "delay_months_without_action": 30,
+    "delay_months_with_action": 12
   },
   {
     "company": "Volkswagen Group",
@@ -223,7 +256,18 @@
       "expected_impact": "Platform consolidation could reduce software development cost by $4-6B annually by 2028",
       "confidence": "Medium \u2014 European EV demand data is public; VW sales data is published quarterly",
       "what_executives_dont_know": "The plant closure decisions in Germany are politically constrained. The real execution blocker is union co-determination \u2014 VW cannot restructure at market speed."
-    }
+    },
+    "insight": "VW's EV share stands at 18% against a 70% 2030 target. Plant closures are underway but blocked by union co-determination. Software platform fragmentation across 40+ models is consuming $4B+ annually.",
+    "impact": "At current EV adoption trajectory, VW will achieve 30\u201335% EV share by 2030 \u2014 less than half the target. EU carbon compliance penalties could reach \u20ac1.5B annually by 2027.",
+    "recommendation": "Revise the 2030 EV target to 40% publicly. Consolidate to one software platform across all brands. A credible 40% target is more valuable than a failed 70% commitment.",
+    "expected_outcome": "Software platform consolidation could reduce development cost by $4\u20136B annually by 2028. Revised public target restores investor confidence and reduces cost of capital.",
+    "priority": "Critical",
+    "priority_reason": "EU carbon penalties begin 2026. Target revision costs nothing; missing the target costs billions.",
+    "cod_monthly_m": 125,
+    "cod_total_b": 4.5,
+    "recoverable_b": 1.8,
+    "delay_months_without_action": 36,
+    "delay_months_with_action": 18
   },
   {
     "company": "BP",
@@ -279,7 +323,18 @@
       "expected_impact": "Meeting a revised 25GW target builds investor trust and attracts green capital at lower cost than missing 50GW",
       "confidence": "Medium \u2014 BP's own investor communications show strategy uncertainty",
       "what_executives_dont_know": "The CEO change triggered strategy reversal but did not reset investor expectations. The market is pricing in another reversal \u2014 which becomes self-fulfilling."
-    }
+    },
+    "insight": "BP reversed its renewable energy strategy in 2024 under CEO change. Current renewable capacity is 12GW against a 50GW 2030 target. Carbon intensity reduction is behind schedule with no credible delivery plan.",
+    "impact": "A second strategy reversal would permanently destroy investor credibility in BP's net zero commitments. Green capital access would be restricted at a time when competitors are securing it at favorable rates.",
+    "recommendation": "Revise the 2030 renewable capacity target to 20GW with a quarterly delivery plan. Consistent delivery on a smaller commitment rebuilds more investor trust than aspirational miss.",
+    "expected_outcome": "Meeting a revised 20GW target with quarterly transparency could reduce cost of green capital by 50\u201380 basis points, saving $80\u2013130M annually on a $15B green investment program.",
+    "priority": "Critical",
+    "priority_reason": "Investor credibility, once lost twice, is exceptionally difficult to recover. The window for voluntary revision is closing.",
+    "cod_monthly_m": 85,
+    "cod_total_b": 2.8,
+    "recoverable_b": 1.1,
+    "delay_months_without_action": 33,
+    "delay_months_with_action": 15
   },
   {
     "company": "Verizon",
@@ -335,7 +390,18 @@
       "expected_impact": "Manufacturing and healthcare private 5G could generate $3-4B in B2B revenue by 2028 if go-to-market is accelerated",
       "confidence": "Medium \u2014 coverage from FCC data; revenue targets from public guidance",
       "what_executives_dont_know": "Verizon has the best enterprise 5G coverage in the US. The gap is selling AI applications on top of the network, not the network itself."
-    }
+    },
+    "insight": "Verizon has 24% of its 2030 target remaining. Primary constraint: Execution Latency. Governance overhead; spectrum auction delays; 22pp coverage gap in 4 years.",
+    "impact": "Verizon has the best enterprise 5G coverage in the US. The gap is selling AI applications on top of the network, not the network itself.",
+    "recommendation": "Bundle private 5G with managed AI services for manufacturing and healthcare verticals \u2014 these sectors have budget and proven use cases",
+    "expected_outcome": "Manufacturing and healthcare private 5G could generate $3-4B in B2B revenue by 2028 if go-to-market is accelerated",
+    "priority": "High",
+    "priority_reason": "ASF score 3.15/5 \u2014 AT RISK. Medium \u2014 coverage from FCC data; revenue targets from public guidance.",
+    "cod_monthly_m": 22,
+    "cod_total_b": 0.4,
+    "recoverable_b": 0.22,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Meta",
@@ -391,7 +457,18 @@
       "expected_impact": "Clear measurement framework prevents Goodhart's Law failure \u2014 employees optimizing for metric (AI usage) rather than outcome (business value)",
       "confidence": "Medium \u2014 internal policy from public reporting; adoption from earnings calls",
       "what_executives_dont_know": "Cutting 600 AI roles while mandating AI adoption sends contradictory signals that reduce organizational confidence and slow adoption velocity."
-    }
+    },
+    "insight": "Meta has 0% of its 2030 target remaining. Primary constraint: Execution Latency. Building methane-powered data centers for AI; net zero goal in tension with AI infrastructure.",
+    "impact": "Cutting 600 AI roles while mandating AI adoption sends contradictory signals that reduce organizational confidence and slow adoption velocity.",
+    "recommendation": "Build AI ROI measurement framework before the 2026 performance review cycle \u2014 define what AI-driven impact means quantitatively",
+    "expected_outcome": "Clear measurement framework prevents Goodhart's Law failure \u2014 employees optimizing for metric (AI usage) rather than outcome (business value)",
+    "priority": "High",
+    "priority_reason": "ASF score 3.00/5 \u2014 AT RISK. Medium \u2014 internal policy from public reporting; adoption from earnings calls.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Goldman Sachs",
@@ -447,7 +524,18 @@
       "expected_impact": "Reducing model approval from 6 months to 6 weeks could accelerate AI productivity gains by 12-18 months",
       "confidence": "Medium \u2014 efficiency ratio from public filings; AI approval timeline from industry knowledge",
       "what_executives_dont_know": "Goldman's trading AI is already highly optimized. The productivity gap is in advisory, compliance, and back-office functions where AI deployment has been slowest."
-    }
+    },
+    "insight": "Goldman Sachs has -24% of its 2030 target remaining. Primary constraint: Execution Latency. Heavy governance overhead; 13pp efficiency improvement in 4 years requires significant execution acceleration.",
+    "impact": "Goldman's trading AI is already highly optimized. The productivity gap is in advisory, compliance, and back-office functions where AI deployment has been slowest.",
+    "recommendation": "Streamline AI model approval process \u2014 current 6-month validation cycle prevents AI from improving operational speed",
+    "expected_outcome": "Reducing model approval from 6 months to 6 weeks could accelerate AI productivity gains by 12-18 months",
+    "priority": "High",
+    "priority_reason": "ASF score 3.00/5 \u2014 AT RISK. Medium \u2014 efficiency ratio from public filings; AI approval timeline from industry knowledge.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "FedEx",
@@ -503,7 +591,18 @@
       "expected_impact": "Last-mile e-bike delivery in urban areas reduces cost-per-delivery by 40-60% vs diesel vans while meeting emissions commitments faster than truck electrification",
       "confidence": "Medium \u2014 fleet data from sustainability reports; EV charging constraints from industry analysis",
       "what_executives_dont_know": "The charging infrastructure gap is the binding constraint \u2014 not vehicle availability. FedEx cannot charge 50% of its fleet with current US charging infrastructure by 2030."
-    }
+    },
+    "insight": "FedEx has converted 8% of its fleet to electric \u2014 6% behind the 50% 2030 target. Charging infrastructure across FedEx's network does not yet exist at the scale required for 50% electrification.",
+    "impact": "50% EV fleet by 2030 is not achievable given current charging infrastructure constraints. Continued investment in this target trajectory delivers negative ROI.",
+    "recommendation": "Redirect EV capex toward last-mile e-bikes and electric cargo aircraft pilots. These have shorter deployment cycles, lower infrastructure requirements, and higher ROI than truck electrification.",
+    "expected_outcome": "Last-mile e-bike deployment in urban markets reduces cost-per-delivery by 40\u201360% versus diesel vans while meeting emissions commitments 3\u20134 years earlier.",
+    "priority": "High",
+    "priority_reason": "Capital is being deployed toward an unachievable target. Redirect now before the 2026 procurement cycle commits additional budget.",
+    "cod_monthly_m": 35,
+    "cod_total_b": 1.4,
+    "recoverable_b": 0.6,
+    "delay_months_without_action": 40,
+    "delay_months_with_action": 20
   },
   {
     "company": "HSBC",
@@ -559,7 +658,18 @@
       "expected_impact": "Quarterly public reporting creates internal pressure that reduces financed emissions 15-25% faster than annual reporting cycles",
       "confidence": "Medium \u2014 financed emissions from TCFD reports; wealth data from earnings",
       "what_executives_dont_know": "HSBC's financed emissions are heavily concentrated in Asian industrial clients. Decarbonizing this portfolio requires those clients to transition \u2014 which takes a decade, not 4 years."
-    }
+    },
+    "insight": "HSBC has 59% of its 2030 target remaining. Primary constraint: Dependency Index. Financed emissions still rising; governance complexity across 64 markets.",
+    "impact": "HSBC's financed emissions are heavily concentrated in Asian industrial clients. Decarbonizing this portfolio requires those clients to transition \u2014 which takes a decade, not 4 years.",
+    "recommendation": "Publish quarterly financed emissions data by sector \u2014 transparency forces internal accountability and demonstrates commitment to institutional investors",
+    "expected_outcome": "Quarterly public reporting creates internal pressure that reduces financed emissions 15-25% faster than annual reporting cycles",
+    "priority": "High",
+    "priority_reason": "ASF score 2.85/5 \u2014 AT RISK. Medium \u2014 financed emissions from TCFD reports; wealth data from earnings.",
+    "cod_monthly_m": 39,
+    "cod_total_b": 0.7,
+    "recoverable_b": 0.39,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Berkshire Hathaway",
@@ -615,7 +725,18 @@
       "expected_impact": "Shared AI infrastructure could accelerate AI adoption across 30-40 portfolio companies without requiring centralized mandates",
       "confidence": "Low-Medium \u2014 BHE from earnings; portfolio AI adoption is speculative based on public company disclosures",
       "what_executives_dont_know": "Berkshire's portfolio companies have $50B+ in combined annual IT spend. A shared AI platform would be one of the world's largest enterprise AI deployments \u2014 but Berkshire's culture actively resists this coordination."
-    }
+    },
+    "insight": "Berkshire Hathaway has 44% of its 2030 target remaining. Primary constraint: Observation Latency. Buffett succession risk; BHE regulatory battles; slow AI adoption in portfolio companies.",
+    "impact": "Berkshire's portfolio companies have $50B+ in combined annual IT spend. A shared AI platform would be one of the world's largest enterprise AI deployments \u2014 but Berkshire's culture actively resists this coordination.",
+    "recommendation": "Create a shared AI infrastructure fund for portfolio companies \u2014 voluntary opt-in preserves autonomy while reducing each company's AI investment barrier",
+    "expected_outcome": "Shared AI infrastructure could accelerate AI adoption across 30-40 portfolio companies without requiring centralized mandates",
+    "priority": "High",
+    "priority_reason": "ASF score 2.80/5 \u2014 AT RISK. Low-Medium \u2014 BHE from earnings; portfolio AI adoption is speculative based on public company disclosures.",
+    "cod_monthly_m": 28,
+    "cod_total_b": 0.5,
+    "recoverable_b": 0.28,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "JPMorgan Chase",
@@ -671,7 +792,18 @@
       "expected_impact": "Demonstrating internal AI ROI above 10% creates a competitive recruitment advantage and validates the externally published research",
       "confidence": "Medium \u2014 sustainable finance from ESG reports; AI efficiency from earnings commentary",
       "what_executives_dont_know": "JPMorgan has more AI patents than any bank. The gap is not capability \u2014 it is conversion from AI investment to measured business outcomes."
-    }
+    },
+    "insight": "JPMorgan Chase has 56% of its 2030 target remaining. Primary constraint: Dependency Index. AI industry needs $650B revenue by 2030 for 10% ROI per JPM own report; internal adoption strong but ROI unproven.",
+    "impact": "JPMorgan has more AI patents than any bank. The gap is not capability \u2014 it is conversion from AI investment to measured business outcomes.",
+    "recommendation": "Apply JPMorgan's own AI ROI framework to internal AI programs \u2014 measure and publish internal AI ROI with same rigor as published research",
+    "expected_outcome": "Demonstrating internal AI ROI above 10% creates a competitive recruitment advantage and validates the externally published research",
+    "priority": "High",
+    "priority_reason": "ASF score 2.70/5 \u2014 AT RISK. Medium \u2014 sustainable finance from ESG reports; AI efficiency from earnings commentary.",
+    "cod_monthly_m": 31,
+    "cod_total_b": 0.56,
+    "recoverable_b": 0.31,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "LVMH",
@@ -727,7 +859,18 @@
       "expected_impact": "Supply chain transparency premium allows 3-5% price increase across top brands while reducing sustainability criticism",
       "confidence": "Medium \u2014 sustainability data from annual reports; luxury consumer behavior from market research",
       "what_executives_dont_know": "LVMH's largest carbon footprint is customer travel to purchase \u2014 boutique visits generate more emissions than manufacturing. The most effective sustainability intervention is digital commerce, which also expands margin."
-    }
+    },
+    "insight": "LVMH has -70% of its 2030 target remaining. Primary constraint: Observation Latency. Luxury market slowdown; China demand declining; sustainability requires supply chain transformation.",
+    "impact": "LVMH's largest carbon footprint is customer travel to purchase \u2014 boutique visits generate more emissions than manufacturing. The most effective sustainability intervention is digital commerce, which also expands margin.",
+    "recommendation": "Focus sustainability investment on supply chain transparency and artisan protection \u2014 these align with luxury brand values and attract premium buyers",
+    "expected_outcome": "Supply chain transparency premium allows 3-5% price increase across top brands while reducing sustainability criticism",
+    "priority": "High",
+    "priority_reason": "ASF score 2.70/5 \u2014 AT RISK. Medium \u2014 sustainability data from annual reports; luxury consumer behavior from market research.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Deutsche Telekom",
@@ -783,7 +926,18 @@
       "expected_impact": "European sovereign AI cloud positioning could capture $1-2B of the $15B+ European enterprise AI market that requires EU data residency",
       "confidence": "Medium \u2014 T-Systems revenue from earnings; EU AI market from analyst estimates",
       "what_executives_dont_know": "Deutsche Telekom is the only major carrier with both telecom infrastructure and enterprise IT services at scale. This combination is uniquely valuable for enterprise AI \u2014 and it is underexploited."
-    }
+    },
+    "insight": "Deutsche Telekom has 45% of its 2030 target remaining. Primary constraint: Observation Latency. EU regulatory complexity; 45pp remaining in 4 years requires acceleration.",
+    "impact": "Deutsche Telekom is the only major carrier with both telecom infrastructure and enterprise IT services at scale. This combination is uniquely valuable for enterprise AI \u2014 and it is underexploited.",
+    "recommendation": "Position T-Systems as the European sovereign AI cloud \u2014 EU AI Act compliance and GDPR data residency create a structural moat that US hyperscalers cannot easily match",
+    "expected_outcome": "European sovereign AI cloud positioning could capture $1-2B of the $15B+ European enterprise AI market that requires EU data residency",
+    "priority": "High",
+    "priority_reason": "ASF score 2.70/5 \u2014 AT RISK. Medium \u2014 T-Systems revenue from earnings; EU AI market from analyst estimates.",
+    "cod_monthly_m": 25,
+    "cod_total_b": 0.45,
+    "recoverable_b": 0.25,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Johnson & Johnson",
@@ -839,7 +993,18 @@
       "expected_impact": "Successful Ottava launch in 2026 could capture 15-20% of the $10B+ robotic surgery market by 2030",
       "confidence": "Medium \u2014 revenue from earnings; robotic surgery market from public research",
       "what_executives_dont_know": "Intuitive Surgical's da Vinci has a 30-year installed base advantage. J&J's Ottava needs a differentiated clinical advantage, not just parity \u2014 the current positioning is too similar."
-    }
+    },
+    "insight": "Johnson & Johnson has 50% of its 2030 target remaining. Primary constraint: Dependency Index. Regulatory approval cycles 7-12 years; 2x revenue in 4 years requires acquisitions + organic.",
+    "impact": "Intuitive Surgical's da Vinci has a 30-year installed base advantage. J&J's Ottava needs a differentiated clinical advantage, not just parity \u2014 the current positioning is too similar.",
+    "recommendation": "Accelerate Ottava robotic surgery platform launch \u2014 surgical robotics is the highest-margin MedTech segment and J&J is 5 years behind Intuitive Surgical",
+    "expected_outcome": "Successful Ottava launch in 2026 could capture 15-20% of the $10B+ robotic surgery market by 2030",
+    "priority": "High",
+    "priority_reason": "ASF score 2.70/5 \u2014 AT RISK. Medium \u2014 revenue from earnings; robotic surgery market from public research.",
+    "cod_monthly_m": 28,
+    "cod_total_b": 0.5,
+    "recoverable_b": 0.28,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Pfizer",
@@ -895,7 +1060,18 @@
       "expected_impact": "30% trial time reduction on 5 oncology candidates could advance approvals by 18-24 months, recovering $4-6B in revenue timing",
       "confidence": "Medium \u2014 pipeline from public filings; AI clinical trial data from published research",
       "what_executives_dont_know": "Pfizer's AI drug discovery capability is strong. The bottleneck is clinical trial enrollment speed, not molecule discovery \u2014 AI can fix the bottleneck."
-    }
+    },
+    "insight": "Pfizer has 84% of its 2030 target remaining. Primary constraint: Dependency Index. Post-COVID revenue decline; pipeline rebuilding; AI-accelerated R&D but regulatory bottleneck.",
+    "impact": "Pfizer's AI drug discovery capability is strong. The bottleneck is clinical trial enrollment speed, not molecule discovery \u2014 AI can fix the bottleneck.",
+    "recommendation": "Prioritize AI-accelerated clinical trial design for top 5 oncology candidates \u2014 AI can reduce Phase 2/3 trial time by 20-30%",
+    "expected_outcome": "30% trial time reduction on 5 oncology candidates could advance approvals by 18-24 months, recovering $4-6B in revenue timing",
+    "priority": "High",
+    "priority_reason": "ASF score 2.70/5 \u2014 AT RISK. Medium \u2014 pipeline from public filings; AI clinical trial data from published research.",
+    "cod_monthly_m": 47,
+    "cod_total_b": 0.85,
+    "recoverable_b": 0.47,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Unilever",
@@ -951,7 +1127,18 @@
       "expected_impact": "Top 10 SKU plastic elimination achieves 60% of total plastic target at 20% of the cost of broad portfolio approach",
       "confidence": "Medium \u2014 plastic data from sustainability reports; concentration analysis from product portfolio knowledge",
       "what_executives_dont_know": "Investor pressure to maintain all sustainability targets simultaneously is creating organizational paralysis. Focused delivery on fewer commitments builds more credibility than scattered progress on all."
-    }
+    },
+    "insight": "Unilever has 56% of its 2030 target remaining. Primary constraint: Observation Latency. Sustainability strategy under investor pressure; 28pp reduction remaining; execution uncertain.",
+    "impact": "Investor pressure to maintain all sustainability targets simultaneously is creating organizational paralysis. Focused delivery on fewer commitments builds more credibility than scattered progress on all.",
+    "recommendation": "Concentrate plastic reduction on top 10 SKUs that represent 60% of plastic use \u2014 80/20 rule applies to sustainability as much as revenue",
+    "expected_outcome": "Top 10 SKU plastic elimination achieves 60% of total plastic target at 20% of the cost of broad portfolio approach",
+    "priority": "High",
+    "priority_reason": "ASF score 2.70/5 \u2014 AT RISK. Medium \u2014 plastic data from sustainability reports; concentration analysis from product portfolio knowledge.",
+    "cod_monthly_m": 31,
+    "cod_total_b": 0.56,
+    "recoverable_b": 0.31,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Nestl\u00e9",
@@ -1007,7 +1194,18 @@
       "expected_impact": "Premium pricing accelerates farmer adoption from voluntary 18% to incentivized 35-40% within 5 years",
       "confidence": "Medium \u2014 current sourcing from sustainability reports; farmer behavior from agricultural economics research",
       "what_executives_dont_know": "Regenerative agriculture requires 3-5 years of transition before yield stabilizes. Farmers cannot afford the transition risk without financial support \u2014 premium pricing is the only mechanism that works at scale."
-    }
+    },
+    "insight": "Nestl\u00e9 has 64% of its 2030 target remaining. Primary constraint: Observation Latency. Supply chain transformation requires farmer behavior change \u2014 highest organizational friction.",
+    "impact": "Regenerative agriculture requires 3-5 years of transition before yield stabilizes. Farmers cannot afford the transition risk without financial support \u2014 premium pricing is the only mechanism that works at scale.",
+    "recommendation": "Implement regenerative agriculture premium pricing \u2014 pay farmers 15-20% above market for certified regenerative practices to make behavior change economically rational",
+    "expected_outcome": "Premium pricing accelerates farmer adoption from voluntary 18% to incentivized 35-40% within 5 years",
+    "priority": "High",
+    "priority_reason": "ASF score 2.70/5 \u2014 AT RISK. Medium \u2014 current sourcing from sustainability reports; farmer behavior from agricultural economics research.",
+    "cod_monthly_m": 35,
+    "cod_total_b": 0.63,
+    "recoverable_b": 0.35,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Coca-Cola",
@@ -1063,7 +1261,18 @@
       "expected_impact": "Direct recycling infrastructure investment in 20 markets creates reliable recycled plastic supply and improves packaging cost by $0.02-0.04 per bottle at scale",
       "confidence": "Medium \u2014 recycled content from sustainability; infrastructure gap from packaging industry analysis",
       "what_executives_dont_know": "Coca-Cola's 25% recycled content target requires 3x more recycled PET than currently exists in most markets. The supply simply does not exist yet."
-    }
+    },
+    "insight": "Coca-Cola has 40% of its 2030 target remaining. Primary constraint: Observation Latency. Recycling infrastructure gap; 10pp increase in 4 years requires system-level change.",
+    "impact": "Coca-Cola's 25% recycled content target requires 3x more recycled PET than currently exists in most markets. The supply simply does not exist yet.",
+    "recommendation": "Co-invest in local recycling infrastructure in top 20 markets \u2014 Coca-Cola cannot hit recycled content targets if recycled plastic supply doesn't exist",
+    "expected_outcome": "Direct recycling infrastructure investment in 20 markets creates reliable recycled plastic supply and improves packaging cost by $0.02-0.04 per bottle at scale",
+    "priority": "High",
+    "priority_reason": "ASF score 2.70/5 \u2014 AT RISK. Medium \u2014 recycled content from sustainability; infrastructure gap from packaging industry analysis.",
+    "cod_monthly_m": 22,
+    "cod_total_b": 0.4,
+    "recoverable_b": 0.22,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Shell",
@@ -1119,7 +1328,18 @@
       "expected_impact": "Consistent delivery on revised targets restores investor confidence and reduces cost of green capital by 50-80bps",
       "confidence": "Medium \u2014 carbon data from sustainability reports; capacity from operational disclosures",
       "what_executives_dont_know": "Shell's renewable energy assets are being divested faster than new ones are built. Net renewable capacity is not growing at the rate gross announcements suggest."
-    }
+    },
+    "insight": "Shell has -64% of its 2030 target remaining. Primary constraint: Decision Latency. 32pp remaining intensity reduction in 4 years; transition capex vs fossil demand tension.",
+    "impact": "Shell's renewable energy assets are being divested faster than new ones are built. Net renewable capacity is not growing at the rate gross announcements suggest.",
+    "recommendation": "Revise 2030 renewable capacity target to 15GW with quarterly delivery milestones \u2014 credible delivery beats aspirational miss",
+    "expected_outcome": "Consistent delivery on revised targets restores investor confidence and reduces cost of green capital by 50-80bps",
+    "priority": "High",
+    "priority_reason": "ASF score 2.55/5 \u2014 AT RISK. Medium \u2014 carbon data from sustainability reports; capacity from operational disclosures.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Google / Alphabet",
@@ -1175,7 +1395,18 @@
       "expected_impact": "Enterprise-focused motion could accelerate paid adoption from 3.5% to 8-10% within 18 months based on Azure OpenAI trajectory",
       "confidence": "Medium \u2014 adoption data from public surveys; revenue from earnings calls",
       "what_executives_dont_know": "Google's AI capabilities are technically competitive. The gap is trust and procurement \u2014 enterprises are reluctant to put sensitive workloads on the same infrastructure as consumer Google."
-    }
+    },
+    "insight": "Gemini has 400M monthly active users but only 3.5% of US businesses are paying for enterprise AI products. Google Cloud AI is growing 30% annually. The consumer product is popular; the enterprise sale is not working.",
+    "impact": "Enterprise AI adoption gap vs Azure OpenAI is widening quarterly. At current trajectory, Google loses 15\u201320 percentage points of enterprise market share to Microsoft and Anthropic by 2028.",
+    "recommendation": "Separate enterprise AI go-to-market from consumer Gemini brand. Enterprise CIOs buy on compliance, support, and data residency \u2014 not consumer features. Build a distinct enterprise identity.",
+    "expected_outcome": "Enterprise-focused GTM could accelerate paid adoption from 3.5% to 8\u201310% within 18 months, representing $4\u20136B in incremental Cloud AI revenue.",
+    "priority": "High",
+    "priority_reason": "Enterprise trust gaps are self-reinforcing. Each quarter of underperformance makes the next win harder.",
+    "cod_monthly_m": 280,
+    "cod_total_b": 16.0,
+    "recoverable_b": 5.0,
+    "delay_months_without_action": 24,
+    "delay_months_with_action": 18
   },
   {
     "company": "BlackRock",
@@ -1231,7 +1462,18 @@
       "expected_impact": "Risk-framing rebranding could recover $150-200B in AUM from clients who withdrew due to political pressure while retaining ESG-committed clients",
       "confidence": "Medium \u2014 AUM from regulatory filings; political dynamics from public market context",
       "what_executives_dont_know": "The anti-ESG pressure is concentrated in US state pension funds. International institutional investors \u2014 which represent 60% of AUM \u2014 are moving in the opposite direction."
-    }
+    },
+    "insight": "BlackRock has 35% of its 2030 target remaining. Primary constraint: Execution Latency. ESG political headwinds in US; regulatory pressure from both directions.",
+    "impact": "The anti-ESG pressure is concentrated in US state pension funds. International institutional investors \u2014 which represent 60% of AUM \u2014 are moving in the opposite direction.",
+    "recommendation": "Rebrand sustainable finance products as risk-adjusted return optimization \u2014 institutional investors respond to return language; ESG language is politically contested",
+    "expected_outcome": "Risk-framing rebranding could recover $150-200B in AUM from clients who withdrew due to political pressure while retaining ESG-committed clients",
+    "priority": "High",
+    "priority_reason": "ASF score 2.30/5 \u2014 AT RISK. Medium \u2014 AUM from regulatory filings; political dynamics from public market context.",
+    "cod_monthly_m": 8,
+    "cod_total_b": 0.14,
+    "recoverable_b": 0.08,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Walmart",
@@ -1287,7 +1529,18 @@
       "expected_impact": "Procurement-linked sustainability scores accelerate supplier behavior change 3-5x compared to voluntary programs",
       "confidence": "Medium \u2014 automation from earnings; Gigaton from sustainability reports",
       "what_executives_dont_know": "The Gigaton target depends on 100,000+ suppliers voluntarily changing. Voluntary programs historically achieve 15-20% participation. Mandatory procurement criteria achieve 80%+."
-    }
+    },
+    "insight": "Walmart has 20% of its 2030 target remaining. Primary constraint: Execution Latency. Missing 2025 emissions goals; AI not yet impacting top-line sales; automation scaling slower than planned.",
+    "impact": "The Gigaton target depends on 100,000+ suppliers voluntarily changing. Voluntary programs historically achieve 15-20% participation. Mandatory procurement criteria achieve 80%+.",
+    "recommendation": "Implement supplier sustainability scoring into procurement decisions \u2014 make emission reduction a sourcing criterion, not just a program",
+    "expected_outcome": "Procurement-linked sustainability scores accelerate supplier behavior change 3-5x compared to voluntary programs",
+    "priority": "High",
+    "priority_reason": "ASF score 2.30/5 \u2014 AT RISK. Medium \u2014 automation from earnings; Gigaton from sustainability reports.",
+    "cod_monthly_m": 4,
+    "cod_total_b": 0.07,
+    "recoverable_b": 0.04,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Maersk",
@@ -1343,7 +1596,18 @@
       "expected_impact": "Long-term offtake agreements reduce green methanol price risk by 30-40% and make the business case for dual-fuel conversion financially sound",
       "confidence": "Medium \u2014 fleet data from annual reports; methanol supply from industry analysis",
       "what_executives_dont_know": "Green methanol currently costs 4-6x conventional bunker fuel. Maersk is betting that scale will bring costs down \u2014 but the timeline is 2035, not 2030."
-    }
+    },
+    "insight": "Maersk has 84% of its 2030 target remaining. Primary constraint: Execution Latency. Green methanol supply chain developing; 21pp fleet conversion in 4 years is aggressive.",
+    "impact": "Green methanol currently costs 4-6x conventional bunker fuel. Maersk is betting that scale will bring costs down \u2014 but the timeline is 2035, not 2030.",
+    "recommendation": "Secure 10-year green methanol offtake agreements before ordering additional dual-fuel vessels \u2014 fuel certainty before vessel commitment",
+    "expected_outcome": "Long-term offtake agreements reduce green methanol price risk by 30-40% and make the business case for dual-fuel conversion financially sound",
+    "priority": "High",
+    "priority_reason": "ASF score 2.30/5 \u2014 AT RISK. Medium \u2014 fleet data from annual reports; methanol supply from industry analysis.",
+    "cod_monthly_m": 20,
+    "cod_total_b": 0.36,
+    "recoverable_b": 0.2,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Reliance Industries",
@@ -1399,7 +1663,18 @@
       "expected_impact": "20GW captive green energy eliminates $2-3B/year in energy import costs for Reliance's industrial operations",
       "confidence": "Low-Medium \u2014 current capacity is public; 100GW target is aspirational with no published delivery plan",
       "what_executives_dont_know": "India's grid infrastructure cannot absorb 100GW of new renewable capacity by 2030 without massive transmission investment that is currently unfunded."
-    }
+    },
+    "insight": "Reliance Industries has 99% of its 2030 target remaining. Primary constraint: Observation Latency. 100GW green by 2030 from 1.2GW current is the largest absolute gap in dataset; India grid infrastructure bottleneck.",
+    "impact": "India's grid infrastructure cannot absorb 100GW of new renewable capacity by 2030 without massive transmission investment that is currently unfunded.",
+    "recommendation": "Focus green energy investment on captive use for Reliance's own operations first \u2014 this reduces import dependency and demonstrates commitment before external claims",
+    "expected_outcome": "20GW captive green energy eliminates $2-3B/year in energy import costs for Reliance's industrial operations",
+    "priority": "Critical",
+    "priority_reason": "ASF score 2.30/5 \u2014 WILL MISS. Low-Medium \u2014 current capacity is public; 100GW target is aspirational with no published delivery plan.",
+    "cod_monthly_m": 23,
+    "cod_total_b": 0.41,
+    "recoverable_b": 0.23,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Nike",
@@ -1455,7 +1730,18 @@
       "expected_impact": "AI-personalized member experience in Asia could add 50-70M new digital members by 2028",
       "confidence": "Medium \u2014 DTC from earnings; digital member data from public disclosures",
       "what_executives_dont_know": "Nike's 150M member ecosystem is the most valuable retail database in the world. The monetization per member is still below its potential \u2014 AI personalization is the lever."
-    }
+    },
+    "insight": "Nike has 26% of its 2030 target remaining. Primary constraint: Decision Latency. $44.5B DTC revenue; 150M member ecosystem; digital infrastructure strong.",
+    "impact": "Nike's 150M member ecosystem is the most valuable retail database in the world. The monetization per member is still below its potential \u2014 AI personalization is the lever.",
+    "recommendation": "Deploy Nike AI-personalization in China and India markets where member growth is fastest and competitor apps are weakest",
+    "expected_outcome": "AI-personalized member experience in Asia could add 50-70M new digital members by 2028",
+    "priority": "Medium",
+    "priority_reason": "ASF score 2.25/5 \u2014 ON TRACK. Medium \u2014 DTC from earnings; digital member data from public disclosures.",
+    "cod_monthly_m": 5,
+    "cod_total_b": 0.09,
+    "recoverable_b": 0.05,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Anthropic",
@@ -1511,7 +1797,18 @@
       "expected_impact": "Formalized governance reduces IPO risk discount and attracts regulated-industry customers who require documented safety processes",
       "confidence": "High \u2014 adoption from public surveys; market share from industry analysis",
       "what_executives_dont_know": "Anthropic generates approximately $14M revenue per employee \u2014 highest in tech. The efficiency advantage over OpenAI is significant and underreported."
-    }
+    },
+    "insight": "Anthropic achieved 30.6% US business adoption \u2014 up from 4.1% in January 2025. This is 7x growth in 14 months, the strongest enterprise AI adoption signal in the market. Revenue per employee is approximately $14M \u2014 highest in tech.",
+    "impact": "Anthropic is capturing enterprise market share from OpenAI in regulated industries. The risk is IPO governance transition \u2014 institutional investors require formal safety governance that Anthropic's current structure does not fully document.",
+    "recommendation": "Publish a formal safety governance framework before IPO. This is not optional \u2014 regulated-industry customers and institutional investors both require it.",
+    "expected_outcome": "Formal safety governance documentation reduces IPO risk discount and accelerates adoption in financial services, healthcare, and government \u2014 three sectors worth $8\u201312B in AI services spend.",
+    "priority": "High",
+    "priority_reason": "IPO timeline is approaching. Governance gaps that are acceptable as a private company become liabilities at IPO scale.",
+    "cod_monthly_m": 120,
+    "cod_total_b": 4.5,
+    "recoverable_b": 3.2,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Saudi Aramco",
@@ -1567,7 +1864,18 @@
       "expected_impact": "Reducing government revenue dependence from 70% to 50% gives Aramco operational flexibility to reinvest in decarbonization rather than maximizing dividend",
       "confidence": "High \u2014 revenue data from public filings; government dependence from Saudi budget disclosures",
       "what_executives_dont_know": "Aramco cannot decarbonize as long as Saudi government requires maximum oil production and dividends. The constraint is fiscal policy, not technology."
-    }
+    },
+    "insight": "Saudi Aramco has -11% of its 2030 target remaining. Primary constraint: Observation Latency. 2030 sub-target achievable; massive capital; Vision 2030 alignment; longer 2050 target.",
+    "impact": "Aramco cannot decarbonize as long as Saudi government requires maximum oil production and dividends. The constraint is fiscal policy, not technology.",
+    "recommendation": "Accelerate non-oil revenue streams that reduce Saudi government's dependence on Aramco dividends \u2014 this is the only path to genuine decarbonization",
+    "expected_outcome": "Reducing government revenue dependence from 70% to 50% gives Aramco operational flexibility to reinvest in decarbonization rather than maximizing dividend",
+    "priority": "Medium",
+    "priority_reason": "ASF score 2.15/5 \u2014 ON TRACK. High \u2014 revenue data from public filings; government dependence from Saudi budget disclosures.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Softbank",
@@ -1623,7 +1931,18 @@
       "expected_impact": "Disciplined ARM stake monetization could realize $15-20B in confirmed value, reducing overall portfolio risk",
       "confidence": "Medium \u2014 ARM revenue from earnings; Vision Fund from quarterly NAV reports",
       "what_executives_dont_know": "ARM's royalty model means every AI chip \u2014 NVIDIA, Apple, Qualcomm \u2014 pays ARM. The AI boom benefits ARM regardless of which companies win."
-    }
+    },
+    "insight": "Softbank has 55% of its 2030 target remaining. Primary constraint: Execution Latency. ARM IPO success; Vision Fund losses recovering; 2x valuation in 4 years requires exits.",
+    "impact": "ARM's royalty model means every AI chip \u2014 NVIDIA, Apple, Qualcomm \u2014 pays ARM. The AI boom benefits ARM regardless of which companies win.",
+    "recommendation": "Accelerate ARM IPO secondary offerings to realize gains while AI market valuations are elevated \u2014 do not let Vision Fund timing risk infect ARM value",
+    "expected_outcome": "Disciplined ARM stake monetization could realize $15-20B in confirmed value, reducing overall portfolio risk",
+    "priority": "High",
+    "priority_reason": "ASF score 2.15/5 \u2014 AT RISK. Medium \u2014 ARM revenue from earnings; Vision Fund from quarterly NAV reports.",
+    "cod_monthly_m": 6,
+    "cod_total_b": 0.11,
+    "recoverable_b": 0.06,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Roche",
@@ -1679,7 +1998,18 @@
       "expected_impact": "Pre-submission alignment reduces average approval cycle by 8-12 months, accelerating revenue recognition and competitive window",
       "confidence": "High \u2014 product pipeline from public filings; FDA process from regulatory expertise",
       "what_executives_dont_know": "Roche's AI diagnostics are genuinely ahead of peers. The competitive threat is not product quality \u2014 it is FDA approving competitor products first due to earlier regulatory engagement."
-    }
+    },
+    "insight": "Roche has 73% of its 2030 target remaining. Primary constraint: Execution Latency. Strong pipeline; AI diagnostics scaling; Swiss precision execution.",
+    "impact": "Roche's AI diagnostics are genuinely ahead of peers. The competitive threat is not product quality \u2014 it is FDA approving competitor products first due to earlier regulatory engagement.",
+    "recommendation": "Invest in FDA pre-submission engagement programs for all Phase 3 AI diagnostic products \u2014 proactive FDA alignment reduces approval risk by 30-40%",
+    "expected_outcome": "Pre-submission alignment reduces average approval cycle by 8-12 months, accelerating revenue recognition and competitive window",
+    "priority": "Medium",
+    "priority_reason": "ASF score 2.05/5 \u2014 ON TRACK. High \u2014 product pipeline from public filings; FDA process from regulatory expertise.",
+    "cod_monthly_m": 2,
+    "cod_total_b": 0.04,
+    "recoverable_b": 0.02,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "General Electric (GE Vernova)",
@@ -1706,7 +2036,18 @@
       "expected_impact": "Automating 3 manual handoffs typically reduces execution latency by 30-40%",
       "confidence": "Medium \u2014 based on ASF dimension scoring from public data",
       "what_executives_dont_know": "Most execution delays are caused by 2-3 specific manual dependencies, not systemic slowness. Identify and fix the specific bottlenecks."
-    }
+    },
+    "insight": "General Electric (GE Vernova) has 74% of its 2030 target remaining. Primary constraint: Execution Latency. Strong wind demand; supply chain constrained; $148B backlog delivery in 4 years requires 3x current pace.",
+    "impact": "Most execution delays are caused by 2-3 specific manual dependencies, not systemic slowness. Identify and fix the specific bottlenecks.",
+    "recommendation": "Map the top 5 manual steps in the critical execution path and automate 3 of them within 90 days",
+    "expected_outcome": "Automating 3 manual handoffs typically reduces execution latency by 30-40%",
+    "priority": "High",
+    "priority_reason": "ASF score 2.05/5 \u2014 AT RISK. Medium \u2014 based on ASF dimension scoring from public data.",
+    "cod_monthly_m": 2,
+    "cod_total_b": 0.04,
+    "recoverable_b": 0.02,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Apple",
@@ -1762,7 +2103,18 @@
       "expected_impact": "Every 10% expansion in compatible device base = approximately 80M additional potential Apple Intelligence users",
       "confidence": "Medium \u2014 device adoption data from public analyst estimates; services from earnings",
       "what_executives_dont_know": "Privacy-first on-device AI is genuinely differentiated from cloud AI. The challenge is getting devices in hands \u2014 not convincing users once they experience it."
-    }
+    },
+    "insight": "Apple has 0% of its 2030 target remaining. Primary constraint: Execution Latency. Strongest supply chain emissions program; ahead of peers.",
+    "impact": "Privacy-first on-device AI is genuinely differentiated from cloud AI. The challenge is getting devices in hands \u2014 not convincing users once they experience it.",
+    "recommendation": "Accelerate iPhone 16/17 upgrade incentive programs to expand Apple Intelligence compatible device base",
+    "expected_outcome": "Every 10% expansion in compatible device base = approximately 80M additional potential Apple Intelligence users",
+    "priority": "Medium",
+    "priority_reason": "ASF score 1.90/5 \u2014 ON TRACK. Medium \u2014 device adoption data from public analyst estimates; services from earnings.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Amazon Retail",
@@ -1789,7 +2141,18 @@
       "expected_impact": "Automating 3 manual handoffs typically reduces execution latency by 30-40%",
       "confidence": "Medium \u2014 based on ASF dimension scoring from public data",
       "what_executives_dont_know": "Most execution delays are caused by 2-3 specific manual dependencies, not systemic slowness. Identify and fix the specific bottlenecks."
-    }
+    },
+    "insight": "Amazon Retail has 44% of its 2030 target remaining. Primary constraint: Execution Latency. 150K+ drone deliveries completed; expanding to 100 drone stores; strong execution velocity.",
+    "impact": "Most execution delays are caused by 2-3 specific manual dependencies, not systemic slowness. Identify and fix the specific bottlenecks.",
+    "recommendation": "Map the top 5 manual steps in the critical execution path and automate 3 of them within 90 days",
+    "expected_outcome": "Automating 3 manual handoffs typically reduces execution latency by 30-40%",
+    "priority": "Medium",
+    "priority_reason": "ASF score 1.90/5 \u2014 ON TRACK. Medium \u2014 based on ASF dimension scoring from public data.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Siemens",
@@ -1845,7 +2208,18 @@
       "expected_impact": "Partner network multiplies deployment capacity 5-8x without proportional headcount increase, accelerating from 180 to 800+ sites within 24 months",
       "confidence": "High \u2014 site data from public announcements; partner model from standard enterprise software patterns",
       "what_executives_dont_know": "Siemens' competitive advantage is OT/IT convergence data that cloud AI providers cannot access. The moat is real \u2014 the go-to-market speed is the gap."
-    }
+    },
+    "insight": "Siemens has 38% of its 2030 target remaining. Primary constraint: Execution Latency. \u20ac6.1B R&D; edge AI deployed; strong industrial platform; 38pp remaining achievable.",
+    "impact": "Siemens' competitive advantage is OT/IT convergence data that cloud AI providers cannot access. The moat is real \u2014 the go-to-market speed is the gap.",
+    "recommendation": "Build a certified Industrial Copilot partner network targeting 500 implementation partners \u2014 Siemens cannot deploy 1,000 sites alone",
+    "expected_outcome": "Partner network multiplies deployment capacity 5-8x without proportional headcount increase, accelerating from 180 to 800+ sites within 24 months",
+    "priority": "Medium",
+    "priority_reason": "ASF score 1.90/5 \u2014 ON TRACK. High \u2014 site data from public announcements; partner model from standard enterprise software patterns.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Samsung Electronics",
@@ -1901,7 +2275,18 @@
       "expected_impact": "HBM4 co-development with NVIDIA would lock in Samsung as preferred memory supplier for Blackwell successor, protecting $20B+ revenue stream",
       "confidence": "Medium \u2014 market share from industry analysis; partnership speculation based on supply chain logic",
       "what_executives_dont_know": "South Korea's 43% AI adoption growth in 6 months (fastest globally) means Samsung has a talent advantage that competitors cannot replicate quickly."
-    }
+    },
+    "insight": "Samsung Electronics has 29% of its 2030 target remaining. Primary constraint: Execution Latency. HBM3E ramping; Samsung investment cycle strong; South Korea fastest AI adoption globally.",
+    "impact": "South Korea's 43% AI adoption growth in 6 months (fastest globally) means Samsung has a talent advantage that competitors cannot replicate quickly.",
+    "recommendation": "Partner with NVIDIA on next-generation HBM4 co-development \u2014 HBM is Samsung's strongest lever to close the gap with TSMC in the AI supply chain",
+    "expected_outcome": "HBM4 co-development with NVIDIA would lock in Samsung as preferred memory supplier for Blackwell successor, protecting $20B+ revenue stream",
+    "priority": "Medium",
+    "priority_reason": "ASF score 1.90/5 \u2014 ON TRACK. Medium \u2014 market share from industry analysis; partnership speculation based on supply chain logic.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Honeywell",
@@ -1957,7 +2342,18 @@
       "expected_impact": "Cross-business Forge data from all three businesses creates training datasets that individual spin-offs cannot replicate post-separation",
       "confidence": "Medium \u2014 revenue from earnings; spin-off timeline from public announcements",
       "what_executives_dont_know": "The Forge AI platform's value depends on breadth of industrial data. Post-spin-off, each entity will have narrower data \u2014 the AI moat shrinks with the company."
-    }
+    },
+    "insight": "Honeywell has 26% of its 2030 target remaining. Primary constraint: Execution Latency. Strong industrial AI position; Quantinuum quantum computing; execution discipline.",
+    "impact": "The Forge AI platform's value depends on breadth of industrial data. Post-spin-off, each entity will have narrower data \u2014 the AI moat shrinks with the company.",
+    "recommendation": "Prioritize Forge AI platform expansion in process industries before the spin-offs are completed \u2014 cross-business data sharing is only possible pre-separation",
+    "expected_outcome": "Cross-business Forge data from all three businesses creates training datasets that individual spin-offs cannot replicate post-separation",
+    "priority": "Medium",
+    "priority_reason": "ASF score 1.90/5 \u2014 ON TRACK. Medium \u2014 revenue from earnings; spin-off timeline from public announcements.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Infosys",
@@ -2013,7 +2409,18 @@
       "expected_impact": "50K certified AI engineers enables $5-6B AI services pipeline versus current $2.1B \u2014 the constraint is talent certification, not client demand",
       "confidence": "Medium \u2014 revenue from earnings; AI talent market from industry surveys",
       "what_executives_dont_know": "India's 96% professional AI usage rate means Infosys engineers are already using AI. The gap is structured certification and client-facing positioning, not skill availability."
-    }
+    },
+    "insight": "Infosys has 25% of its 2030 target remaining. Primary constraint: Execution Latency. AI services demand surging; 96% Indian professionals using AI; strong talent pool.",
+    "impact": "India's 96% professional AI usage rate means Infosys engineers are already using AI. The gap is structured certification and client-facing positioning, not skill availability.",
+    "recommendation": "Certify 50,000 Infosys engineers on AI frameworks by end of 2026 \u2014 the talent base is the product in AI services",
+    "expected_outcome": "50K certified AI engineers enables $5-6B AI services pipeline versus current $2.1B \u2014 the constraint is talent certification, not client demand",
+    "priority": "Medium",
+    "priority_reason": "ASF score 1.90/5 \u2014 ON TRACK. Medium \u2014 revenue from earnings; AI talent market from industry surveys.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "BYD",
@@ -2069,7 +2476,18 @@
       "expected_impact": "European factory would reduce tariff exposure by $3-8K per vehicle and qualify for EU EV incentive programs",
       "confidence": "Medium \u2014 delivery data from quarterly reports; tariff data from EU official records",
       "what_executives_dont_know": "BYD's battery technology lead is 2-3 years ahead of European competitors. EU tariffs are buying time for European OEMs that don't yet have competitive products."
-    }
+    },
+    "insight": "BYD has 42% of its 2030 target remaining. Primary constraint: Feedback Delay. 4.6M target 2025; strong manufacturing execution; price war creating market pressure.",
+    "impact": "BYD's battery technology lead is 2-3 years ahead of European competitors. EU tariffs are buying time for European OEMs that don't yet have competitive products.",
+    "recommendation": "Accelerate EU local manufacturing strategy \u2014 BYD needs a European factory to compete at scale after the 2025 tariff regime is fully enforced",
+    "expected_outcome": "European factory would reduce tariff exposure by $3-8K per vehicle and qualify for EU EV incentive programs",
+    "priority": "Medium",
+    "priority_reason": "ASF score 1.85/5 \u2014 ON TRACK. Medium \u2014 delivery data from quarterly reports; tariff data from EU official records.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Microsoft",
@@ -2125,7 +2543,18 @@
         "status": "ON TRACK",
         "pct": 23
       }
-    ]
+    ],
+    "insight": "Microsoft has 15M paid Copilot users from a 450M Microsoft 365 base \u2014 a 3.3% conversion rate. $150B capex has been committed. The product works; enterprise procurement cycles are blocking deployment.",
+    "impact": "Every 1% increase in paid M365 adoption adds approximately $1B in ARR. The 3.3% to 30% gap represents $27B in potential incremental ARR that current procurement friction is blocking.",
+    "recommendation": "Cut enterprise Copilot procurement time from 90 days to 14 days. Run a 60-day blitz specifically targeting IT change management and procurement simplification at the 100 largest enterprise accounts.",
+    "expected_outcome": "Procurement simplification could accelerate paid conversion from 3.3% to 8% within 12 months, unlocking $4.7B in incremental ARR.",
+    "priority": "High",
+    "priority_reason": "Anthropic is growing enterprise share at 7x while Microsoft's larger installed base converts slowly. The competitive window is narrowing.",
+    "cod_monthly_m": 390,
+    "cod_total_b": 27.0,
+    "recoverable_b": 4.7,
+    "delay_months_without_action": 24,
+    "delay_months_with_action": 12
   },
   {
     "company": "Amazon",
@@ -2181,7 +2610,18 @@
       "expected_impact": "Differentiating on model choice could accelerate AWS AI growth from 19% to 28-32% within 12 months",
       "confidence": "Medium \u2014 growth rate from public earnings; competitive positioning from analyst coverage",
       "what_executives_dont_know": "AWS has the Anthropic investment and the Bedrock platform. The go-to-market narrative is not landing with enterprise buyers who see AWS as compute, not AI."
-    }
+    },
+    "insight": "AWS AI revenue is growing at 19% \u2014 below Azure at 39% and Google at 30% \u2014 despite the largest infrastructure investment. Bedrock's multi-model positioning is not landing with enterprise buyers.",
+    "impact": "AWS AI growth rate differential versus peers means market share loss despite absolute revenue growth. At current trajectories, Azure overtakes AWS in AI services revenue within 24 months.",
+    "recommendation": "Reposition Bedrock as the multi-model choice platform \u2014 the ability to switch between Claude, Llama, and Titan is a genuine differentiator that Azure cannot match. Market the choice, not the compute.",
+    "expected_outcome": "Repositioning Bedrock as the neutral multi-model platform could accelerate AI revenue growth from 19% to 28\u201332%, closing the gap with Azure.",
+    "priority": "High",
+    "priority_reason": "AWS has the strongest infrastructure position. Losing AI narrative momentum is recoverable but only with urgency.",
+    "cod_monthly_m": 350,
+    "cod_total_b": 18.0,
+    "recoverable_b": 8.0,
+    "delay_months_without_action": 24,
+    "delay_months_with_action": 12
   },
   {
     "company": "Alibaba",
@@ -2237,7 +2677,18 @@
       "expected_impact": "AI-personalized commerce in SEA could add $15-25B in international GMV by 2028 based on Lazada's current trajectory",
       "confidence": "Medium \u2014 revenue from earnings; international market from e-commerce analysis",
       "what_executives_dont_know": "Alibaba's international business is structured as separate entities that don't share AI infrastructure. Consolidating the AI stack across international properties is the highest-leverage move."
-    }
+    },
+    "insight": "Alibaba has 72% of its 2030 target remaining. Primary constraint: Feedback Delay. Qwen models competitive; cloud growth accelerating; domestic regulation stabilizing.",
+    "impact": "Alibaba's international business is structured as separate entities that don't share AI infrastructure. Consolidating the AI stack across international properties is the highest-leverage move.",
+    "recommendation": "Accelerate AliExpress and Lazada AI-personalization deployment \u2014 Southeast Asia is the highest-growth market with weakest competitive position",
+    "expected_outcome": "AI-personalized commerce in SEA could add $15-25B in international GMV by 2028 based on Lazada's current trajectory",
+    "priority": "Medium",
+    "priority_reason": "ASF score 1.75/5 \u2014 ON TRACK. Medium \u2014 revenue from earnings; international market from e-commerce analysis.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Tencent",
@@ -2293,7 +2744,18 @@
       "expected_impact": "Native WeChat AI integration could reach 300-400M active users within 12 months vs 5+ years as a standalone product",
       "confidence": "High \u2014 WeChat MAU from earnings; AI adoption research from behavioral economics",
       "what_executives_dont_know": "Tencent's AI challenge is not capability \u2014 Hunyuan is technically competitive. The challenge is making 1.3B WeChat users encounter and trust AI features they didn't explicitly seek out."
-    }
+    },
+    "insight": "Tencent has 76% of its 2030 target remaining. Primary constraint: Feedback Delay. WeChat ecosystem advantage; Hunyuan scaling; strong government alignment.",
+    "impact": "Tencent's AI challenge is not capability \u2014 Hunyuan is technically competitive. The challenge is making 1.3B WeChat users encounter and trust AI features they didn't explicitly seek out.",
+    "recommendation": "Embed Hunyuan AI as a native WeChat feature rather than a separate product \u2014 AI adoption through existing behavior beats AI adoption through new behavior",
+    "expected_outcome": "Native WeChat AI integration could reach 300-400M active users within 12 months vs 5+ years as a standalone product",
+    "priority": "Medium",
+    "priority_reason": "ASF score 1.75/5 \u2014 ON TRACK. High \u2014 WeChat MAU from earnings; AI adoption research from behavioral economics.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Tesla",
@@ -2349,7 +2811,18 @@
       "expected_impact": "Energy storage at 40GWh/yr would contribute $8-12B in high-margin revenue by 2030, partially offsetting automotive miss",
       "confidence": "Medium \u2014 energy deployment data is quarterly public; FSD regulatory timeline is speculative",
       "what_executives_dont_know": "Robotaxi depends on FSD approval in multiple jurisdictions simultaneously. Each jurisdiction is an independent regulatory process. The coordination risk is underestimated."
-    }
+    },
+    "insight": "Tesla's 20M vehicle target by 2030 requires 11x growth from 1.8M current deliveries \u2014 physically impossible in 4 years. Full Self-Driving has regulatory approval in 1 of 15 target countries. Energy storage is the only segment tracking toward target.",
+    "impact": "The 20M vehicle target will be missed by approximately 15M units. Continued investment in this target trajectory wastes capital that could accelerate the energy storage business, which is achievable and high-margin.",
+    "recommendation": "Shift capital allocation toward Megapack and energy storage. Publicly revise vehicle target to 5M. Energy storage at 40GWh/yr contributes $8\u201312B in high-margin revenue by 2030.",
+    "expected_outcome": "Capital reallocation to energy storage delivers $8\u201312B in achievable high-margin revenue, partially offsetting the automotive miss and improving investor confidence.",
+    "priority": "Critical",
+    "priority_reason": "Capital misallocated to an unachievable target destroys value that could be captured in the achievable segment.",
+    "cod_monthly_m": 180,
+    "cod_total_b": 6.5,
+    "recoverable_b": 3.2,
+    "delay_months_without_action": 48,
+    "delay_months_with_action": 0
   },
   {
     "company": "ICBC (China)",
@@ -2376,7 +2849,18 @@
       "expected_impact": "Real-time feedback loops enable 3-5x faster course correction than monthly reporting cycles",
       "confidence": "Medium \u2014 based on ASF dimension scoring from public data",
       "what_executives_dont_know": "The delay between action and observable outcome is often longer than leaders assume. Map the actual feedback cycle time \u2014 it is almost always longer than reported."
-    }
+    },
+    "insight": "ICBC (China) has 40% of its 2030 target remaining. Primary constraint: Feedback Delay. Government-directed; strong execution; digital yuan infrastructure advancing.",
+    "impact": "The delay between action and observable outcome is often longer than leaders assume. Map the actual feedback cycle time \u2014 it is almost always longer than reported.",
+    "recommendation": "Implement real-time operational dashboards for the top 3 strategic objectives \u2014 weekly or monthly reporting is too slow for course correction",
+    "expected_outcome": "Real-time feedback loops enable 3-5x faster course correction than monthly reporting cycles",
+    "priority": "Medium",
+    "priority_reason": "ASF score 1.60/5 \u2014 ON TRACK. Medium \u2014 based on ASF dimension scoring from public data.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "OpenAI",
@@ -2432,7 +2916,18 @@
       "expected_impact": "FedRAMP authorization opens $50B+ US government AI market that OpenAI is currently excluded from",
       "confidence": "Medium \u2014 market share from surveys; regulatory status from public records",
       "what_executives_dont_know": "The $25B ARR is real and impressive. But 73% of enterprise CIOs in regulated industries say they cannot use OpenAI due to compliance gaps \u2014 that is the hidden ceiling."
-    }
+    },
+    "insight": "OpenAI generated $25B ARR but enterprise share fell from 50% to 27% as Anthropic captured regulated industries. FedRAMP and HIPAA certification gaps are blocking $50B+ in US government and healthcare markets.",
+    "impact": "Without FedRAMP authorization, OpenAI cannot access US federal AI spend, which is growing toward $10B+ annually. Healthcare and financial services are similarly restricted.",
+    "recommendation": "Accelerate FedRAMP authorization and HIPAA compliance certification. These open three sectors worth $50B+ that are currently inaccessible.",
+    "expected_outcome": "FedRAMP authorization unlocks US federal market. Combined with HIPAA, adds $5\u20138B in addressable market within 18 months.",
+    "priority": "High",
+    "priority_reason": "Anthropic is moving faster on compliance. First-mover advantage in regulated industries is durable.",
+    "cod_monthly_m": 420,
+    "cod_total_b": 23.0,
+    "recoverable_b": 6.5,
+    "delay_months_without_action": 18,
+    "delay_months_with_action": 9
   },
   {
     "company": "Foxconn",
@@ -2488,7 +2983,18 @@
       "expected_impact": "Capital preserved from EV delay can accelerate AI server capacity expansion, protecting the 40% market share position against emerging competitors",
       "confidence": "High \u2014 AI server revenue from quarterly earnings; EV timing from public chairman statements",
       "what_executives_dont_know": "Foxconn's EV strategy depends on partnerships that haven't materialized at scale. The manufacturing capability exists \u2014 the customer relationships do not yet."
-    }
+    },
+    "insight": "Foxconn has 42% of its 2030 target remaining. Primary constraint: Observation Latency. 40% global AI server share; 91% Q1 profit growth; strong execution; EV timing uncertain.",
+    "impact": "Foxconn's EV strategy depends on partnerships that haven't materialized at scale. The manufacturing capability exists \u2014 the customer relationships do not yet.",
+    "recommendation": "Delay major EV assembly capex commitments until 2026 market clarity \u2014 Chairman Liu's public caution on EV timing is correct",
+    "expected_outcome": "Capital preserved from EV delay can accelerate AI server capacity expansion, protecting the 40% market share position against emerging competitors",
+    "priority": "Medium",
+    "priority_reason": "ASF score 1.15/5 \u2014 ON TRACK. High \u2014 AI server revenue from quarterly earnings; EV timing from public chairman statements.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "TSMC",
@@ -2544,7 +3050,18 @@
       "expected_impact": "Successful Arizona yield ramp reduces US political risk and secures $6.6B CHIPS Act funding which is contingent on performance milestones",
       "confidence": "High \u2014 fab status from public earnings; capacity data from industry reports",
       "what_executives_dont_know": "The Arizona fab workforce gap is severe \u2014 TSMC needs 10,000 engineers with process knowledge that takes years to develop. This is the constraint no amount of capital can compress quickly."
-    }
+    },
+    "insight": "TSMC has 63% of its 2030 target remaining. Primary constraint: Execution Latency. Renewable energy gap 38pp; Taiwan grid constrained; 2nm on track; US fab scaling.",
+    "impact": "The Arizona fab workforce gap is severe \u2014 TSMC needs 10,000 engineers with process knowledge that takes years to develop. This is the constraint no amount of capital can compress quickly.",
+    "recommendation": "Accelerate Arizona fab hiring of Taiwanese engineers on special visa programs \u2014 the knowledge transfer bottleneck is more critical than the equipment bottleneck",
+    "expected_outcome": "Successful Arizona yield ramp reduces US political risk and secures $6.6B CHIPS Act funding which is contingent on performance milestones",
+    "priority": "High",
+    "priority_reason": "ASF score 1.10/5 \u2014 AT RISK. High \u2014 fab status from public earnings; capacity data from industry reports.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0.0,
+    "recoverable_b": 0.0,
+    "delay_months_without_action": 12,
+    "delay_months_with_action": 6
   },
   {
     "company": "Toyota",
@@ -2600,7 +3117,18 @@
       "expected_impact": "US-assembled EVs avoid 25% tariff, improving price competitiveness by $8-15K per vehicle in the US market",
       "confidence": "High \u2014 tariff data is public policy; Toyota US production plans are disclosed",
       "what_executives_dont_know": "Toyota's kaizen culture gives it the fastest organizational adaptation in manufacturing. The EV gap is market position, not execution capability."
-    }
+    },
+    "insight": "Toyota's manufacturing ASF score is 0.95 \u2014 the global benchmark. EV/PHEV sales of 600K against a 3.5M 2030 target require 6x growth. US tariffs are increasing cost pressure on Japanese-assembled vehicles.",
+    "impact": "EV target gap is significant but Toyota's manufacturing execution is strong. The binding constraint is not capability \u2014 it is US tariff policy increasing vehicle cost by $8\u201315K for Japanese-assembled models.",
+    "recommendation": "Accelerate US BEV assembly localization. Section 232 tariffs make US-assembled vehicles $8\u201315K more competitive. Investment in US BEV capacity pays back in 18\u201324 months.",
+    "expected_outcome": "US BEV assembly capacity eliminates tariff disadvantage and qualifies for IRA consumer tax credits, improving US market EV price competitiveness by $15\u201325K per vehicle.",
+    "priority": "High",
+    "priority_reason": "Tariff policy window is open. Competitors who localize first capture market position that is difficult to reverse.",
+    "cod_monthly_m": 60,
+    "cod_total_b": 2.2,
+    "recoverable_b": 1.8,
+    "delay_months_without_action": 36,
+    "delay_months_with_action": 24
   },
   {
     "company": "NVIDIA",
@@ -2656,6 +3184,17 @@
       "expected_impact": "Diversified supply chain reduces export control risk and strengthens NVIDIA's regulatory defensibility with US government",
       "confidence": "High \u2014 market share and revenue from public filings; supply chain from industry analysis",
       "what_executives_dont_know": "The moat is CUDA, not the hardware. AMD and Intel have competitive GPUs. What they don't have is 20 years of CUDA software investment by 5M developers."
-    }
+    },
+    "insight": "NVIDIA holds 88% GPU market share and generated $130.5B in FY2026 revenue. The business is executing at maximum velocity. The only material risk is anti-trust action and export controls \u2014 not execution.",
+    "impact": "Regulatory risk from US export controls and EU anti-trust investigations could restrict $15\u201325B in annual revenue from key markets.",
+    "recommendation": "Invest proactively in supply chain diversification outside China concentration. Engage with US DOC and EU competition authorities before enforcement action \u2014 not after.",
+    "expected_outcome": "Proactive regulatory engagement reduces risk of forced supply chain restructuring, protecting $15\u201325B in revenue that would otherwise face disruption risk.",
+    "priority": "Medium",
+    "priority_reason": "Execution is excellent. The risk is political and regulatory, not operational. Act before enforcement, not after.",
+    "cod_monthly_m": 0,
+    "cod_total_b": 0,
+    "recoverable_b": 0,
+    "delay_months_without_action": 0,
+    "delay_months_with_action": 0
   }
 ]
