@@ -1,0 +1,212 @@
+{
+  "_meta": {
+    "version": "0.4.1",
+    "description": "ASF Scoring Evidence — dimension scores with public source citations for all benchmark companies",
+    "created": "2026-06-09",
+    "formula": "ALS = (obs×0.15) + (dec×0.25) + (exec×0.30) + (fb×0.15) + (dep×0.15) − (lv×0.10)",
+    "scale": "1 = fast/good, 5 = slow/problematic. Learning Velocity is inverted: 5 = fast learning.",
+    "confidence_levels": {
+      "High": "Quantitative primary data from official filing within 12 months",
+      "Medium": "Qualitative disclosure in official document",
+      "Low": "Inference from indirect signals or absence of disclosure"
+    }
+  },
+  "Boeing": {
+    "asf_score": 3.7,
+    "risk_band": "High",
+    "bottleneck": "Execution Latency",
+    "formula_check": "(3×0.15)+(3×0.25)+(5×0.30)+(4×0.15)+(4×0.15)−(2×0.10)=3.70",
+    "primary_source": "Boeing Annual Report 2025 (10-K); FAA Production Approval Holder disclosures 2024-2025; Boeing Q4 2025 earnings call",
+    "overall_confidence": "Medium",
+    "dimensions": {
+      "observation_latency": {
+        "score": 3,
+        "evidence": "Boeing conducts monthly reviews of production quality metrics. NTSB January 2024 findings showed door plug defect escaped multiple production cycles before detection in service.",
+        "source": "Boeing Annual Report 2025, Quality Management section; NTSB preliminary findings January 2024",
+        "confidence": "Medium",
+        "reasoning": "Monthly review cycle with documented detection lag. Not reactive (score 5) but not real-time (score 1). Monthly = score 3."
+      },
+      "decision_latency": {
+        "score": 3,
+        "evidence": "Any change to approved production rate requires FAA Production Approval Holder coordination including quality management plan submission, inspection records review, and formal authorization. CEO Ortberg: 'working through FAA approval process for each incremental rate increase.'",
+        "source": "Boeing Annual Report 2025, Regulatory section; Boeing Q4 2025 earnings call transcript",
+        "confidence": "High",
+        "reasoning": "Decisions are being made and moving through approval — score 5 would require deadlock. External FAA gate creates weeks-per-approval cycle. Score 3 reflects functional but constrained decision cycle."
+      },
+      "execution_latency": {
+        "score": 5,
+        "evidence": "Boeing produced 18 aircraft per month on average in 2025 against a stated target of 38 per month. This is 47% of target after three years of recovery effort following the 2019-2020 MAX groundings.",
+        "source": "Boeing Annual Report 2025, Production section; Boeing Q4 2025 earnings",
+        "confidence": "High",
+        "reasoning": "47% of stated target after 3 years = maximum execution latency score. No ambiguity in this assignment."
+      },
+      "feedback_delay": {
+        "score": 4,
+        "evidence": "Quality defect data flows through monthly production reviews to program management. Door plug defect (January 2024) present across multiple production cycles before external identification — indicating factory-floor-to-C-suite feedback measured in weeks.",
+        "source": "Boeing Annual Report 2025, Quality Management section; NTSB findings January 2024",
+        "confidence": "Medium",
+        "reasoning": "Monthly cycles confirmed. NTSB findings confirm multi-cycle lag. Score 4 reflects functioning but lagging system."
+      },
+      "learning_velocity": {
+        "score": 2,
+        "evidence": "Same door plug assembly process cited as quality concern in both 2023 and 2024 annual reports. Multiple FAA quality escape notifications in similar manufacturing process categories across consecutive production periods.",
+        "source": "Boeing Annual Report 2024 and 2025, Safety Culture sections; FAA Production Approval Holder disclosures",
+        "confidence": "Medium",
+        "reasoning": "Recurring defects in same categories = slow learning. Score 2 (slow but not zero learning — Boeing is investing in programs)."
+      },
+      "dependency_index": {
+        "score": 4,
+        "evidence": "Production rate increases subject to FAA approval, supplier readiness, and workforce qualification requirements, each of which must be satisfied sequentially. 900+ tier-1 suppliers. Union workforce coordination required for rate changes.",
+        "source": "Boeing Annual Report 2025, Supply Chain section; Boeing Q4 2025 earnings",
+        "confidence": "High",
+        "reasoning": "Three sequential external approvals per rate step. Score 4 = high but not maximum dependency (score 5 would require regulatory blocking of safety improvements)."
+      }
+    },
+    "crt": {
+      "gap": 5.0,
+      "base_months_per_point": 8.0,
+      "governance_friction": 0.70,
+      "execution_friction": 0.85,
+      "dependency_risk": 0.75,
+      "learning_velocity": 0.20,
+      "evidence_confidence": 0.65,
+      "crt_months": 70.7,
+      "crt_range_low": 52.8,
+      "crt_range_high": 88.6,
+      "crt_risk": "Critical",
+      "formula": "40.0 × 1.775 × 0.930 × 1.070 = 70.7 months"
+    }
+  },
+  "LTM": {
+    "asf_score": 2.05,
+    "risk_band": "Low",
+    "bottleneck": "Execution Latency",
+    "formula_check": "(2×0.15)+(2×0.25)+(3×0.30)+(2×0.15)+(3×0.15)−(4×0.10)=2.05",
+    "primary_source": "LTM Investor Day June 2 2026; Q4FY26 Earnings April 23 2026; Q2FY26 Investor Presentation October 2025",
+    "overall_confidence": "High",
+    "dimensions": {
+      "observation_latency": {
+        "score": 2,
+        "evidence": "LTM launched BlueVerse June 2025 ahead of market demand. Rebranded to LTM March 2026. Identified BFSI decline in Q3FY25 — same quarter it first appeared in financial results. Quarterly vertical breakdown disclosed every earnings.",
+        "source": "LTM Investor Day June 2 2026; Q3FY25 earnings transcript; LTM press releases",
+        "confidence": "High",
+        "reasoning": "Proactive market signal detection. Score 2 = fast, not maximum. Score 1 would require CEO-level real-time dashboards."
+      },
+      "decision_latency": {
+        "score": 2,
+        "evidence": "BlueVerse Foundry → CraftStudio → RightAction → Studio Hub: four product extensions in 10 months. LTM rebrand approved and executed in one quarter. Lakshya 2031 plan approved and publicly committed at Investor Day. 10 large deals won FY26 (100% YoY growth).",
+        "source": "LTM press release timeline 2025-2026; LTM Investor Day June 2 2026; Q4FY26 earnings",
+        "confidence": "High",
+        "reasoning": "Fast, decisive internal actions. Score 2 = fast. Constraint is client conversion speed, not internal decision speed."
+      },
+      "execution_latency": {
+        "score": 3,
+        "evidence": "FY26 revenue $4.76B (+6% YoY). Lakshya 2031 requires ~15% CAGR. BlueVerse outcome-based pricing at ~3 contracts of 100 target. BFSI -3.9% YoY. Stock fell 7% post-Investor Day on execution credibility concerns.",
+        "source": "LTM Q4FY26 earnings April 2026; Business Standard analyst coverage June 2026; LTM Investor Day",
+        "confidence": "High",
+        "reasoning": "Strategy clear, decisions fast, product launches executing — but commercial velocity gap vs target. Score 3 = executing below required pace, not failing."
+      },
+      "feedback_delay": {
+        "score": 2,
+        "evidence": "Full vertical breakdown, order book, CSAT, headcount, attrition, and margin waterfall disclosed every quarterly earnings. Q2FY26 ESG highlights include quarterly renewable energy %, water positivity, and gender ratios.",
+        "source": "LTM Q4FY26 earnings; Q2FY26 ESG investor presentation October 2025",
+        "confidence": "High",
+        "reasoning": "One of the more granular IT services disclosures. Quarterly = score 2. Real-time internal dashboards would be score 1."
+      },
+      "learning_velocity": {
+        "score": 4,
+        "evidence": "Three consecutive quarters of 2%+ QoQ growth. Fit4Future delivered 90 bps EBIT margin improvement in one year (14.5%→15.4%). Q2FY26 reached 15.9% — seven-quarter high. Four BlueVerse extensions launched in 10 months.",
+        "source": "LTM Q2FY26 earnings October 2025; Q3FY26 January 2026; Q4FY26 April 2026",
+        "confidence": "High",
+        "reasoning": "Demonstrated measurable learning: margin improvement, deal velocity, product iteration. Score 4 = fast organizational learning. Score 5 would require compounding acceleration."
+      },
+      "dependency_index": {
+        "score": 3,
+        "evidence": "BFSI 33% concentration creates structural portfolio rebalancing constraint. BlueVerse currency requires client procurement cycle navigation per contract. Three hyperscaler SPAs provide positive dependency reduction. Randstad deal adds one new dependency layer.",
+        "source": "LTM Q4FY26 vertical mix disclosure; Investor Day partnership announcements",
+        "confidence": "Medium",
+        "reasoning": "Moderate dependencies. Not maximum (score 5 would require regulatory approval for every service change). Score 3 = manageable portfolio dependency."
+      }
+    },
+    "crt": {
+      "gap": 4.0,
+      "base_months_per_point": 4.0,
+      "governance_friction": 0.35,
+      "execution_friction": 0.55,
+      "dependency_risk": 0.40,
+      "learning_velocity": 0.60,
+      "evidence_confidence": 0.80,
+      "crt_months": 19.0,
+      "crt_range_low": 14.6,
+      "crt_range_high": 23.4,
+      "crt_risk": "High",
+      "formula": "16.0 × 1.445 × 0.790 × 1.040 = 19.0 months"
+    }
+  },
+  "AT&T": {
+    "asf_score": 3.85,
+    "risk_band": "High",
+    "bottleneck": "Execution Latency",
+    "formula_check": "(3×0.15)+(4×0.25)+(5×0.30)+(3×0.15)+(5×0.15)−(3×0.10)=3.85",
+    "primary_source": "AT&T Annual Report 2025 (10-K); AT&T Q4 2025 earnings; AT&T Q2 2025 AI transformation briefing; AT&T Investor Day 2025",
+    "overall_confidence": "High",
+    "dimensions": {
+      "observation_latency": {
+        "score": 3,
+        "evidence": "$4B savings target quantified and committed in 2023-2024 — proactive. 58% non-adoption rate disclosed in 2025 AI briefing — suggesting the signal existed in usage analytics for multiple quarters before reaching strategic response level.",
+        "source": "AT&T Q2 2025 AI transformation briefing; AT&T Annual Report 2025",
+        "confidence": "Medium",
+        "reasoning": "Strategic signal detected early ($4B target). Operational signal (adoption lag) surfaced after multiple quarters. Score 3 = adequate but not fast detection."
+      },
+      "decision_latency": {
+        "score": 4,
+        "evidence": "58% non-adoption rate publicly known. $4B target maintained. No mandatory adoption program announced as of Q4 2025 earnings. Management response: 'AI champion network and use-case demonstrations.' The specific decision required (mandate adoption or revise target) has not been made.",
+        "source": "AT&T Q4 2025 earnings transcript; AT&T Annual Report 2025",
+        "confidence": "Medium",
+        "reasoning": "Recognized problem (58% non-adoption) without committed decision response. Score 4 = delayed decision. Score 5 would require active blocking. Note: internal program may exist but not be publicly disclosed — this inference is explicitly stated as an assumption."
+      },
+      "execution_latency": {
+        "score": 5,
+        "evidence": "$1B achieved of $4B savings target. 92,000 employees have AI tool access but are not using tools daily. The gap is publicly confirmed. The mechanism (adoption) is understood. The structural intervention (mandatory program) has not been executed.",
+        "source": "AT&T Q4 2025 earnings; AT&T Q2 2025 AI transformation briefing",
+        "confidence": "High",
+        "reasoning": "$3B of $4B target unrealized. 58% workforce non-adoption. Score 5 is the only defensible assignment when the execution gap is this large and this publicly documented."
+      },
+      "feedback_delay": {
+        "score": 3,
+        "evidence": "AI savings tracked quarterly — strong feedback signal. 58% non-adoption figure disclosed — adoption measured. But no granular breakdown by business unit, tool type, or use case publicly disclosed.",
+        "source": "AT&T quarterly earnings 2023-2025; AT&T Q2 2025 AI briefing",
+        "confidence": "Medium",
+        "reasoning": "Quarterly savings tracking is good. Aggregate adoption rate without granularity limits actionability. Score 3 = adequate feedback at wrong granularity level."
+      },
+      "learning_velocity": {
+        "score": 3,
+        "evidence": "Deployment approach (pilot → 160K employee rollout) demonstrated organizational learning. 42% adoption achieved through champions network. Applying same champions approach to remaining 58% — same method on different problem (early adopters vs resistant adopters).",
+        "source": "AT&T AI program history 2022-2025; Q2 2025 AI briefing on adoption strategy",
+        "confidence": "Medium",
+        "reasoning": "Learning demonstrated in deployment phase. Adoption strategy not adapting to resistant-adopter problem. Score 3 = moderate — not zero learning, not fast adaptation."
+      },
+      "dependency_index": {
+        "score": 5,
+        "evidence": "Program requires: 160,000 individual employee behavior changes; 7 parallel legacy replacement programs sharing resources; union workforce agreements constraining mandate approach; AI tool vendor stability; accuracy of $25K/employee productivity savings model.",
+        "source": "AT&T Annual Report 2025, Business Transformation section; Q4 2025 earnings commentary on transformation programs",
+        "confidence": "High",
+        "reasoning": "Five independent critical dependencies, including 160,000 individual human decisions. Score 5 = maximum dependency. Program cannot succeed without simultaneous compliance across population measured in tens of thousands."
+      }
+    },
+    "crt": {
+      "gap": 4.5,
+      "base_months_per_point": 5.0,
+      "governance_friction": 0.60,
+      "execution_friction": 0.80,
+      "dependency_risk": 0.70,
+      "learning_velocity": 0.30,
+      "evidence_confidence": 0.70,
+      "crt_months": 36.5,
+      "crt_range_low": 27.6,
+      "crt_range_high": 45.4,
+      "crt_risk": "Critical",
+      "formula": "22.5 × 1.710 × 0.895 × 1.060 = 36.5 months"
+    }
+  }
+}
