@@ -141,7 +141,7 @@ adaptive-systems-framework/
 | Document analyzer | ✅ Working | LLM-based evidence extraction with cited quotes (v0.4) |
 | Conformance agent | ✅ Working | Output validation against acceptance criteria |
 | CRT engine | ✅ Working | Capability Realization Time estimates |
-| Azure OpenAI integration | 🔲 Planned | v0.4 — evidence-cited scoring from documents |
+
 | REST API | 🔲 Planned | v0.4 — Azure Functions |
 
 The company scores in the benchmarks are derived from public data by human analyst review, not automated extraction. This is documented in [docs/current-state.md](docs/current-state.md).
