@@ -1,13 +1,20 @@
 #!/usr/bin/env python3
 """
-ASF Document Analyzer — v0.3
-Upload any document. ASF generates a full adaptation analysis.
+ASF Document Analyzer — v0.4
+Evidence-based scoring with cited quotes.
 
-Supported: PDF, DOCX, TXT, MD, annual reports, postmortems, strategy docs
+Every dimension score is now traceable to a specific sentence in the source document.
+
 Usage:
     python asf_document_analyzer.py --file report.pdf
-    python asf_document_analyzer.py --file postmortem.txt --org "AT&T"
-    python asf_document_analyzer.py --file strategy.docx --export output.json
+    python asf_document_analyzer.py --file annual_report.pdf --org "Boeing"
+    python asf_document_analyzer.py --file strategy.pdf --export output.json
+    python asf_document_analyzer.py --file report.pdf --mode keyword  # v0.3 fallback
+
+Environment variables required for LLM mode:
+    AZURE_OPENAI_KEY       Your Azure OpenAI API key
+    AZURE_OPENAI_ENDPOINT  https://your-resource.openai.azure.com/
+    AZURE_OPENAI_DEPLOYMENT  gpt-4o (or your deployment name)
 """
 
 import argparse
@@ -22,101 +29,13 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 from asf import analyze, AnalysisInput
 from asf.models import RiskBand
 
-RESET  = "\033[0m"; BOLD = "\033[1m"; DIM = "\033[2m"
-RED    = "\033[91m"; YELLOW = "\033[93m"; GREEN = "\033[92m"
-CYAN   = "\033[96m"; WHITE  = "\033[97m"
-
-# ── Signal dictionaries ────────────────────────────────────────────────────
-
-OBS_SIGNALS = {
-    "high_latency": [
-        "delayed detection", "slow to recognize", "missed signal",
-        "unaware", "blind spot", "no visibility", "lack of telemetry",
-        "delayed alert", "no monitoring", "reactive",
-    ],
-    "low_latency": [
-        "real-time", "immediate detection", "proactive monitoring",
-        "early warning", "observability", "telemetry", "instrumented",
-        "anomaly detection", "continuous monitoring",
-    ],
-}
-
-DEC_SIGNALS = {
-    "high_latency": [
-        "delayed decision", "approval required", "committee review",
-        "governance overhead", "escalation", "waiting for approval",
-        "slow to decide", "bureaucratic", "multiple sign-offs",
-        "change advisory board", "cab review", "lengthy review",
-        "ownership unclear", "no clear owner", "ambiguous ownership",
-    ],
-    "low_latency": [
-        "autonomous decision", "empowered teams", "decentralized",
-        "fast decision", "clear ownership", "decisive",
-        "policy as code", "automated approval",
-    ],
-}
-
-EXEC_SIGNALS = {
-    "high_latency": [
-        "manual process", "slow deployment", "lengthy implementation",
-        "delayed rollout", "implementation lag", "manual steps",
-        "coordination required", "dependency on", "blocked by",
-        "technical debt", "legacy system", "outdated infrastructure",
-        "integration complexity", "migration required",
-    ],
-    "low_latency": [
-        "automated deployment", "continuous delivery", "rapid implementation",
-        "self-service", "one-click", "fast rollout", "ci/cd",
-        "gitops", "infrastructure as code",
-    ],
-}
-
-FEEDBACK_SIGNALS = {
-    "high_delay": [
-        "delayed feedback", "lagging indicator", "slow measurement",
-        "quarterly review", "annual report", "no metrics",
-        "unclear outcomes", "hard to measure",
-    ],
-    "low_delay": [
-        "real-time feedback", "immediate measurement", "live dashboard",
-        "continuous monitoring", "instant visibility", "slo", "sli",
-        "kpi tracking", "automated reporting",
-    ],
-}
-
-LEARNING_SIGNALS = {
-    "low_velocity": [
-        "repeated incident", "same mistake", "recurrence",
-        "no postmortem", "lessons not applied", "knowledge silo",
-        "tribal knowledge", "undocumented", "no runbook",
-    ],
-    "high_velocity": [
-        "continuous improvement", "postmortem", "blameless review",
-        "lessons learned", "kaizen", "retrospective",
-        "knowledge base", "runbook", "playbook", "systematic improvement",
-    ],
-}
-
-FRICTION_SIGNALS = {
-    "technical":      ["legacy", "technical debt", "outdated", "integration", "migration", "deprecated"],
-    "organizational": ["silo", "ownership", "coordination", "alignment", "politics", "restructur"],
-    "human":          ["resistance", "culture", "behavior", "training", "skill gap", "adoption"],
-    "governance":     ["compliance", "regulatory", "approval", "audit", "policy", "security review"],
-    "data":           ["data quality", "data gap", "missing data", "inaccurate", "stale data"],
-}
-
-DOMAIN_SIGNALS = {
-    "AI Systems":              ["llm", "model", "ai agent", "machine learning", "neural", "openai", "anthropic", "gpt"],
-    "Platform Engineering":    ["kubernetes", "docker", "ci/cd", "deployment", "infrastructure", "devops", "sre", "platform"],
-    "Telecom & Networks":      ["network", "telecom", "5g", "spectrum", "subscriber", "carrier", "bandwidth"],
-    "Manufacturing":           ["factory", "production", "defect", "quality", "manufacturing", "supply chain", "assembly"],
-    "Finance & Healthcare":    ["financial", "banking", "clinical", "patient", "regulatory", "fda", "hipaa"],
-    "Retail & Consumer":       ["retail", "inventory", "customer", "e-commerce", "supply", "logistics"],
-    "Enterprise Transformation":["transformation", "migration", "modernization", "cloud", "digital"],
-}
+RESET = "\033[0m"; BOLD = "\033[1m"; DIM = "\033[2m"
+RED = "\033[91m"; YELLOW = "\033[93m"; GREEN = "\033[92m"
+CYAN = "\033[96m"; WHITE = "\033[97m"
 
 
 def extract_text(filepath: str) -> str:
+    """Extract plain text from PDF, DOCX, TXT, or MD files."""
     path = Path(filepath)
     suffix = path.suffix.lower()
 
@@ -144,16 +63,6 @@ def extract_text(filepath: str) -> str:
 
     if suffix == ".docx":
         try:
-            import subprocess
-            result = subprocess.run(
-                ["extract-text", str(path)],
-                capture_output=True, text=True, timeout=30
-            )
-            if result.returncode == 0:
-                return result.stdout
-        except Exception:
-            pass
-        try:
             import docx
             doc = docx.Document(path)
             return "\n".join(p.text for p in doc.paragraphs)
@@ -164,46 +73,14 @@ def extract_text(filepath: str) -> str:
     return path.read_text(encoding="utf-8", errors="ignore")
 
 
-def score_signals(text: str, high_signals: list, low_signals: list) -> int:
-    text_lower = text.lower()
-    high_hits = sum(1 for s in high_signals if s in text_lower)
-    low_hits  = sum(1 for s in low_signals  if s in text_lower)
-    net = high_hits - low_hits
-    if net >= 4:   return 5
-    if net >= 2:   return 4
-    if net >= 0:   return 3
-    if net >= -2:  return 2
-    return 1
-
-
-def detect_domain(text: str) -> str:
-    text_lower = text.lower()
-    scores = {}
-    for domain, signals in DOMAIN_SIGNALS.items():
-        scores[domain] = sum(1 for s in signals if s in text_lower)
-    best = max(scores, key=scores.get)
-    return best if scores[best] > 0 else "Enterprise Transformation"
-
-
-def detect_friction(text: str) -> list:
-    text_lower = text.lower()
-    found = []
-    for ftype, signals in FRICTION_SIGNALS.items():
-        hits = sum(1 for s in signals if s in text_lower)
-        if hits > 0:
-            found.append((ftype, hits))
-    found.sort(key=lambda x: -x[1])
-    return [f[0] for f in found[:3]]
-
-
-def extract_org_name(text: str, fallback: str) -> str:
+def detect_org_name(text: str, fallback: str) -> str:
+    """Auto-detect organization name from document text."""
     if fallback:
         return fallback
-    # Look for common org name patterns
     patterns = [
-        r"(?:prepared for|submitted to|report for|analysis of)[:\s]+([A-Z][A-Za-z\s&,\.]{2,40})",
-        r"^([A-Z][A-Za-z\s&]{3,30})\s+(?:Annual Report|Strategic Plan|Postmortem|Assessment)",
-        r"(?:Company|Organization|Client)[:\s]+([A-Z][A-Za-z\s&]{3,30})",
+        r"(?:prepared for|submitted to|report for|analysis of)[:\s]+([A-Z][A-Za-z\s&,.]{2,40})",
+        r"^([A-Z][A-Za-z\s&]{3,30})\s+(?:Annual Report|Strategic Plan|Assessment)",
+        r"(?:Company|Organization)[:\s]+([A-Z][A-Za-z\s&]{3,30})",
     ]
     for pattern in patterns:
         match = re.search(pattern, text[:2000], re.MULTILINE)
@@ -212,234 +89,307 @@ def extract_org_name(text: str, fallback: str) -> str:
     return "Document Analysis"
 
 
-def extract_scenario(text: str) -> str:
+def detect_domain(text: str) -> str:
+    """Detect the primary domain from document text."""
     text_lower = text.lower()
-    scenarios = {
-        "AI adoption and value realization":         ["ai adoption", "ai value", "ai program", "llm deployment"],
-        "Cloud migration and platform modernization": ["cloud migration", "azure", "aws", "modernization", "kubernetes"],
-        "Incident response and reliability":          ["incident", "postmortem", "reliability", "sre", "outage"],
-        "Quality and operational improvement":        ["quality", "defect", "kaizen", "improvement", "six sigma"],
-        "Digital transformation":                     ["digital transformation", "transformation program"],
-        "Network operations and automation":          ["network automation", "5g", "network operations"],
-        "Strategic adaptation and market response":   ["strategy", "competitive", "market shift", "disruption"],
+    domains = {
+        "AI Systems": ["llm", "machine learning", "ai agent", "openai", "gpt"],
+        "Platform Engineering": ["kubernetes", "ci/cd", "devops", "infrastructure"],
+        "Telecom & Networks": ["network", "telecom", "5g", "spectrum", "carrier"],
+        "Manufacturing": ["factory", "production", "defect", "manufacturing", "assembly"],
+        "Finance & Healthcare": ["financial", "banking", "clinical", "patient", "hipaa"],
+        "Retail & Consumer": ["retail", "inventory", "e-commerce", "supply chain"],
+        "Enterprise Transformation": ["transformation", "migration", "modernization", "cloud"],
     }
-    for scenario, signals in scenarios.items():
-        if any(s in text_lower for s in signals):
-            return scenario
-    return "Organizational adaptation assessment"
+    scores = {d: sum(1 for s in signals if s in text_lower)
+              for d, signals in domains.items()}
+    best = max(scores, key=scores.get)
+    return best if scores[best] > 0 else "Enterprise Transformation"
 
 
-def analyze_document(filepath: str, org_name: str = None) -> dict:
-    print(f"\n  {CYAN}Reading document...{RESET}")
-    text = extract_text(filepath)
+def run_llm_analysis(
+    text: str,
+    org_name: str,
+    source_file: str,
+    domain: str,
+) -> dict:
+    """
+    Run evidence-based LLM scoring.
+    Returns dict with pkg (EvidencePackage), report (ASFReport), input (AnalysisInput).
+    """
+    # Import the v0.4 extractor
+    extractor_path = Path(__file__).parent / "src" / "asf" / "evidence"
+    if str(extractor_path.parent.parent) not in sys.path:
+        sys.path.insert(0, str(extractor_path.parent.parent))
 
-    if not text or len(text.strip()) < 100:
-        print(f"  {RED}Could not extract text from {filepath}{RESET}")
-        sys.exit(1)
+    try:
+        from asf.evidence.extractor import (
+            extract_evidence_from_document,
+            evidence_to_analysis_input,
+            print_evidence_report,
+            export_cited_report,
+        )
+    except ImportError:
+        # Extractor not installed yet — fall back
+        print(f"\n  {YELLOW}Evidence extractor not found — using keyword fallback{RESET}")
+        return None
 
-    word_count = len(text.split())
-    print(f"  {DIM}Extracted {word_count:,} words{RESET}")
+    print(f"\n  {CYAN}Extracting evidence from document...{RESET}")
+    print(f"  {DIM}This calls Azure OpenAI for each of 6 dimensions.{RESET}")
+    print(f"  {DIM}Set AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT{RESET}")
+    print(f"  {DIM}to enable LLM mode. Without these, keyword fallback will run.{RESET}\n")
 
-    print(f"  {CYAN}Analyzing adaptation signals...{RESET}")
+    pkg = extract_evidence_from_document(
+        document_text=text,
+        system_name=org_name,
+        source_document=source_file,
+    )
 
-    obs_score  = score_signals(text, OBS_SIGNALS["high_latency"],  OBS_SIGNALS["low_latency"])
-    dec_score  = score_signals(text, DEC_SIGNALS["high_latency"],  DEC_SIGNALS["low_latency"])
-    exec_score = score_signals(text, EXEC_SIGNALS["high_latency"], EXEC_SIGNALS["low_latency"])
-    fb_score   = score_signals(text, FEEDBACK_SIGNALS["high_delay"],  FEEDBACK_SIGNALS["low_delay"])
-    lv_score   = score_signals(text, LEARNING_SIGNALS["low_velocity"], LEARNING_SIGNALS["high_velocity"])
-    lv_score   = 6 - lv_score  # invert: low_velocity signals = low LV score
-    di_score   = score_signals(text, DEC_SIGNALS["high_latency"] + EXEC_SIGNALS["high_latency"], [])
-    di_score   = min(5, max(1, di_score))
-
-    domain   = detect_domain(text)
-    friction = detect_friction(text)
-    org      = extract_org_name(text, org_name)
-    scenario = extract_scenario(text)
-
-    inp = AnalysisInput(
-        system_name=org,
+    inp = evidence_to_analysis_input(
+        pkg=pkg,
         domain=domain,
-        system_type="Document-derived analysis",
-        adaptation_scenario=scenario,
-        input_event="Extracted from uploaded document",
-        adaptation_requirement="Identified from document context",
-        current_operating_state="Assessed from document signals",
-        observation_latency=obs_score,
-        decision_latency=dec_score,
-        execution_latency=exec_score,
-        feedback_delay=fb_score,
-        learning_velocity=lv_score,
-        dependency_index=di_score,
+        system_type="Enterprise",
     )
 
     report = analyze(inp, top_interventions=5)
 
+    # Optional CRT
+    crt_output = None
+    try:
+        from asf.scoring.crt_engine import CRTInput, calculate_crt
+        als = report.scores.adaptation_latency_score
+        friction = als / 5.0
+        crt_inp = CRTInput(
+            system_name=org_name,
+            use_case=domain,
+            required_capability_score=10.0,
+            current_capability_score=10.0 - (als * 1.5),
+            governance_friction=friction * 0.8,
+            execution_friction=friction,
+            dependency_risk=friction * 0.9,
+            learning_velocity=max(0.1, 1.0 - friction),
+            evidence_confidence={"High": 0.85, "Medium": 0.65, "Low": 0.40}.get(
+                pkg.overall_confidence, 0.65
+            ),
+            objective_integrity_score=0.80,
+            base_realization_time_months=4.0,
+        )
+        crt_output = calculate_crt(crt_inp)
+    except Exception:
+        pass
+
     return {
+        "pkg": pkg,
         "report": report,
-        "metadata": {
-            "source_file": filepath,
-            "word_count": word_count,
-            "detected_domain": domain,
-            "detected_friction": friction,
-            "signal_counts": {
-                "observation_high": sum(1 for s in OBS_SIGNALS["high_latency"]  if s in text.lower()),
-                "decision_high":    sum(1 for s in DEC_SIGNALS["high_latency"]  if s in text.lower()),
-                "execution_high":   sum(1 for s in EXEC_SIGNALS["high_latency"] if s in text.lower()),
-                "learning_low":     sum(1 for s in LEARNING_SIGNALS["low_velocity"] if s in text.lower()),
-                "learning_high":    sum(1 for s in LEARNING_SIGNALS["high_velocity"] if s in text.lower()),
-            }
-        }
+        "input": inp,
+        "crt": crt_output,
     }
 
 
-def print_report(result: dict) -> None:
-    report = result["report"]
-    meta   = result["metadata"]
-    s      = report.scores
-    risk   = s.risk_band
-    rc     = {RiskBand.LOW: GREEN, RiskBand.MEDIUM: YELLOW, RiskBand.HIGH: RED}[risk]
+def run_keyword_analysis(
+    text: str,
+    org_name: str,
+    domain: str,
+) -> dict:
+    """
+    Run v0.3 keyword-based scoring (fallback mode).
+    """
+    print(f"\n  {YELLOW}Running keyword analysis (v0.3 fallback mode){RESET}")
 
-    def bar(v, w=20):
-        f = int((v/5)*w)
-        c = GREEN if v < 2.5 else (YELLOW if v < 3.5 else RED)
-        return f"{c}{'█'*f}{'░'*(w-f)}{RESET}"
+    # Import keyword scorer from extractor if available, else inline
+    try:
+        from asf.evidence.extractor import _keyword_score, EvidencePackage
+        dims = {}
+        for dim_key in ["observation_latency", "decision_latency", "execution_latency",
+                        "feedback_delay", "learning_velocity", "dependency_index"]:
+            dims[dim_key] = _keyword_score(text, dim_key)
+        pkg = EvidencePackage(
+            system_name=org_name,
+            source_document="keyword-mode",
+            extraction_model="keyword-fallback",
+            extraction_timestamp="",
+            total_tokens_used=0,
+            estimated_cost_usd=0.0,
+            fallback_used=True,
+            dimensions=dims,
+        )
+        scores = pkg.to_scores_dict()
+    except ImportError:
+        # Inline fallback if extractor not installed
+        from asf.evidence.extractor import _keyword_score
+        scores = {}
+        for dim_key in ["observation_latency", "decision_latency", "execution_latency",
+                        "feedback_delay", "learning_velocity", "dependency_index"]:
+            ev = _keyword_score(text, dim_key)
+            scores[dim_key] = ev.score
+        pkg = None
 
-    def sc(v):
-        return GREEN if v < 2.5 else (YELLOW if v < 3.5 else RED)
+    inp = AnalysisInput(
+        system_name=org_name,
+        domain=domain,
+        system_type="Document-derived analysis",
+        adaptation_scenario="Keyword-based document analysis",
+        input_event="Extracted from uploaded document",
+        adaptation_requirement="Identified from document context",
+        current_operating_state="Assessed from document signals",
+        observation_latency=scores.get("observation_latency", 3),
+        decision_latency=scores.get("decision_latency", 3),
+        execution_latency=scores.get("execution_latency", 3),
+        feedback_delay=scores.get("feedback_delay", 3),
+        learning_velocity=scores.get("learning_velocity", 3),
+        dependency_index=scores.get("dependency_index", 3),
+    )
 
+    report = analyze(inp, top_interventions=5)
+    return {"pkg": pkg, "report": report, "input": inp, "crt": None}
+
+
+def print_basic_report(report, domain: str, source_file: str) -> None:
+    """Simple report for keyword mode (v0.3 format)."""
+    s = report.scores
+    rc = GREEN if s.risk_band == RiskBand.LOW else (YELLOW if s.risk_band == RiskBand.MEDIUM else RED)
     als = s.adaptation_latency_score
 
     print()
-    print(f"{BOLD}{CYAN}{'─'*66}{RESET}")
-    print(f"{BOLD}{WHITE}  ASF Document Analysis Report{RESET}")
-    print(f"{BOLD}{CYAN}{'─'*66}{RESET}")
+    print(f"{BOLD}{CYAN}{'─' * 66}{RESET}")
+    print(f"{BOLD}{WHITE}  ASF Document Analysis — Keyword Mode (v0.3){RESET}")
+    print(f"{BOLD}{CYAN}{'─' * 66}{RESET}")
     print()
-    print(f"  {BOLD}Source{RESET}       {DIM}{meta['source_file']}{RESET}  ({meta['word_count']:,} words)")
-    print(f"  {BOLD}System{RESET}       {WHITE}{report.input.system_name}{RESET}")
-    print(f"  {BOLD}Domain{RESET}       {DIM}{report.input.domain}{RESET}")
-    print(f"  {BOLD}Scenario{RESET}     {DIM}{report.input.adaptation_scenario}{RESET}")
+    print(f"  {BOLD}Source{RESET}     {DIM}{source_file}{RESET}")
+    print(f"  {BOLD}System{RESET}     {WHITE}{report.input.system_name}{RESET}")
+    print(f"  {BOLD}Domain{RESET}     {DIM}{domain}{RESET}")
     print()
-    print(f"  {BOLD}Latency Score{RESET}   {sc(als)}{BOLD}{als:.2f}{RESET} / 5.0   {bar(als)}   Risk: {rc}{BOLD}{risk.value.upper()}{RESET}")
-    print(f"  {BOLD}Friction Score{RESET}  {sc(s.friction_score)}{s.friction_score:.2f}{RESET} / 5.0")
-    print(f"  {BOLD}Adapt Capability{RESET} {GREEN}{s.adaptation_capability:.2f}{RESET} / 5.0")
+    print(f"  {BOLD}ASF Score{RESET}  {rc}{BOLD}{als:.2f}{RESET} / 5.0   "
+          f"Risk: {rc}{BOLD}{s.risk_band.value.upper()}{RESET}")
     print()
 
-    print(f"  {BOLD}{CYAN}Layer Analysis — from document signals{RESET}")
-    print(f"  {'─'*60}")
     dims = [
         ("Observation latency", s.observation_latency, False),
-        ("Decision latency",    s.decision_latency,    False),
-        ("Execution latency",   s.execution_latency,   False),
-        ("Feedback delay",      s.feedback_delay,      False),
-        ("Learning velocity",   s.learning_velocity,   True),
-        ("Dependency index",    s.dependency_index,    False),
+        ("Decision latency", s.decision_latency, False),
+        ("Execution latency", s.execution_latency, False),
+        ("Feedback delay", s.feedback_delay, False),
+        ("Learning velocity", s.learning_velocity, True),
+        ("Dependency index", s.dependency_index, False),
     ]
     for label, val, invert in dims:
-        is_bottleneck = label.lower().replace(" ","_") in report.bottleneck_dimension.lower().replace(" ","_")
-        marker = f" {YELLOW}◀ bottleneck{RESET}" if is_bottleneck else ""
-        color = GREEN if (invert and val >= 4) or (not invert and val <= 2) else (YELLOW if val == 3 else RED)
-        print(f"  {label:<22} {color}{val:.0f}{RESET}/5  {bar(val, 20)}{marker}")
+        is_bn = label.lower().replace(" ", "_") in report.bottleneck_dimension.lower().replace(" ", "_")
+        marker = f" {YELLOW}◀ bottleneck{RESET}" if is_bn else ""
+        good = val >= 4 if invert else val <= 2
+        color = GREEN if good else (RED if (val <= 2 if invert else val >= 4) else YELLOW)
+        filled = int((val / 5) * 20)
+        bar = f"{color}{'█' * filled}{'░' * (20 - filled)}{RESET}"
+        print(f"  {label:<22} {color}{val:.0f}{RESET}/5  {bar}{marker}")
 
     print()
-    print(f"  {BOLD}Detected friction{RESET}   {YELLOW}{', '.join(meta['detected_friction']) or 'None detected'}{RESET}")
-    print(f"  {BOLD}Primary friction{RESET}    {YELLOW}{report.primary_friction}{RESET}")
-    print(f"  {BOLD}Bottleneck{RESET}          {RED}{report.bottleneck_dimension}{RESET}")
+    print(f"  {BOLD}Bottleneck{RESET}   {RED}{report.bottleneck_dimension}{RESET}")
     print()
 
-    if meta["signal_counts"]["execution_high"] > 0 or meta["signal_counts"]["decision_high"] > 0:
-        print(f"  {BOLD}{CYAN}Signal Evidence{RESET}")
-        print(f"  {'─'*60}")
-        sc2 = meta["signal_counts"]
-        print(f"  Observation friction signals : {sc2['observation_high']}")
-        print(f"  Decision friction signals    : {sc2['decision_high']}")
-        print(f"  Execution friction signals   : {sc2['execution_high']}")
-        print(f"  Low learning signals         : {sc2['learning_low']}")
-        print(f"  High learning signals        : {sc2['learning_high']}")
-        print()
-
-    print(f"  {BOLD}{CYAN}Recommended Interventions{RESET}")
-    print(f"  {'─'*60}")
-    pc = {" P0": RED, "P1": YELLOW, "P2": CYAN}
-    for rec in report.interventions:
-        c = RED if rec.priority == "P0" else (YELLOW if rec.priority == "P1" else CYAN)
-        print(f"  {c}{BOLD}[{rec.priority}]{RESET}  {WHITE}{rec.action}{RESET}")
-        print(f"        {DIM}Target: {rec.target_dimension} · Reduction: {rec.expected_reduction_weeks}w · Effort: {rec.effort}{RESET}")
-        print()
-
-    print(f"  {BOLD}{CYAN}Summary{RESET}")
-    print(f"  {'─'*60}")
-    for sentence in report.summary.split(". "):
-        if sentence.strip():
-            print(f"  {sentence.strip()}.")
-    print()
-    print(f"{BOLD}{CYAN}{'─'*66}{RESET}")
+    print(f"  {BOLD}{CYAN}Interventions{RESET}")
+    for rec in report.interventions[:3]:
+        pc = RED if rec.priority == "P0" else (YELLOW if rec.priority == "P1" else CYAN)
+        print(f"  {pc}{BOLD}[{rec.priority}]{RESET}  {WHITE}{rec.action}{RESET}")
     print()
 
-
-def export_json(result: dict, path: str) -> None:
-    report = result["report"]
-    s      = report.scores
-    out = {
-        "source": result["metadata"]["source_file"],
-        "system_name": report.input.system_name,
-        "domain": report.input.domain,
-        "scenario": report.input.adaptation_scenario,
-        "scores": {
-            "adaptation_latency_score": s.adaptation_latency_score,
-            "friction_score": s.friction_score,
-            "adaptation_capability": s.adaptation_capability,
-            "risk_band": s.risk_band.value,
-            "layers": {
-                "observation_latency": s.observation_latency,
-                "decision_latency":    s.decision_latency,
-                "execution_latency":   s.execution_latency,
-                "feedback_delay":      s.feedback_delay,
-                "learning_velocity":   s.learning_velocity,
-                "dependency_index":    s.dependency_index,
-            }
-        },
-        "primary_friction": report.primary_friction,
-        "bottleneck": report.bottleneck_dimension,
-        "detected_friction_categories": result["metadata"]["detected_friction"],
-        "interventions": [
-            {"priority": r.priority, "action": r.action,
-             "target": r.target_dimension, "effort": r.effort,
-             "reduction_weeks": r.expected_reduction_weeks}
-            for r in report.interventions
-        ],
-        "summary": report.summary,
-        "metadata": result["metadata"],
-    }
-    with open(path, "w") as f:
-        json.dump(out, f, indent=2)
-    print(f"  {GREEN}Exported to {path}{RESET}\n")
+    print(f"  {BOLD}Summary{RESET}")
+    for s in report.summary.split(". "):
+        if s.strip():
+            print(f"  {s.strip()}.")
+    print()
+    print(f"  {YELLOW}Note: Upgrade to LLM mode for evidence-cited scoring.{RESET}")
+    print(f"  {DIM}Set AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT{RESET}")
+    print()
+    print(f"{BOLD}{CYAN}{'─' * 66}{RESET}")
+    print()
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="ASF Document Analyzer — upload any document, get adaptation analysis",
+        description="ASF Document Analyzer v0.4 — evidence-based scoring with citations",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   python asf_document_analyzer.py --file annual_report.pdf
-  python asf_document_analyzer.py --file postmortem.txt --org "AT&T"
-  python asf_document_analyzer.py --file strategy.docx --export output.json
+  python asf_document_analyzer.py --file report.pdf --org "Boeing"
+  python asf_document_analyzer.py --file report.pdf --export output.json
+  python asf_document_analyzer.py --file report.pdf --mode keyword
+
+LLM mode (default) requires:
+  export AZURE_OPENAI_KEY=your-key
+  export AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+  export AZURE_OPENAI_DEPLOYMENT=gpt-4o
         """
     )
-    parser.add_argument("--file",   "-f", required=True, help="Document to analyze (PDF, DOCX, TXT, MD)")
-    parser.add_argument("--org",    "-o", help="Organization name (optional — auto-detected if not provided)")
-    parser.add_argument("--export", "-e", help="Export JSON report to file")
+    parser.add_argument("--file", "-f", required=True, help="Document to analyze (PDF, DOCX, TXT, MD)")
+    parser.add_argument("--org", "-o", help="Organization name (auto-detected if not provided)")
+    parser.add_argument("--export", "-e", help="Export JSON report to this file path")
+    parser.add_argument("--mode", choices=["llm", "keyword"], default="llm",
+                        help="Scoring mode: llm (default, requires Azure OpenAI) or keyword (v0.3 fallback)")
     args = parser.parse_args()
 
     if not Path(args.file).exists():
         print(f"\n  {RED}File not found: {args.file}{RESET}\n")
         sys.exit(1)
 
-    result = analyze_document(args.file, args.org)
-    print_report(result)
+    print(f"\n  {CYAN}ASF v0.4 Document Analyzer{RESET}")
+    print(f"  {DIM}Reading: {args.file}{RESET}")
 
+    text = extract_text(args.file)
+    if not text or len(text.strip()) < 100:
+        print(f"  {RED}Could not extract text from {args.file}{RESET}")
+        sys.exit(1)
+
+    word_count = len(text.split())
+    print(f"  {DIM}Extracted {word_count:,} words{RESET}")
+
+    org_name = detect_org_name(text, args.org)
+    domain = detect_domain(text)
+
+    print(f"  {DIM}Organization: {org_name} | Domain: {domain}{RESET}")
+
+    if args.mode == "llm":
+        result = run_llm_analysis(text, org_name, args.file, domain)
+        if result is None:
+            # LLM unavailable — fall through to keyword
+            result = run_keyword_analysis(text, org_name, domain)
+    else:
+        result = run_keyword_analysis(text, org_name, domain)
+
+    pkg = result.get("pkg")
+    report = result["report"]
+    crt = result.get("crt")
+
+    # Print report
+    if pkg and not pkg.fallback_used and args.mode == "llm":
+        try:
+            from asf.evidence.extractor import print_evidence_report
+            print_evidence_report(pkg, report, crt)
+        except ImportError:
+            print_basic_report(report, domain, args.file)
+    else:
+        print_basic_report(report, domain, args.file)
+
+    # Export
     if args.export:
-        export_json(result, args.export)
+        if pkg:
+            try:
+                from asf.evidence.extractor import export_cited_report
+                data = export_cited_report(pkg, report, crt, args.export)
+                print(f"  {GREEN}Exported to {args.export}{RESET}\n")
+            except ImportError:
+                pass
+        else:
+            s = report.scores
+            out = {
+                "system_name": report.input.system_name,
+                "asf_score": s.adaptation_latency_score,
+                "risk_band": s.risk_band.value,
+                "bottleneck": report.bottleneck_dimension,
+                "summary": report.summary,
+                "mode": "keyword-fallback",
+            }
+            with open(args.export, "w") as f:
+                json.dump(out, f, indent=2)
+            print(f"  {GREEN}Exported to {args.export}{RESET}\n")
 
 
 if __name__ == "__main__":
