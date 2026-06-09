@@ -37,7 +37,7 @@ The code and dashboards make it faster, not possible.
 ## v0.4 — Evidence-Based Scoring (Next)
 
 **Mission:** Replace keyword counting with LLM-based evidence extraction.
-**Timeline:** 4–6 hours of engineering once Azure OpenAI access is configured.
+**Status:** ✅ Complete. Evidence extractor ships in v0.4.
 
 **What changes:**
 - `asf_document_analyzer.py` calls Azure OpenAI GPT-4o with structured output
