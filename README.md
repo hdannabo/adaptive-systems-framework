@@ -138,7 +138,7 @@ adaptive-systems-framework/
 | Scoring engine | ✅ Working | Deterministic, tested, correct |
 | CLI analyzer | ✅ Working | YAML input → full report |
 | Dashboards | ✅ Live | GitHub Pages, all companies with multi-objective + decision support |
-| Document analyzer | ⚠️ Partial | Keyword detection — LLM reasoning planned for v0.4 |
+| Document analyzer | ✅ Working | LLM-based evidence extraction with cited quotes (v0.4) |
 | Conformance agent | ✅ Working | Output validation against acceptance criteria |
 | CRT engine | ✅ Working | Capability Realization Time estimates |
 | Azure OpenAI integration | 🔲 Planned | v0.4 — evidence-cited scoring from documents |
@@ -153,7 +153,7 @@ The company scores in the benchmarks are derived from public data by human analy
 | Version | Scope | Status |
 |---|---|---|
 | v0.3 | Scoring engine · Dashboards · CRT · 49-company benchmark | ✅ Done |
-| v0.4 | Azure OpenAI document scoring with evidence citation | Next |
+| v0.4 | Azure OpenAI evidence extraction with citations | ✅ Done |
 | v0.5 | REST API · Web interface — no Python required | Planned |
 | v1.0 | Upload any document · Get full ASF report automatically | Future |
 
