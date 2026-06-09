@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ASF Validation — LTM (LTIMindtree) Capability Realization Analysis</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;font-size:14px}
+.wrap{max-width:1300px;margin:0 auto;padding:20px}
+/* Nav */
+.nav-tabs{display:flex;gap:2px;margin-bottom:20px;background:#161b22;border-radius:10px;padding:4px;border:1px solid #30363d}
+.nav-tab{flex:1;padding:10px 12px;text-align:center;font-size:12px;font-weight:500;cursor:pointer;border-radius:8px;color:#8b949e;transition:all .15s;border:none;background:none}
+.nav-tab:hover{color:#e6edf3;background:#21262d}
+.nav-tab.active{background:#21262d;color:#58a6ff;border:1px solid #30363d}
+.view{display:none}.view.active{display:block}
+/* Explainer */
+.explainer{background:#0d1117;border:1px solid #1f6feb;border-radius:10px;padding:16px 20px;margin-bottom:16px}
+.ex-title{font-size:11px;font-weight:600;color:#58a6ff;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.ex-body{font-size:13px;color:#8b949e;line-height:1.75}
+.ex-body strong{color:#e6edf3}.ex-body em{color:#d29922;font-style:normal}
+.ex-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.pill{font-size:10px;padding:3px 10px;border-radius:20px;background:#161b22;border:1px solid #30363d;color:#8b949e}
+.pill.warn{border-color:#9e6a03;color:#d29922}
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin-bottom:18px}
+.kpi{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:14px 16px}
+.kpi-l{font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.kpi-v{font-size:26px;font-weight:700;margin-bottom:2px}
+.kpi-s{font-size:11px;color:#8b949e}
+/* Verdict banner */
+.verdict{border-radius:12px;padding:20px 24px;margin-bottom:16px;border:2px solid}
+.verdict.low{background:#0d1f15;border-color:#2ea043}
+.verdict.medium{background:#2d2000;border-color:#9e6a03}
+.verdict.high{background:#2d0b09;border-color:#da3633}
+.verdict-top{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.verdict-badge{font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;letter-spacing:.5px}
+.verdict-title{font-size:18px;font-weight:700;color:#e6edf3}
+.verdict-sub{font-size:13px;color:#8b949e;line-height:1.65}
+/* Program cards */
+.prog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin-bottom:18px}
+.prog-card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px;cursor:pointer;transition:border-color .15s}
+.prog-card:hover{border-color:#58a6ff}
+.prog-card.sel{border-color:#e6edf3;border-width:2px}
+.pc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.pc-name{font-size:13px;font-weight:700;color:#e6edf3;line-height:1.3}
+.pc-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;flex-shrink:0}
+.badge-low{background:#1a3525;color:#3fb950;border:1px solid #2ea043}
+.badge-med{background:#2d2000;color:#d29922;border:1px solid #9e6a03}
+.badge-hi{background:#3c0614;color:#f85149;border:1px solid #da3633}
+.pc-bottleneck{font-size:11px;color:#f0a21c;margin-bottom:8px}
+.pc-summary{font-size:11px;color:#8b949e;line-height:1.5;margin-bottom:10px}
+.pc-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:8px}
+.pm{background:#0d1117;border-radius:6px;padding:6px 8px}
+.pm-l{font-size:10px;color:#6e7681;text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
+.pm-v{font-size:14px;font-weight:700}
+.pc-bar-row{display:flex;align-items:center;gap:6px}
+.pc-bar-label{font-size:10px;color:#8b949e;width:50px;flex-shrink:0}
+.pc-bar-bg{flex:1;height:4px;background:#21262d;border-radius:3px;overflow:hidden}
+.pc-bar-fill{height:100%;border-radius:3px}
+.pc-bar-val{font-size:11px;font-weight:700;width:32px;text-align:right;flex-shrink:0}
+/* Detail panel */
+.detail{display:none;background:#161b22;border:2px solid #58a6ff;border-radius:12px;padding:22px 26px;margin-bottom:18px}
+.detail.open{display:block}
+.dp-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.dp-title{font-size:18px;font-weight:700}
+.dp-sub{font-size:12px;color:#8b949e;margin-top:3px}
+.dp-close{background:none;border:none;color:#8b949e;cursor:pointer;font-size:22px}
+/* Five-frame */
+.five-frame{display:grid;gap:10px;margin-bottom:16px}
+.ff{border-radius:8px;padding:12px 14px}
+.ff-insight{background:#1a2d3d;border-left:3px solid #58a6ff}
+.ff-impact{background:#2d2000;border-left:3px solid #d29922}
+.ff-reco{background:#1a3525;border-left:3px solid #3fb950}
+.ff-outcome{background:#1a1a2e;border-left:3px solid #a371f7}
+.ff-priority{border-left:3px solid #f85149}
+.ff-priority.low{background:#0d1f15;border-color:#2ea043}
+.ff-priority.medium{background:#2d2000}
+.ff-lbl{font-size:10px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.ff-text{font-size:13px;line-height:1.65}
+.ff-text.insight{color:#79c0ff}
+.ff-text.impact{color:#f0a21c}
+.ff-text.reco{color:#7ee787}
+.ff-text.outcome{color:#d2a8ff}
+/* Dimension table */
+.dim-section{margin-bottom:16px}
+.sec-title{font-size:11px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.dim-row{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;background:#0d1117;border-radius:8px;margin-bottom:6px;border:1px solid #21262d}
+.dim-label{font-size:12px;font-weight:600;color:#e6edf3;width:140px;flex-shrink:0}
+.dim-score-col{width:48px;flex-shrink:0;text-align:center}
+.dim-score-num{font-size:18px;font-weight:700}
+.dim-score-den{font-size:11px;color:#6e7681}
+.dim-bar-col{width:100px;flex-shrink:0;padding-top:6px}
+.dim-bar-bg{height:5px;background:#21262d;border-radius:3px;overflow:hidden}
+.dim-bar-fill{height:100%;border-radius:3px}
+.dim-evidence-col{flex:1}
+.dim-ev-text{font-size:11px;color:#f0a21c;line-height:1.5;margin-bottom:3px;font-style:italic}
+.dim-source{font-size:10px;color:#6e7681}
+.dim-reasoning{font-size:11px;color:#8b949e;margin-top:3px}
+.bottleneck-marker{font-size:9px;font-weight:700;color:#f85149;background:#3c0614;border:1px solid #da3633;padding:1px 6px;border-radius:10px;margin-left:6px;vertical-align:middle}
+/* CRT section */
+.crt-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;padding:14px;background:#0d1117;border-radius:8px;border:1px solid #21262d}
+.crt-item{text-align:center}
+.crt-v{font-size:20px;font-weight:700}
+.crt-l{font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.4px;margin-top:3px}
+/* Capabilities */
+.cap-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.cap-col{background:#0d1117;border-radius:8px;padding:12px 14px;border:1px solid #21262d}
+.cap-col-title{font-size:10px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.cap-item{font-size:11px;color:#e6edf3;padding:5px 0;border-bottom:1px solid #161b22;line-height:1.5}
+.cap-item:last-child{border-bottom:none}
+.cap-item.gap{color:#f0a21c}
+.cap-item::before{margin-right:6px}
+.cap-required::before{content:"○";color:#8b949e}
+.cap-current::before{content:"✓";color:#3fb950}
+.cap-gap::before{content:"△";color:#d29922}
+/* Interventions */
+.interventions{display:grid;gap:8px;margin-bottom:14px}
+.iv{background:#0d1117;border-radius:8px;padding:10px 14px;display:flex;gap:10px;align-items:flex-start;border:1px solid #21262d}
+.iv-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;flex-shrink:0;margin-top:1px}
+.iv-p0{background:#3c0614;color:#f85149;border:1px solid #da3633}
+.iv-p1{background:#2d1500;color:#f0883e;border:1px solid #9e4a06}
+.iv-p2{background:#1a2228;color:#8b949e;border:1px solid #30363d}
+.iv-text{font-size:12px;color:#e6edf3}
+.iv-dim{font-size:10px;color:#6e7681;margin-top:2px}
+/* Evidence traceability */
+.trace-chain{background:#0d1117;border-radius:8px;padding:14px 16px;border:1px solid #1f6feb;margin-bottom:14px}
+.trace-title{font-size:10px;font-weight:600;color:#58a6ff;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.trace-row{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid #161b22;font-size:11px}
+.trace-row:last-child{border-bottom:none}
+.trace-label{color:#8b949e;width:90px;flex-shrink:0}
+.trace-val{color:#e6edf3;flex:1}
+.trace-source{color:#58a6ff;font-size:10px;margin-top:2px}
+/* Objectives */
+.obj-list{display:grid;gap:6px;margin-bottom:14px}
+.obj-row{background:#0d1117;border-radius:8px;padding:10px 12px;border:1px solid #21262d}
+.obj-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.obj-name{font-size:12px;font-weight:600;color:#e6edf3}
+.obj-cat{font-size:10px;color:#8b949e;background:#161b22;padding:1px 7px;border-radius:10px;border:1px solid #30363d}
+.obj-target{font-size:11px;color:#8b949e;margin-bottom:5px}
+.obj-bar-row{display:flex;align-items:center;gap:8px}
+.obj-bar-bg{flex:1;height:4px;background:#21262d;border-radius:3px;overflow:hidden}
+.obj-bar-fill{height:100%;border-radius:3px}
+.obj-pct{font-size:11px;font-weight:700;width:36px;text-align:right}
+.obj-status{font-size:10px;font-weight:600;padding:1px 7px;border-radius:10px}
+.os-track{background:#1a3525;color:#3fb950;border:1px solid #2ea043}
+.os-risk{background:#2d2000;color:#d29922;border:1px solid #9e6a03}
+.os-miss{background:#3c0614;color:#f85149;border:1px solid #da3633}
+/* Executive view */
+.exec-2col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.exec-panel{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px}
+.ep-title{font-size:11px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.risk-item{padding:9px 12px;background:#0d1117;border-radius:6px;margin-bottom:6px;border-left:3px solid}
+.ri-name{font-size:12px;font-weight:600;color:#e6edf3;margin-bottom:3px}
+.ri-desc{font-size:11px;color:#8b949e;line-height:1.5}
+.action-item{padding:9px 12px;background:#0d1117;border-radius:6px;margin-bottom:6px}
+.ai-num{font-size:11px;font-weight:700;color:#3fb950;margin-bottom:2px}
+.ai-action{font-size:12px;color:#e6edf3;margin-bottom:2px}
+.ai-impact{font-size:11px;color:#7ee787}
+/* Colors */
+.green{color:#3fb950}.yellow{color:#d29922}.red{color:#f85149}
+.blue{color:#58a6ff}.purple{color:#a371f7}.orange{color:#f0883e}
+footer{text-align:center;font-size:11px;color:#6e7681;padding:16px 0;border-top:1px solid #21262d;margin-top:8px}
+footer a{color:#58a6ff;text-decoration:none}
+@media(max-width:700px){.prog-grid,.cap-cols,.exec-2col{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- Header explainer -->
+<div class="explainer">
+  <div class="ex-title">What is this dashboard?</div>
+  <div class="ex-body">
+    This is an <strong>ASF Validation Case</strong> — a demonstration of how the Adaptive Systems Framework analyzes whether an organization can realize required capabilities before market conditions change.
+    <br><br>
+    <strong>ASF does not evaluate whether LTM's strategy is correct.</strong> It evaluates whether LTM is moving fast enough to execute that strategy. Every score is derived from a cited public source. Every claim is traceable to evidence.
+    <br><br>
+    <em>The single question ASF answers:</em> <strong>Given current organizational velocity, will LTM realize the capabilities required for Lakshya 2031 before competitors do?</strong>
+  </div>
+  <div class="ex-pills">
+    <span class="pill">Source: LTM Investor Day June 2 2026</span>
+    <span class="pill">Source: Q4FY26 Earnings April 23 2026</span>
+    <span class="pill">Source: Q2FY26 Investor Presentation Oct 2025</span>
+    <span class="pill warn">All data publicly available — no synthetic metrics</span>
+    <span class="pill warn">Analytical estimates — not audited results</span>
+    <span class="pill">ASF Formula: ALS = Obs×0.15 + Dec×0.25 + Exec×0.30 + FB×0.15 + Dep×0.15 − LV×0.10</span>
+  </div>
+</div>
+
+<!-- KPIs -->
+<div class="kpis">
+  <div class="kpi">
+    <div class="kpi-l">Enterprise ALS</div>
+    <div class="kpi-v yellow">2.05</div>
+    <div class="kpi-s">Low risk — 5 programs</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-l">Critical bottleneck</div>
+    <div class="kpi-v" style="font-size:16px;padding-top:4px;color:#f85149">BFSI Vertical</div>
+    <div class="kpi-s">ALS 2.70 — Medium risk</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-l">Lakshya 2031 CAGR needed</div>
+    <div class="kpi-v red">15%</div>
+    <div class="kpi-s">Current: 6% FY26</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-l">BlueVerse adoption</div>
+    <div class="kpi-v yellow">3%</div>
+    <div class="kpi-s">Outcome contracts vs 100 target</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-l">Fastest program</div>
+    <div class="kpi-v green">1.45</div>
+    <div class="kpi-s">Fit4Future — margin execution</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-l">Programs analyzed</div>
+    <div class="kpi-v blue">5</div>
+    <div class="kpi-s">Enterprise + 4 sub-programs</div>
+  </div>
+</div>
+
+<!-- Nav -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="switchView('programs')">Program Analysis</button>
+  <button class="nav-tab" onclick="switchView('executive')">Executive Summary</button>
+  <button class="nav-tab" onclick="switchView('evidence')">Evidence & Traceability</button>
+</div>
+
+<!-- VIEW 1: Program Analysis -->
+<div id="view-programs" class="view active">
+
+  <!-- Enterprise verdict -->
+  <div class="verdict medium" style="border-color:#9e6a03;background:#1f1800">
+    <div class="verdict-top">
+      <span class="verdict-badge" style="background:#2d2000;color:#d29922;border:1px solid #9e6a03">MEDIUM CONFIDENCE VERDICT</span>
+      <span class="verdict-badge" style="background:#1a3525;color:#3fb950;border:1px solid #2ea043">LOW RISK — ALS 2.05</span>
+    </div>
+    <div class="verdict-title" style="margin-bottom:8px">LTM's organizational machinery is adapting — but the pace is insufficient for Lakshya 2031.</div>
+    <div class="verdict-sub">
+      LTM is executing well on margin improvement (Fit4Future) and product launches (BlueVerse). The governance and awareness cycles are fast. The problem is <strong style="color:#d29922">execution velocity</strong> — current revenue CAGR is 6%, the 2X target requires 15%. The BFSI vertical (33% of revenue) is declining 3.9% YoY while competitors are gaining share. BlueVerse outcome-based pricing, the mechanism for non-linear growth, has 3 contracts of 100 target. At current velocity, LTM reaches ~$6.5B by FY31, not $9.5B. This is not a strategy problem. It is a realization speed problem — exactly what ASF measures.
+    </div>
+  </div>
+
+  <!-- Program cards -->
+  <div class="prog-grid" id="prog-grid"></div>
+
+  <!-- Detail panel -->
+  <div class="detail" id="detail-panel">
+    <div class="dp-hdr">
+      <div>
+        <div class="dp-title" id="dp-title"></div>
+        <div class="dp-sub" id="dp-sub"></div>
+      </div>
+      <button class="dp-close" onclick="closeDetail()">×</button>
+    </div>
+    <div id="dp-content"></div>
+  </div>
+</div>
+
+<!-- VIEW 2: Executive Summary -->
+<div id="view-executive" class="view">
+  <div class="exec-2col">
+    <div class="exec-panel">
+      <div class="ep-title">Top 5 Strategic Risks</div>
+      <div class="risk-item" style="border-color:#f85149">
+        <div class="ri-name">BFSI revenue declining — Lakshya 2031 cannot be achieved without recovery</div>
+        <div class="ri-desc">BFSI = 33% of revenue, declined 3.9% YoY. 2X target requires this segment to return to growth. No recovery plan published with specific targets. CRT: 36 months. Source: Q4FY26 earnings.</div>
+      </div>
+      <div class="risk-item" style="border-color:#f85149">
+        <div class="ri-name">Revenue velocity gap — 6% CAGR vs 15% required</div>
+        <div class="ri-desc">Lakshya 2031 implies 15% annual CAGR. FY26 delivered 6%. The gap is 9 percentage points sustained for 5 years. Stock fell 7% post-Investor Day as analysts flagged the same concern. Source: LTM Investor Day June 2026.</div>
+      </div>
+      <div class="risk-item" style="border-color:#d29922">
+        <div class="ri-name">BlueVerse outcome pricing adoption — 3% of target</div>
+        <div class="ri-desc">BlueVerse currency (outcome-based contracts) is the key non-linearity mechanism. 3 contracts vs 100 target. Enterprise procurement conservatism is the constraint. Source: Analyst commentary June 2026.</div>
+      </div>
+      <div class="risk-item" style="border-color:#d29922">
+        <div class="ri-name">Women in leadership — 9% of 15% target with 4 years left</div>
+        <div class="ri-desc">Leadership pipeline takes 3-5 years to build. At current pace, 2030 target is at risk. Source: Q2FY26 ESG highlights, Oct 2025.</div>
+      </div>
+      <div class="risk-item" style="border-color:#8b949e">
+        <div class="ri-name">AI delivery coverage — 35% of 75% target</div>
+        <div class="ri-desc">AI-augmented delivery required for non-linear growth. Only 35% of projects using AI tools vs 75% target. Revenue per employee $55K vs $80K target. Source: LTM Investor Day June 2026.</div>
+      </div>
+    </div>
+    <div class="exec-panel">
+      <div class="ep-title">Top 5 Recommended Actions</div>
+      <div class="action-item">
+        <div class="ai-num">P0 — This Quarter</div>
+        <div class="ai-action">Publish a BFSI vertical recovery plan with quarterly milestones</div>
+        <div class="ai-impact">No recovery plan is currently public. The absence signals either no plan exists or management does not believe investors deserve to see it. Either case is worse than publishing a plan.</div>
+      </div>
+      <div class="action-item">
+        <div class="ai-num">P0 — This Quarter</div>
+        <div class="ai-action">Publish BlueVerse contract count quarterly in earnings</div>
+        <div class="ai-impact">BlueVerse revenue is not disclosed separately. Investors cannot assess whether the non-linearity thesis is working. Transparency accelerates adoption by giving account teams external validation to use with clients.</div>
+      </div>
+      <div class="action-item">
+        <div class="ai-num">P1 — This Half</div>
+        <div class="ai-action">Launch a 90-day BFSI AI platform win campaign targeting 3 flagship reference clients</div>
+        <div class="ai-impact">BFSI needs a marquee BlueVerse win to reverse decline narrative. Three public reference clients with measurable outcomes changes the sales conversation for the entire vertical.</div>
+      </div>
+      <div class="action-item">
+        <div class="ai-num">P1 — This Year</div>
+        <div class="ai-action">Accelerate AI delivery coverage from 35% to 60% of projects</div>
+        <div class="ai-impact">Revenue per employee must increase to achieve non-linear growth. AI-augmented delivery is the mechanism. Fit4Future is working on margins — the same discipline must be applied to delivery transformation.</div>
+      </div>
+      <div class="action-item">
+        <div class="ai-num">P2 — 12 Months</div>
+        <div class="ai-action">Commit to renewable energy PPAs for the 30pp gap to 85% target</div>
+        <div class="ai-impact">4 years, 30 percentage points. Requires major PPA commitments now. Waiting compounds the gap. Water positive target achieved ahead of schedule — same discipline needed for energy.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exec-panel" style="background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px;margin-bottom:14px">
+    <div class="ep-title">What should leadership do next? — CEO Summary</div>
+    <div style="background:#0d1117;border-radius:8px;padding:16px;border-left:4px solid #58a6ff">
+      <div style="font-size:14px;color:#e6edf3;line-height:1.85">
+        <strong>ASF Verdict:</strong> LTM's organizational machinery is functioning — it detects change fast, decides fast, and learns from execution. The problem is that current execution velocity is insufficient for the scale of the Lakshya 2031 commitment.
+        <br><br>
+        <strong>The three things that must change:</strong>
+        <br>
+        <strong style="color:#f85149">1. BFSI must reverse.</strong> A 33%-of-revenue vertical declining 3.9% while competitors gain ground is not a portfolio management problem — it is an execution failure in the most important segment. Lakshya 2031 cannot be achieved with BFSI in decline. The intervention is specific: three marquee BlueVerse wins in BFSI with published outcomes. Nothing else will shift the trajectory.
+        <br><br>
+        <strong style="color:#d29922">2. BlueVerse monetization must accelerate.</strong> The platform exists. The architecture is sound. The pricing model is differentiated. But 3 outcome-based contracts of 100 means the commercial motion has not been proven. The constraint is enterprise procurement conservatism — which is broken by reference customers, not better product. Find three clients willing to publish ROI. The rest will follow.
+        <br><br>
+        <strong style="color:#3fb950">3. What is working must be protected.</strong> Fit4Future (ALS 1.45) is LTM's most effective executing program. Three consecutive quarters of margin improvement. The discipline is real. Apply the same operational rigour to BFSI recovery and BlueVerse adoption as Fit4Future applied to cost structure.
+        <br><br>
+        <em style="color:#8b949e">Confidence: Medium. All analysis based on publicly available quarterly disclosures, investor presentations, and analyst commentary. Internal operational data would increase precision.</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASF Formula transparency -->
+  <div class="exec-panel" style="background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px">
+    <div class="ep-title">How ASF Scores Were Calculated — Full Transparency</div>
+    <div style="background:#0d1117;border-radius:8px;padding:14px;font-family:monospace;font-size:12px;color:#8b949e;border:1px solid #21262d;margin-bottom:12px">
+      ALS = (Obs×0.15) + (Dec×0.25) + (Exec×0.30) + (FB×0.15) + (Dep×0.15) − (LV×0.10)<br><br>
+      Enterprise: (2×0.15)+(2×0.25)+(3×0.30)+(2×0.15)+(3×0.15)−(4×0.10) = <strong style="color:#d29922">2.05</strong><br>
+      BlueVerse:  (1×0.15)+(2×0.25)+(3×0.30)+(3×0.15)+(3×0.15)−(4×0.10) = <strong style="color:#d29922">2.05</strong><br>
+      BFSI:       (2×0.15)+(3×0.25)+(4×0.30)+(2×0.15)+(3×0.15)−(3×0.10) = <strong style="color:#d29922">2.70</strong><br>
+      Fit4Future: (1×0.15)+(2×0.25)+(2×0.30)+(2×0.15)+(2×0.15)−(4×0.10) = <strong style="color:#3fb950">1.45</strong><br>
+      ESG:        (2×0.15)+(2×0.25)+(3×0.30)+(2×0.15)+(2×0.15)−(4×0.10) = <strong style="color:#3fb950">1.90</strong>
+    </div>
+    <div style="font-size:11px;color:#8b949e;line-height:1.7">
+      <strong style="color:#e6edf3">Scale:</strong> 1.0 = fastest possible | 5.0 = slowest possible | &lt;2.5 = Low risk | 2.5–3.5 = Medium | &gt;3.5 = High<br>
+      <strong style="color:#e6edf3">Bottleneck:</strong> The dimension with the highest score is the primary constraint.<br>
+      <strong style="color:#e6edf3">Execution Latency (0.30 weight):</strong> Highest weight because it is the most common bottleneck across 100+ cases in the ASF dataset.
+    </div>
+  </div>
+</div>
+
+<!-- VIEW 3: Evidence -->
+<div id="view-evidence" class="view">
+  <div class="exec-panel" style="background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px;margin-bottom:14px">
+    <div class="ep-title">Evidence Traceability — All Claims</div>
+    <div style="font-size:12px;color:#8b949e;margin-bottom:12px;line-height:1.65">
+      Every ASF dimension score assigned in this analysis must be traceable to a specific public disclosure. The table below shows the chain: <strong style="color:#e6edf3">Evidence → Score → Bottleneck → Recommendation</strong>. No score was assigned without a corresponding public source.
+    </div>
+  </div>
+  <div id="evidence-table"></div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  ASF Validation Case — LTM (LTIMindtree) · Analysis based on publicly available data only ·
+  <a href="https://github.com/hdannabo/adaptive-systems-framework">github.com/hdannabo/adaptive-systems-framework</a> ·
+  Not investment advice · Analytical estimates only · Copyright © 2026 Hemanth Kumar Dannaboyina
+</footer>
+
+<script>
+// ── Data ──────────────────────────────────────────────────────────────────
+const PROGRAMS = [
+{
+  id:"enterprise",
+  name:"LTM Enterprise — Lakshya 2031",
+  sub:"NSE: LTM · IT Services · $4.76B FY26 Revenue",
+  risk:"Low", als:2.05, crt:19, crtRisk:"High", crtRange:[14,24],
+  bottleneck:"Execution Latency",
+  source:"LTM Investor Day June 2 2026; Q4FY26 Earnings April 23 2026",
+  confidence:"High — NSE-listed quarterly disclosures",
+  objectives:[
+    {name:"Revenue Doubling (Lakshya 2031)",cat:"Financial",current:4.76,target:9.5,unit:"$B",pct:50,status:"AT RISK"},
+    {name:"EBIT Margin Expansion",cat:"Financial",current:15.4,target:17.4,unit:"%",pct:0,status:"AT RISK"},
+    {name:"BlueVerse Revenue Share",cat:"Technology",current:8,target:25,unit:"%",pct:32,status:"AT RISK"},
+    {name:"Large Deal Wins",cat:"Growth",current:10,target:20,unit:"deals/yr",pct:50,status:"ON TRACK"},
+    {name:"Women in Workforce",cat:"Workforce",current:30.8,target:40,unit:"%",pct:77,status:"AT RISK"},
+    {name:"Renewable Energy",cat:"Sustainability",current:55,target:85,unit:"%",pct:65,status:"AT RISK"},
+  ],
+  dims:[
+    {key:"Observation Latency",score:2,max:5,evidence:"Renamed to LTM and launched Lakshya 2031 at Investor Day June 2026; AI pivot recognized early in FY25; rebranding signals awareness of market repositioning need",source:"LTM Investor Day June 2 2026; Q4FY26 earnings",reasoning:"Score 2: Fast signal detection — company responded to AI market shift before most peers",isBottleneck:false},
+    {key:"Decision Latency",score:2,max:5,evidence:"BlueVerse launched June 2025; Randstad deal signed; 10 large deals FY26 (100% YoY); CEO Venu Lambu driving fast strategic decisions; Lakshya 2031 approved by board June 2026",source:"Q4FY26 earnings; Investor Day 2026",reasoning:"Score 2: Fast executive decisions — CEO-driven, board-approved 5-year plan without extended delay",isBottleneck:false},
+    {key:"Execution Latency",score:3,max:5,evidence:"Revenue growth only 6% YoY FY26 against 15% CAGR needed for 2X target; BFSI vertical declined 3.9%; BlueVerse platform revenue share at ~8% of target 25%; stock fell 7% post Investor Day on execution credibility concerns",source:"LTM Q4FY26 results; Business Standard analyst coverage June 2026",reasoning:"Score 3: Strategy is clear, decisions are fast — but implementation is not keeping pace with commitment",isBottleneck:true},
+    {key:"Feedback Delay",score:2,max:5,evidence:"Quarterly earnings with detailed vertical breakdown; CSAT tracked and published; order inflow vs revenue conversion tracked; BlueVerse currency adoption metrics to be published",source:"Q4FY26 earnings release; Q2FY26 investor presentation",reasoning:"Score 2: Good quarterly feedback loop — vertical-level revenue disclosed, CSAT measured",isBottleneck:false},
+    {key:"Learning Velocity",score:4,max:5,inverted:true,evidence:"Three consecutive quarters of 2%+ growth shows improving execution; Fit4Future program improving margins from 14.5% to 15.4% in one year; pivot from headcount model to outcome-based pricing underway",source:"Q3FY26 earnings Jan 2026; Q4FY26 results",reasoning:"Score 4 (high): Demonstrably learning — margin improvement, deal volume improvement, AI pivot acceleration",isBottleneck:false},
+    {key:"Dependency Index",score:3,max:5,evidence:"15% revenue from BFSI headwinds constrains portfolio rebalancing speed; hyperscaler partnerships (AWS, GCP, Microsoft) create positive dependency; Randstad deal adds new dependency layer",source:"LTM vertical mix FY26; Investor Day June 2026",reasoning:"Score 3: Moderate dependencies — BFSI concentration is a structural constraint on growth portfolio rebalancing",isBottleneck:false},
+  ],
+  requiredCaps:["AI-native delivery model at scale (not just AI-assisted)","BlueVerse platform generating 25%+ of revenue","Outcome-based pricing adopted by enterprise clients","Domain SLMs for BFSI, healthcare, manufacturing","BFSI vertical recovery — currently declining","15% revenue CAGR sustained 5 years"],
+  currentCaps:["$4.76B revenue FY26; EBIT 15.4%","BlueVerse ecosystem launched June 2025","$6.60B order book; 10 large deals FY26","3 hyperscaler SPAs (AWS, GCP, Microsoft)","BlueVerse Studio Bengaluru launched April 2026","CSAT above industry median 3 consecutive years"],
+  gaps:["Revenue CAGR 6% vs 15% needed — 9pp velocity gap","BFSI (33% revenue) declining 3.9% — must reverse for 2X","BlueVerse revenue ~8% of total vs 25% target","Outcome pricing: 3 contracts of 100 target","Women workforce 30.8% of 40% target"],
+  interventions:[
+    {p:"P0",text:"Publish a BFSI vertical recovery plan with quarterly milestones",dim:"Execution Latency"},
+    {p:"P0",text:"Disclose BlueVerse contract count and outcome-priced revenue quarterly",dim:"Feedback Delay"},
+    {p:"P1",text:"Accelerate AI delivery coverage from 35% to 60% of projects in 12 months",dim:"Execution Latency"},
+  ]
+},
+{
+  id:"blueverse",
+  name:"LTM — BlueVerse AI Platform",
+  sub:"AI ecosystem · Launched June 2025 · AWS & Azure Marketplace",
+  risk:"Low", als:2.05, crt:23, crtRisk:"High", crtRange:[17,29],
+  bottleneck:"Execution Latency",
+  source:"BlueVerse launch June 19 2025; BlueVerse Studio April 28 2026; AWS Marketplace listing",
+  confidence:"Medium — platform metrics not separately disclosed in earnings",
+  objectives:[
+    {name:"BlueVerse Revenue Share",cat:"Financial",current:8,target:25,unit:"%",pct:32,status:"AT RISK"},
+    {name:"Enterprise Clients on Platform",cat:"Customer",current:45,target:500,unit:"clients",pct:9,status:"AT RISK"},
+    {name:"Outcome Pricing Contracts",cat:"Financial",current:3,target:100,unit:"contracts",pct:3,status:"WILL MISS"},
+    {name:"BlueVerse Products Live",cat:"Technology",current:4,target:15,unit:"products",pct:27,status:"AT RISK"},
+  ],
+  dims:[
+    {key:"Observation Latency",score:1,max:5,evidence:"BlueVerse concept developed before public launch; LTM recognized shift from T&M to outcome-based as central to IT services future in FY25 planning",source:"LTM FY25 annual report; BlueVerse launch announcement June 2025",reasoning:"Score 1: Fastest possible — recognized the outcome-pricing opportunity before market pressure",isBottleneck:false},
+    {key:"Decision Latency",score:2,max:5,evidence:"BlueVerse launched June 2025; CraftStudio July 2025; RightAction September 2025; Studio Hub April 2026 — monthly cadence of product launches",source:"LTM press releases timeline 2025-2026",reasoning:"Score 2: Fast — four product extensions in 10 months shows compressed decision cycles",isBottleneck:false},
+    {key:"Execution Latency",score:3,max:5,evidence:"BlueVerse currency (outcome pricing) at 3 contracts of 100 target — 3% adoption; enterprise clients at 9% of target; analysts describe adoption as 'gradual' due to procurement conservatism",source:"Business Standard analyst coverage June 2026; LTM Investor Day",reasoning:"Score 3: Platform built, commercial motion not proven — the gap between product and adoption is execution",isBottleneck:true},
+    {key:"Feedback Delay",score:3,max:5,evidence:"BlueVerse-specific revenue not broken out in earnings; no public API adoption metrics; CSAT applies to services broadly, not platform specifically",source:"Absence of BlueVerse-specific financial disclosure in Q4FY26",reasoning:"Score 3: Delayed — no public BlueVerse metric allows external assessment of adoption velocity",isBottleneck:false},
+    {key:"Learning Velocity",score:4,max:5,inverted:true,evidence:"Four BlueVerse product launches in 10 months (June 2025 to April 2026); each iteration adding ecosystem components; fast product cadence",source:"LTM press release timeline 2025-2026",reasoning:"Score 4 (high): Product team is learning fast — CraftStudio, RightAction, Studio Hub added in quick succession",isBottleneck:false},
+    {key:"Dependency Index",score:3,max:5,evidence:"BlueVerse depends on: Adobe partnership (CraftStudio); AWS/Azure/GCP cloud infra; IIT Kharagpur and MIT for SkillSphere; enterprise client willingness to shift pricing model",source:"BlueVerse press releases; AWS Marketplace listing",reasoning:"Score 3: Moderate — partnership dependencies manageable but client procurement cycle is external constraint",isBottleneck:false},
+  ],
+  requiredCaps:["Enterprise sales motion for outcome-based contracts","Proof of ROI on BlueVerse currency before mainstream adoption","Domain SLMs (BFSI, healthcare) in production","BlueVerse developer marketplace at scale","Reference customers with published measurable outcomes"],
+  currentCaps:["BlueVerse Foundry on AWS and Azure Marketplace","CraftStudio with Adobe partnership","RightAction for compliant enterprise AI","BlueVerse Studio Hub Bengaluru April 2026","SkillSphere + SkilletWeave for AI talent"],
+  gaps:["Outcome pricing at 3% of target — enterprise procurement conservative","No published ROI case studies on BlueVerse currency","Domain SLMs announced but not production-deployed at scale","BlueVerse revenue not separately disclosed"],
+  interventions:[
+    {p:"P0",text:"Find 3 enterprise clients willing to publish BlueVerse ROI case studies",dim:"Execution Latency"},
+    {p:"P0",text:"Disclose BlueVerse contract count in quarterly earnings — creates external accountability",dim:"Feedback Delay"},
+    {p:"P1",text:"Launch BFSI-specific domain SLM — named, scheduled, with performance benchmarks",dim:"Execution Latency"},
+  ]
+},
+{
+  id:"bfsi",
+  name:"LTM — BFSI Vertical",
+  sub:"33% of revenue · $1.57B FY26 · Declined 3.9% YoY",
+  risk:"Medium", als:2.70, crt:36, crtRisk:"Critical", crtRange:[27,45],
+  bottleneck:"Execution Latency",
+  source:"LTM Q4FY26 Earnings April 2026; vertical breakdown investor presentation",
+  confidence:"High — vertical revenue disclosed quarterly in NSE filings",
+  objectives:[
+    {name:"BFSI Revenue Growth",cat:"Financial",current:-3.9,target:10,unit:"% YoY",pct:0,status:"WILL MISS"},
+    {name:"BFSI Large Deals",cat:"Growth",current:2,target:5,unit:"deals/yr",pct:40,status:"AT RISK"},
+    {name:"Regulatory AI Deployments",cat:"Technology",current:3,target:20,unit:"deployments",pct:15,status:"AT RISK"},
+  ],
+  dims:[
+    {key:"Observation Latency",score:2,max:5,evidence:"BFSI decline identified in Q3FY25 earnings; management acknowledged vertical headwinds early; rebalancing strategy articulated",source:"LTM earnings calls FY25-FY26",reasoning:"Score 2: Decline recognized promptly in quarterly reporting — not a detection failure",isBottleneck:false},
+    {key:"Decision Latency",score:3,max:5,evidence:"BFSI recovery plan not separately detailed in Investor Day; 'New Horizon' three-tier program covers BFSI but no vertical-specific targets published at June 2026 Investor Day",source:"LTM Investor Day June 2026; absence of BFSI-specific targets",reasoning:"Score 3: Elevated — recovery recognized but specific intervention plan not committed publicly",isBottleneck:false},
+    {key:"Execution Latency",score:4,max:5,evidence:"BFSI declined 3.9% despite overall market for BFSI AI spending growing; no sign of recovery in Q4FY26; losing share to competitors in largest vertical",source:"LTM Q4FY26 vertical breakdown; analyst coverage",reasoning:"Score 4: High — the vertical is moving backward while the opportunity grows. This is execution failure, not market failure.",isBottleneck:true},
+    {key:"Feedback Delay",score:2,max:5,evidence:"Vertical-level revenue disclosed quarterly; BFSI share and growth tracked publicly; management provides commentary on vertical drivers each earnings call",source:"Quarterly earnings vertical disclosure",reasoning:"Score 2: Good — quarterly vertical disclosure provides clear feedback on performance",isBottleneck:false},
+    {key:"Learning Velocity",score:3,max:5,inverted:true,evidence:"Eurobank collaboration; US life insurance AI quality deal; regulatory AI approach developing — but deals not yet translating to vertical growth reversal",source:"LTM deal announcements FY26",reasoning:"Score 3: Moderate — individual wins are being secured but the learning has not yet changed the vertical trajectory",isBottleneck:false},
+    {key:"Dependency Index",score:3,max:5,evidence:"BFSI clients have conservative IT spending cycles; regulatory environment creates both opportunity and friction; macro-driven client spending moderation outside LTM control",source:"LTM BFSI commentary Q3FY26",reasoning:"Score 3: Moderate — client spending cycles and macro conditions create dependencies outside LTM's control",isBottleneck:false},
+  ],
+  requiredCaps:["Differentiated BFSI regulatory AI proposition vs Infosys/TCS/Wipro","Core banking modernization at scale","Wealth management AI platform on BlueVerse","Capital markets AI reference wins","BFSI-specific domain SLM in production"],
+  currentCaps:["US life insurance AI quality engineering deal (multi-year)","Global financial institution data center migration","Eurobank multi-year collaboration","BFSI AI competency center established"],
+  gaps:["BFSI declining 3.9% while market growing — losing share","No flagship BFSI AI platform win announced","BFSI-specific BlueVerse SLM not yet publicly launched","No public BFSI recovery plan with milestones"],
+  interventions:[
+    {p:"P0",text:"Publish BFSI recovery plan with quarterly milestones at next earnings call",dim:"Decision Latency"},
+    {p:"P0",text:"Launch 90-day BFSI flagship win campaign — 3 reference clients with published ROI",dim:"Execution Latency"},
+    {p:"P1",text:"Launch BFSI domain SLM publicly with benchmark performance claims",dim:"Execution Latency"},
+  ]
+},
+{
+  id:"fit4future",
+  name:"LTM — Fit4Future (Margin)",
+  sub:"Internal margin program · 90 bps improvement FY26",
+  risk:"Low", als:1.45, crt:10, crtRisk:"Medium", crtRange:[8,13],
+  bottleneck:"Decision Latency",
+  source:"LTM Q2FY26 earnings Oct 2025; Q4FY26 earnings April 2026; Investor Day June 2026",
+  confidence:"High — EBIT margin disclosed quarterly",
+  objectives:[
+    {name:"EBIT Margin",cat:"Financial",current:15.4,target:17.4,unit:"%",pct:45,status:"ON TRACK"},
+    {name:"AI-Augmented Delivery",cat:"Operations",current:35,target:75,unit:"%",pct:47,status:"AT RISK"},
+    {name:"Revenue per Employee",cat:"Financial",current:55,target:80,unit:"$K",pct:69,status:"AT RISK"},
+    {name:"Attrition Rate",cat:"Workforce",current:14.4,target:12,unit:"%",pct:0,status:"AT RISK"},
+  ],
+  dims:[
+    {key:"Observation Latency",score:1,max:5,evidence:"Margin compression identified in FY24-25; Fit4Future launched proactively; wage cycle risks anticipated and managed",source:"LTM FY25 earnings; Q2FY26 margin commentary",reasoning:"Score 1: Fastest — margin pressure identified before it became a crisis, program launched preventively",isBottleneck:false},
+    {key:"Decision Latency",score:2,max:5,evidence:"Fit4Future operationalized within one quarter; margin expanded 90 bps FY25→FY26; fast internal decision cycle",source:"LTM Q4FY26 results",reasoning:"Score 2: Fast — internal program, no external approvals needed, CEO-driven execution",isBottleneck:true},
+    {key:"Execution Latency",score:2,max:5,evidence:"90 bps margin improvement in one year; highest quarterly margin in 7 quarters achieved Q2FY26 at 15.9%; Fit4Future delivering measurably",source:"LTM Q2FY26 earnings Oct 2025",reasoning:"Score 2: Fast — measurable outcomes in 12 months, highest margin in 7 quarters confirms delivery",isBottleneck:false},
+    {key:"Feedback Delay",score:2,max:5,evidence:"Quarterly margin reporting; breakeven analysis per project tracked internally; EBIT margin disclosed quarterly with QoQ and YoY comparison",source:"LTM quarterly earnings",reasoning:"Score 2: Fast feedback — quarterly earnings provide clear margin signal within weeks of quarter end",isBottleneck:false},
+    {key:"Learning Velocity",score:4,max:5,inverted:true,evidence:"Three consecutive quarters of improving margin; Fit4Future iterating across delivery optimization, vendor consolidation, pyramid rebalancing simultaneously",source:"Q3FY26 Jan 2026; Q4FY26 April 2026",reasoning:"Score 4 (high): Fastest learning in LTM dataset — each quarter builds on the previous, multi-dimensional improvement",isBottleneck:false},
+    {key:"Dependency Index",score:2,max:5,evidence:"Margin improvement primarily internal; wage cycle dependence (Jan and April hikes) is the main external constraint",source:"Q2FY26 investor presentation wage risk commentary",reasoning:"Score 2: Low dependency — internal program, minimal external approvals required",isBottleneck:false},
+  ],
+  requiredCaps:["AI-augmented delivery at 75%+ of projects","Non-linear growth (revenue not proportional to headcount)","Wage cost management through AI productivity","Outcome-pricing premiums as T&M declines","Revenue per employee $80K (currently $55K)"],
+  currentCaps:["EBIT 15.4% FY26 (+90 bps in one year)","Highest quarterly margin in 7 quarters Q2FY26","Vendor consolidation programs active","Fit4Future multi-stream execution underway"],
+  gaps:["AI delivery coverage 35% vs 75% target — non-linearity not yet achieved","Revenue per employee $55K vs $80K","Remaining 110 bps requires BlueVerse monetization","Attrition 14.4% vs 12% target"],
+  interventions:[
+    {p:"P0",text:"Apply Fit4Future discipline to AI delivery adoption — same rigour, same quarterly targets",dim:"Execution Latency"},
+    {p:"P1",text:"Tie AI delivery coverage % to manager performance metrics — creates accountability",dim:"Decision Latency"},
+    {p:"P1",text:"Publish revenue-per-employee improvement trajectory in each quarterly earnings",dim:"Feedback Delay"},
+  ]
+},
+{
+  id:"esg",
+  name:"LTM — ESG / Sustainability",
+  sub:"Net Zero by 2040 · ICAI Excellence Award FY25",
+  risk:"Low", als:1.90, crt:13, crtRisk:"Medium", crtRange:[10,17],
+  bottleneck:"Execution Latency",
+  source:"Q2FY26 ESG highlights Oct 2025; ICAI award for Integrated Annual Report FY25",
+  confidence:"High — quarterly ESG disclosure; ICAI-awarded integrated reporting",
+  objectives:[
+    {name:"Renewable Energy",cat:"Sustainability",current:55,target:85,unit:"%",pct:65,status:"AT RISK"},
+    {name:"Water Positivity",cat:"Sustainability",current:2.8,target:1,unit:"x positive",pct:100,status:"ON TRACK"},
+    {name:"Women in Workforce",cat:"Workforce",current:30.8,target:40,unit:"%",pct:77,status:"AT RISK"},
+    {name:"Women in Leadership",cat:"Workforce",current:9,target:15,unit:"%",pct:60,status:"AT RISK"},
+    {name:"Community Impact",cat:"Social",current:1.8,target:4.0,unit:"M lives",pct:45,status:"AT RISK"},
+  ],
+  dims:[
+    {key:"Observation Latency",score:2,max:5,evidence:"ESG targets set in FY22-23; proactively tracked quarterly; BRSR compliance framework implemented",source:"Q2FY26 ESG highlights",reasoning:"Score 2: Fast — ESG targets established 3+ years ahead of 2030 deadline, proactive monitoring",isBottleneck:false},
+    {key:"Decision Latency",score:2,max:5,evidence:"ESG governance board established; renewable energy procurement decisions quarterly; 2.8x water positive shows proactive execution",source:"Q2FY26 ESG highlights",reasoning:"Score 2: Fast — governance board operational, decisions made at quarterly cadence",isBottleneck:false},
+    {key:"Execution Latency",score:3,max:5,evidence:"Renewable energy at 55% of 85% target with 4 years remaining — 30pp gap; women workforce at 30.8% of 40% target — requires deliberate hiring program",source:"Q2FY26 ESG highlights investing.com Oct 2025",reasoning:"Score 3: Moderate — water target achieved ahead of schedule, but renewable energy and gender targets are behind",isBottleneck:true},
+    {key:"Feedback Delay",score:2,max:5,evidence:"Quarterly ESG metrics; annual integrated report (ICAI award winner FY25); BRSR reporting provides structured feedback",source:"ICAI award; Q2FY26 investor presentation",reasoning:"Score 2: Fast — award-winning integrated reporting, quarterly ESG tracking",isBottleneck:false},
+    {key:"Learning Velocity",score:4,max:5,inverted:true,evidence:"Water positive target achieved ahead of schedule (2.8x); applying same discipline to renewable energy; ICAI award confirms reporting quality improvement",source:"Scanx.trade LTM Investor Day report June 2026",reasoning:"Score 4 (high): Learning from water positivity success and applying it to remaining targets",isBottleneck:false},
+    {key:"Dependency Index",score:2,max:5,evidence:"Renewable energy depends on PPA availability in India; women leadership requires pipeline that takes 3-5 years to build",source:"India renewable energy grid; LTM workforce programs",reasoning:"Score 2: Low-moderate — dependencies are manageable and mostly within planning horizon",isBottleneck:false},
+  ],
+  requiredCaps:["Renewable energy PPAs — 30pp increase","Women-focused hiring and retention at scale","Carbon measurement for Scope 3 emissions","Leadership development pipeline for women in tech"],
+  currentCaps:["2.8x water positive — achieved ahead of 2030 target","ICAI Excellence Award FY25 integrated reporting","ESG governance board operational","BRSR compliance framework"],
+  gaps:["Renewable energy 30pp gap in 4 years — requires major PPA commitments now","Women leadership at 9% of 15% target","Net Zero by 2040 requires Scope 3 strategy not yet published","Women workforce 9.2pp gap"],
+  interventions:[
+    {p:"P0",text:"Commit to renewable energy PPAs now — 4 years is insufficient lead time to wait",dim:"Execution Latency"},
+    {p:"P1",text:"Publish Scope 3 emissions measurement methodology and baseline",dim:"Observation Latency"},
+    {p:"P1",text:"Set gender-specific hiring targets at vertical and geography level",dim:"Execution Latency"},
+  ]
+}
+];
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+function sc(als){return als<2.5?'#3fb950':als<3.5?'#d29922':'#f85149'}
+function badgeClass(risk){return risk==='Low'?'badge-low':risk==='Medium'?'badge-med':'badge-hi'}
+function statusBadge(s){return s==='ON TRACK'?'os-track':s==='AT RISK'?'os-risk':'os-miss'}
+function pct2bar(pct,status){
+  let c=status==='ON TRACK'?'#3fb950':status==='AT RISK'?'#d29922':'#f85149';
+  return `<div class="obj-bar-fill" style="width:${Math.min(100,Math.max(0,pct))}%;background:${c}"></div>`;
+}
+
+function switchView(v){
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  event.target.classList.add('active');
+  if(v==='evidence') renderEvidence();
+}
+
+// ── Render program cards ───────────────────────────────────────────────────
+function renderCards(){
+  document.getElementById('prog-grid').innerHTML=PROGRAMS.map(p=>{
+    const c=sc(p.als);
+    return `<div class="prog-card" id="card-${p.id}" onclick="showDetail('${p.id}')">
+      <div class="pc-top">
+        <div class="pc-name">${p.name}</div>
+        <span class="pc-badge ${badgeClass(p.risk)}">${p.risk} Risk</span>
+      </div>
+      <div class="pc-bottleneck">⚠ Bottleneck: ${p.bottleneck}</div>
+      <div class="pc-summary">${p.source.split(';')[0]}</div>
+      <div class="pc-metrics">
+        <div class="pm"><div class="pm-l">ALS</div><div class="pm-v" style="color:${c}">${p.als.toFixed(2)}</div></div>
+        <div class="pm"><div class="pm-l">CRT</div><div class="pm-v" style="color:${p.crt>24?'#f85149':p.crt>12?'#d29922':'#3fb950'}">${p.crt}mo</div></div>
+        <div class="pm"><div class="pm-l">CRT Risk</div><div class="pm-v" style="font-size:12px;color:${p.crt>36?'#f85149':p.crt>18?'#d29922':'#3fb950'}">${p.crtRisk}</div></div>
+      </div>
+      <div class="pc-bar-row">
+        <span class="pc-bar-label">Adaptation</span>
+        <div class="pc-bar-bg"><div class="pc-bar-fill" style="width:${(p.als/5)*100}%;background:${c}"></div></div>
+        <span class="pc-bar-val" style="color:${c}">${p.als.toFixed(1)}/5</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Detail panel ───────────────────────────────────────────────────────────
+let selId=null;
+function showDetail(id){
+  const p=PROGRAMS.find(x=>x.id===id);
+  if(!p)return;
+  selId=id;
+  document.querySelectorAll('.prog-card').forEach(el=>el.classList.toggle('sel',el.id==='card-'+id));
+  document.getElementById('dp-title').textContent=p.name;
+  document.getElementById('dp-sub').textContent=p.sub+' · Source: '+p.source.split('|')[0];
+
+  // Build content
+  let html='';
+
+  // CRT strip
+  html+=`<div class="crt-strip">
+    <div class="crt-item"><div class="crt-v" style="color:${sc(p.als)}">${p.als.toFixed(2)}</div><div class="crt-l">ALS Score</div></div>
+    <div class="crt-item"><div class="crt-v ${p.risk==='Low'?'green':p.risk==='Medium'?'yellow':'red'}">${p.risk}</div><div class="crt-l">Risk Band</div></div>
+    <div class="crt-item"><div class="crt-v" style="color:${p.crt>36?'#f85149':p.crt>18?'#d29922':'#3fb950'}">${p.crt}mo</div><div class="crt-l">CRT Estimate</div></div>
+    <div class="crt-item"><div class="crt-v" style="font-size:13px;color:${p.crtRisk==='Critical'?'#f85149':p.crtRisk==='High'?'#d29922':'#3fb950'}">${p.crtRange[0]}–${p.crtRange[1]}mo</div><div class="crt-l">Range (±${p.confidence.startsWith('High')?'20':'30'}%)</div></div>
+  </div>`;
+
+  // Objectives
+  html+=`<div class="dim-section"><div class="sec-title">Strategic Objectives — Status</div><div class="obj-list">`;
+  for(const o of p.objectives){
+    const pct=o.status==='WILL MISS'?Math.max(0,o.pct):o.pct;
+    html+=`<div class="obj-row">
+      <div class="obj-top"><span class="obj-name">${o.name}</span><span class="obj-cat">${o.cat}</span></div>
+      <div class="obj-target">${o.current} → ${o.target} ${o.unit}</div>
+      <div class="obj-bar-row">
+        <div class="obj-bar-bg">${pct2bar(pct,o.status)}</div>
+        <span class="obj-pct" style="color:${o.status==='ON TRACK'?'#3fb950':o.status==='AT RISK'?'#d29922':'#f85149'}">${pct.toFixed(0)}%</span>
+        <span class="obj-status ${statusBadge(o.status)}">${o.status}</span>
+      </div>
+    </div>`;
+  }
+  html+=`</div></div>`;
+
+  // Dimension scores
+  html+=`<div class="dim-section"><div class="sec-title">ASF Dimension Scores — Evidence Cited</div>`;
+  for(const d of p.dims){
+    const isLV=d.key==='Learning Velocity';
+    const barPct=isLV?(d.score/5)*100:(d.score/5)*100;
+    const barColor=isLV?(d.score>=4?'#3fb950':d.score>=3?'#d29922':'#f85149'):(d.score<=2?'#3fb950':d.score<=3?'#d29922':'#f85149');
+    const numColor=isLV?(d.score>=4?'#3fb950':d.score>=3?'#d29922':'#f85149'):(d.score<=2?'#3fb950':d.score<=3?'#d29922':'#f85149');
+    html+=`<div class="dim-row">
+      <div class="dim-label">${d.key}${d.isBottleneck?'<span class="bottleneck-marker">BOTTLENECK</span>':''}</div>
+      <div class="dim-score-col">
+        <span class="dim-score-num" style="color:${numColor}">${d.score}</span>
+        <span class="dim-score-den">/5</span>
+        ${isLV?'<div style="font-size:9px;color:#6e7681;margin-top:1px">(inverted)</div>':''}
+      </div>
+      <div class="dim-bar-col">
+        <div class="dim-bar-bg"><div class="dim-bar-fill" style="width:${barPct}%;background:${barColor}"></div></div>
+      </div>
+      <div class="dim-evidence-col">
+        <div class="dim-ev-text">"${d.evidence.substring(0,120)}${d.evidence.length>120?'…':''}"</div>
+        <div class="dim-source">Source: ${d.source}</div>
+        <div class="dim-reasoning">${d.reasoning}</div>
+      </div>
+    </div>`;
+  }
+  html+=`</div>`;
+
+  // Capability comparison
+  html+=`<div class="dim-section"><div class="sec-title">Required vs Current vs Gap</div>
+  <div class="cap-cols">
+    <div class="cap-col"><div class="cap-col-title">Required Capabilities</div>
+      ${p.requiredCaps.map(c=>`<div class="cap-item cap-required">${c}</div>`).join('')}
+    </div>
+    <div class="cap-col"><div class="cap-col-title">Current Capability Signals</div>
+      ${p.currentCaps.map(c=>`<div class="cap-item cap-current">${c}</div>`).join('')}
+    </div>
+  </div>
+  <div class="cap-col" style="border-radius:8px;padding:12px 14px;border:1px solid #21262d;background:#0d1117">
+    <div class="cap-col-title">Capability Gaps</div>
+    ${p.gaps.map(g=>`<div class="cap-item cap-gap">△ ${g}</div>`).join('')}
+  </div></div>`;
+
+  // Interventions
+  html+=`<div class="dim-section"><div class="sec-title">Recommended Interventions</div>
+  <div class="interventions">
+  ${p.interventions.map(iv=>`<div class="iv">
+    <span class="iv-badge iv-${iv.p.toLowerCase()}">${iv.p}</span>
+    <div><div class="iv-text">${iv.text}</div><div class="iv-dim">Target dimension: ${iv.dim}</div></div>
+  </div>`).join('')}
+  </div></div>`;
+
+  // Evidence trace
+  html+=`<div class="trace-chain"><div class="trace-title">Evidence Traceability Chain</div>
+  <div class="trace-row"><span class="trace-label">Evidence source</span><div><span class="trace-val">${p.source}</span></div></div>
+  <div class="trace-row"><span class="trace-label">Bottleneck from</span><div><span class="trace-val">Highest ALS dimension = ${p.bottleneck} (${p.dims.find(d=>d.isBottleneck)?.score}/5)</span></div></div>
+  <div class="trace-row"><span class="trace-label">ALS formula</span><div><span class="trace-val">(${p.dims[0].score}×0.15)+(${p.dims[1].score}×0.25)+(${p.dims[2].score}×0.30)+(${p.dims[3].score}×0.15)+(${p.dims[5].score}×0.15)−(${p.dims[4].score}×0.10) = ${p.als.toFixed(2)}</span></div></div>
+  <div class="trace-row"><span class="trace-label">CRT derived from</span><div><span class="trace-val">Gap × base_time × friction_multiplier × learning_accelerator = ${p.crt} months (${p.crtRange[0]}–${p.crtRange[1]} range)</span></div></div>
+  <div class="trace-row"><span class="trace-label">Confidence</span><div><span class="trace-val">${p.confidence}</span></div></div>
+  </div>`;
+
+  document.getElementById('dp-content').innerHTML=html;
+  const panel=document.getElementById('detail-panel');
+  panel.classList.add('open');
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function closeDetail(){
+  document.getElementById('detail-panel').classList.remove('open');
+  document.querySelectorAll('.prog-card').forEach(el=>el.classList.remove('sel'));
+  selId=null;
+}
+
+// ── Evidence view ──────────────────────────────────────────────────────────
+function renderEvidence(){
+  let html=`<div class="exec-panel" style="background:#161b22;border:1px solid #30363d;border-radius:10px;padding:0;overflow:hidden">
+  <table style="width:100%;border-collapse:collapse;font-size:12px">
+  <thead><tr style="background:#0d1117">
+    <th style="padding:10px 14px;text-align:left;color:#8b949e;font-size:10px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #30363d">Program</th>
+    <th style="padding:10px 14px;text-align:left;color:#8b949e;font-size:10px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #30363d">Dimension</th>
+    <th style="padding:10px 14px;text-align:center;color:#8b949e;font-size:10px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #30363d">Score</th>
+    <th style="padding:10px 14px;text-align:left;color:#8b949e;font-size:10px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #30363d">Evidence Citation</th>
+    <th style="padding:10px 14px;text-align:left;color:#8b949e;font-size:10px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #30363d">Public Source</th>
+  </tr></thead><tbody>`;
+  for(const p of PROGRAMS){
+    for(const d of p.dims){
+      const isLV=d.key==='Learning Velocity';
+      const c=isLV?(d.score>=4?'#3fb950':d.score>=3?'#d29922':'#f85149'):(d.score<=2?'#3fb950':d.score<=3?'#d29922':'#f85149');
+      html+=`<tr style="border-bottom:1px solid #21262d">
+        <td style="padding:8px 14px;color:#e6edf3;font-weight:600;vertical-align:top">${p.name.replace('LTM — ','').replace('LTM (formerly LTIMindtree) — ','Enterprise: ')}</td>
+        <td style="padding:8px 14px;color:#e6edf3;vertical-align:top">${d.key}${d.isBottleneck?' <span style="font-size:9px;color:#f85149;font-weight:700">[BN]</span>':''}</td>
+        <td style="padding:8px 14px;text-align:center;font-weight:700;color:${c};vertical-align:top">${d.score}/5</td>
+        <td style="padding:8px 14px;color:#8b949e;vertical-align:top;font-style:italic;max-width:300px">"${d.evidence.substring(0,100)}${d.evidence.length>100?'…':''}"</td>
+        <td style="padding:8px 14px;color:#58a6ff;vertical-align:top;font-size:11px">${d.source}</td>
+      </tr>`;
+    }
+  }
+  html+=`</tbody></table></div>`;
+  html+=`<div style="background:#161b22;border:1px solid #30363d;border-radius:10px;padding:14px 18px;margin-top:12px;font-size:11px;color:#8b949e;line-height:1.75">
+    <strong style="color:#e6edf3">Validation statement:</strong> Every score in this analysis is derived from a named public disclosure. No score is based on inference alone without a corresponding public statement. Where data is unavailable in public filings, the analyst assumption is documented and confidence is reduced to Medium. No synthetic data was used. The ASF formula is deterministic — given the evidence citations above, the ALS scores can be independently replicated.<br><br>
+    <strong style="color:#e6edf3">Limitations:</strong> LTM is an NSE-listed company. Quarterly earnings disclosures are detailed but internal operational data (project-level AI adoption %, specific client contract structures) is not publicly available. Confidence is Medium for BlueVerse adoption metrics and High for financial metrics.
+  </div>`;
+  document.getElementById('evidence-table').innerHTML=html;
+}
+
+// Init
+renderCards();
+</script>
+</body>
+</html>
