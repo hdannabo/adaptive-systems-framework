@@ -17,6 +17,11 @@
 | [inter_rater_reliability.md](inter_rater_reliability.md) | κ=0.739, 100% bottleneck agreement | ✅ v0.1 |
 | [calibration_report.md](calibration_report.md) | CRT vs actual: 20 programs, T_base recalibration | ✅ v0.1 |
 | [external_validation_protocol.md](external_validation_protocol.md) | External IRR study design — 3 analysts, 5 companies, full rubric | ✅ Ready |
+| [prediction_register.md](prediction_register.md) | 13 timestamped predictions — Boeing, LTM, AT&T | ✅ v1.0 |
+| [prediction_dashboard.html](prediction_dashboard.html) | Live prediction tracker with checkpoint calendar | ✅ v1.0 |
+| [validation_metrics.py](validation_metrics.py) | Accuracy, calibration, lead time engine | ✅ v1.0 |
+| [outcome_tracking_workflow.md](outcome_tracking_workflow.md) | P001 July 2026 checkpoint protocol | ✅ Ready |
+| [annual_validation_report_template.md](annual_validation_report_template.md) | Annual review template | ✅ Ready |
 | [crt_validation_results.csv](crt_validation_results.csv) | Raw data: all 20 programs predicted vs actual | ✅ Complete |
 
 ---
@@ -59,7 +64,13 @@
 | LTM | BFSI vertical returns to positive YoY growth | **Q1FY27 LTM earnings (July 2026)** | **PRIORITY** |
 | AT&T | Mandatory adoption program announced | Q3 2026 AT&T earnings | Pending |
 
-**LTM July 2026 is the first available outcome check.** If BFSI returns to positive growth, this becomes the first confirmed ASF prediction.
+**LTM July 2026 is the first available outcome check (~July 22, 2026).** P001 is registered and timestamped. If BFSI returns to positive growth, this becomes the first confirmed ASF prediction and moves the framework from "promising" to "tested."
+
+**To record the outcome when available:**
+```bash
+python validation/validation_metrics.py --update P001 Confirmed \
+    "BFSI +X% YoY Q1FY27" 2026-07-22
+```
 
 ---
 
