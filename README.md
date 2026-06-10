@@ -2,7 +2,7 @@
 
 **ASF identifies why transformation programs miss their targets — and what to fix first.**
 
-It measures organizational adaptation velocity: how fast you move from where you are today to where you need to be. When that velocity is insufficient to hit a target on time, ASF identifies the specific bottleneck causing the delay and recommends what to do about it in the next 90 days.
+It measures organizational adaptation velocity: how fast you move from where you are today to where you need to be. When that velocity is insufficient to hit a target on time, ASF identifies the specific bottleneck causing the delay and recommends what to do about it.
 
 ---
 
@@ -13,7 +13,7 @@ Not a score. A decision.
 > *"This AI transformation program is likely to miss its $4B savings target by $1.2B.
 > The bottleneck is not AI capability or budget — it is workforce adoption.
 > At current velocity, the program will reach $2.8B by 2030.
-> Recommended action: adoption program targeting unadopted employees by Q3 2026.
+> Recommended action: mandatory adoption program targeting unadopted employees by Q3 2026.
 > Every 10% adoption increase adds approximately $250M toward the target."*
 
 ---
@@ -56,36 +56,25 @@ The dimension with the highest score is the primary bottleneck. Fixing it has th
 
 ---
 
-## Live dashboards
-
-Open in any browser — no install required.
-
-| Dashboard | What it shows |
-|---|---|
-| [MNC 2030 Goals](https://hdannabo.github.io/adaptive-systems-framework/dashboard/mnc-2030-goals.html) | Will 49 top MNCs hit their 2030 targets? All objectives. Decision support for each company. |
-| [Enterprise AI Benchmark](https://hdannabo.github.io/adaptive-systems-framework/dashboard/enterprise-benchmark.html) | NVIDIA, OpenAI, Anthropic, Microsoft, Scale AI, Palantir — adaptation velocity compared |
-| [Manufacturing Benchmark](https://hdannabo.github.io/adaptive-systems-framework/dashboard/manufacturing-benchmark.html) | Toyota, Boeing, Foxconn, Siemens, BYD — global manufacturing adaptation |
-| [Token Governance Scorer](https://hdannabo.github.io/adaptive-systems-framework/dashboard/token-governance.html) | Enter your AI program data → get governance score + P0/P1/P2 interventions |
-| [Capability Realization Time](https://hdannabo.github.io/adaptive-systems-framework/dashboard/capability-realization-time.html) | How long to close the adaptation gap across 10 use cases |
-| [Token Economics](https://hdannabo.github.io/adaptive-systems-framework/dashboard/token-economics.html) | 22 AI models scored on cost and context efficiency |
-
----
-
-## Run locally
+## Quick start
 
 ```bash
-git clone https://github.com/hdannabo/adaptive-systems-framework.git
+git clone https://github.com/hdannabo/adaptive-systems-framework
 cd adaptive-systems-framework
 pip install -r requirements.txt
 
-# Score any system from a YAML file
-python cli.py --file examples/att.yaml
+# Run a scored analysis from a YAML input
+python cli.py --file examples/boeing.yaml
 
-# Analyze any document — annual report, postmortem, strategy doc
-python asf_document_analyzer.py --file your_report.pdf
+# Analyze a document (keyword mode, no credentials needed)
+python asf_document_analyzer.py --file report.pdf --mode keyword
 
-# Batch analyze all 100 cases
-python asf_analyze.py --risk High
+# Analyze a document (LLM mode — requires Azure OpenAI)
+cp .env.example .env  # fill in your Azure credentials
+python asf_document_analyzer.py --file annual_report.pdf
+
+# Run all tests
+python tests/test_evidence_extractor.py
 ```
 
 ---
@@ -93,80 +82,119 @@ python asf_analyze.py --risk High
 ## Repository structure
 
 ```
-adaptive-systems-framework/
+asf/
+├── src/asf/                   # Python package — scoring engine, CRT, recommendations
+│   ├── scoring/engine.py      # ALS formula (12 lines, deterministic)
+│   ├── scoring/crt_engine.py  # CRT estimation
+│   ├── recommendations/       # Intervention lookup by bottleneck
+│   └── evidence/extractor.py  # LLM-based evidence extraction (v0.4)
 │
-├── methodology/                  ← Start here if you want to understand ASF
-│   ├── what-is-asf.md           ← Plain English. For CEOs and executives.
-│   ├── vs-other-frameworks.md   ← How ASF differs from Six Sigma, CMMI, BSC, 7S
-│   ├── formulas.md              ← The math. For architects and engineers.
-│   └── assumptions.md           ← Honest limitations. For everyone.
+├── cli.py                     # Command-line analysis tool
+├── asf_document_analyzer.py   # Document → evidence → score pipeline
+├── asf_conformance_agent.py   # Validate LLM outputs meet acceptance criteria
 │
-├── dashboard/                    ← Live tools. Open in browser.
-│   ├── mnc-2030-goals.html
-│   ├── enterprise-benchmark.html
-│   ├── manufacturing-benchmark.html
-│   ├── token-governance.html
-│   └── capability-realization-time.html
+├── methodology/               # Theory: definitions, assumptions, limitations
+│   ├── core.md                # Canonical model, formula, all definitions
+│   ├── assumptions.md         # Honest limitations — read before using
+│   ├── validation.md          # What evidence would refute ASF
+│   └── vs-other-frameworks.md # Comparison to BSC, CMMI, 7S, DC theory
 │
-├── src/asf/                      ← Working Python engine
-│   ├── models.py
-│   ├── scoring/engine.py
-│   ├── scoring/crt_engine.py
-│   └── recommendations/engine.py
+├── validation/                # Empirical validation program
+│   ├── CASE_STUDY_001.md      # Boeing — ALS 3.70, Execution bottleneck
+│   ├── CASE_STUDY_002.md      # LTM — ALS 2.05, Low risk
+│   ├── CASE_STUDY_003.md      # AT&T — ALS 3.85, Execution + Dependency
+│   ├── prediction_register.md # 13 timestamped predictions (June 2026)
+│   ├── calibration_report.md  # CRT vs actual: 20 programs, -18.7% bias
+│   └── external_validation_protocol.md  # IRR study design, ready to run
 │
-├── docs/                         ← Documentation
-│   ├── executive-getting-started.md
-│   ├── current-state.md          ← Honest assessment of what works and what doesn't
-│   └── acceptance-criteria.md
+├── research/                  # Dataset and hypotheses
+│   ├── asf_100_cases.csv      # 100-case dataset (single-analyst, v0.1)
+│   ├── hypotheses.md          # Testable hypotheses, not conclusions
+│   └── dataset-readme.md      # Dataset provenance and limitations
 │
-├── research/                     ← Dataset and case studies
-│   ├── asf_100_cases.csv
-│   └── mnc_2030_analysis.json
-│
-└── examples/                     ← Sample YAML inputs
-    ├── att.yaml
-    ├── toyota.yaml
-    └── boeing.yaml
+├── dashboard/                 # Live GitHub Pages dashboards
+└── examples/                  # Sample YAML inputs (Boeing, AT&T, Toyota)
 ```
 
 ---
 
-## Honest status
+## Live dashboards
 
-| Component | Status | Notes |
+Open in any browser — no install required.
+
+| Dashboard | What it shows |
+|---|---|
+| [MNC 2030 Goals](https://hdannabo.github.io/adaptive-systems-framework/dashboard/mnc-2030-goals.html) | Will 49 top MNCs hit their 2030 targets? |
+| [Enterprise AI Benchmark](https://hdannabo.github.io/adaptive-systems-framework/dashboard/enterprise-benchmark.html) | NVIDIA, OpenAI, Microsoft, Palantir — adaptation velocity |
+| [Manufacturing Benchmark](https://hdannabo.github.io/adaptive-systems-framework/dashboard/manufacturing-benchmark.html) | Toyota, Boeing, Siemens, BYD |
+| [LTM Validation](https://hdannabo.github.io/adaptive-systems-framework/dashboard/ltm-validation.html) | Full traceable case study — evidence → score → CRT |
+| [Prediction Register](https://hdannabo.github.io/adaptive-systems-framework/dashboard/prediction-register.html) | 13 live predictions with checkpoint calendar |
+| [CRT Explorer](https://hdannabo.github.io/adaptive-systems-framework/dashboard/capability-realization-time.html) | Capability Realization Time calculator |
+
+---
+
+## What is validated and what is not
+
+ASF is a working research methodology. The table below is honest about status.
+
+| Component | Status | Evidence |
 |---|---|---|
-| Scoring engine | ✅ Working | Deterministic, tested, correct |
-| CLI analyzer | ✅ Working | YAML input → full report |
-| Dashboards | ✅ Live | GitHub Pages, all companies with multi-objective + decision support |
-| Document analyzer | ✅ Working | LLM-based evidence extraction with cited quotes (v0.4) |
-| Conformance agent | ✅ Working | Output validation against acceptance criteria |
-| CRT engine | ✅ Working | Capability Realization Time estimates |
+| ALS formula | ✅ Deterministic, verified | Engine tests pass; formula reproducible by hand |
+| Bottleneck identification | ✅ Preliminary | Simulated IRR κ = 0.739, 100% bottleneck agreement on 3 companies |
+| CRT model | ⚠️ Calibrated, not validated | 20 programs tested; -18.7% systematic underestimation documented; revised T_base values published |
+| Scoring rubric | ⚠️ Preliminary | External IRR study designed and ready; not yet run with human analysts |
+| Dimension weights | ❌ Unvalidated | Derived from single-analyst 100-case dataset; no regression analysis run |
+| Recommendations | ❌ Generic | Hardcoded lookup table; company-specific recommendations require analyst judgment |
+| Predictions | ⏳ Pending | 13 registered June 2026; first check July 2026 (LTM Q1FY27 earnings) |
 
-| REST API | 🔲 Planned | v0.4 — Azure Functions |
-
-The company scores in the benchmarks are derived from public data by human analyst review, not automated extraction. This is documented in [docs/current-state.md](docs/current-state.md).
-
----
-
-## Roadmap
-
-| Version | Scope | Status |
-|---|---|---|
-| v0.3 | Scoring engine · Dashboards · CRT · 49-company benchmark | ✅ Done |
-| v0.4 | Azure OpenAI evidence extraction with citations | ✅ Done |
-| v0.5 | REST API · Web interface — no Python required | Planned |
-| v1.0 | Upload any document · Get full ASF report automatically | Future |
+See [methodology/assumptions.md](methodology/assumptions.md) for the complete limitations statement.
 
 ---
 
-## License & Copyright
+## Validation program
 
-Copyright © 2026 Hemanth Kumar Dannaboyina. All rights reserved.
+The `validation/` folder contains a structured research program:
 
-For research attribution:
-```
-Dannaboyina, H.K. (2026). Adaptive Systems Framework (ASF).
-https://github.com/hdannabo/adaptive-systems-framework
-```
+1. **Three case studies** — Boeing, LTM, AT&T — with complete evidence chains
+2. **CRT calibration** — 20 historical programs, documented -18.7% underestimation bias
+3. **Inter-rater reliability** — simulated κ = 0.739; external study protocol ready
+4. **Prediction register** — 13 timestamped predictions before outcomes are available
+5. **Outcome tracking** — first resolvable checkpoint July 22, 2026 (LTM BFSI)
 
-[hemanth1917@icloud.com](mailto:hemanth1917@icloud.com)
+The prediction register is the most important artifact. A framework is not validated because analysts agree. It is validated when its predictions are confirmed or falsified by observable events.
+
+---
+
+## Theoretical grounding
+
+ASF operationalizes concepts from six established research traditions:
+
+- **Systems Thinking** — Meadows, Senge, Forrester: feedback loop delays cause system failure
+- **OODA Loop** — Boyd (1986): decision velocity determines competitive outcome
+- **Dynamic Capabilities** — Teece, Pisano, Shuen (1997): sensing/seizing/reconfiguring as microfoundations
+- **Time-Based Competition** — Stalk (1988): time compression as competitive advantage
+- **MAPE-K** — IBM (2003): autonomous systems require closed-loop adaptation cycles
+- **Complex Adaptive Systems** — Santa Fe Institute: emergence and adaptation in complex environments
+
+See [docs/theoretical-foundations.md](docs/theoretical-foundations.md) for the full grounding.
+
+---
+
+## License
+
+MIT License — see [LICENSE](LICENSE).
+
+Use ASF freely for research, consulting, and internal transformation work.
+If you use ASF in published research, please cite the repository and the validation case studies.
+
+---
+
+## Contributing
+
+The highest-value contribution right now is not code. It is validation.
+
+1. **Run the external IRR study** — recruit two analysts, follow [validation/external_validation_protocol.md](validation/external_validation_protocol.md)
+2. **Check LTM Q1FY27 earnings** — July 22, 2026 — follow [validation/outcome_tracking_workflow.md](validation/outcome_tracking_workflow.md)
+3. **Add a case study** — use [validation/CASE_STUDY_001.md](validation/CASE_STUDY_001.md) as the template
+
+The framework's credibility grows with each confirmed prediction and each inter-rater study. Those are the contributions that matter most right now.
