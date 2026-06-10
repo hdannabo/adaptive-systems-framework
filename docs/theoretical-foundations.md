@@ -146,3 +146,53 @@ Modern research combines MAPE-K with machine learning (ML-MAPE) — replacing ru
 | Learning Organizations | Peter Senge | Learning Velocity as organizational capability |
 
 ASF is not a new theory. It is the **engineering operationalization** of these six frameworks — turning conceptual models into measurable metrics, scored cases, and prioritized interventions.
+
+
+---
+
+## 7. Dynamic Capabilities Theory
+
+**Key contributor:** David Teece, Gary Pisano, Amy Shuen (1997)  
+**Paper:** "Dynamic Capabilities and Strategic Management" — *Strategic Management Journal*, Vol. 18
+
+Dynamic Capabilities Theory identifies three organizational microfoundations that determine competitive advantage in changing environments:
+
+- **Sensing** — scanning and interpreting the environment for opportunities and threats
+- **Seizing** — mobilizing resources to capture value from sensed opportunities  
+- **Reconfiguring** — continuous renewal and recombination of organizational assets
+
+### Connection to ASF
+
+| DC Microfoundation | ASF Dimension | Overlap |
+|---|---|---|
+| Sensing | Observation Latency | Direct — both measure detection speed |
+| Seizing | Decision Latency | Partial — commitment speed is part of seizing |
+| Reconfiguring | Execution Latency + Learning Velocity | Partial — implementation and renewal |
+| (No equivalent) | Dependency Index | **Novel in ASF** — not covered by DC theory |
+
+### Where ASF extends Dynamic Capabilities
+
+Teece explicitly acknowledges that DC theory is "hard to operationalize" (1997, p. 516). ASF provides the operationalization DC declined to provide: explicit 1–5 measurement scales anchored to observable behaviors.
+
+**DC asks:** Does the firm have sensing/seizing/reconfiguring capability?  
+**ASF asks:** Given the existing capability, how fast is it actually operating against a specific deadline?
+
+The second question — *is current velocity sufficient to reach the stated objective before the market window closes?* — is not addressed in DC theory. This is ASF's CRT contribution: a temporal commitment model that DC theory does not contain.
+
+**Dependency Index** has no named equivalent in DC theory. Teece (2007, "Explicating dynamic capabilities") discusses asset co-specialization and orchestration but does not identify the count and structure of external sequential approval gates as a distinct adaptive constraint. This is ASF's most original dimension.
+
+---
+
+## 8. Time-Based Competition
+
+**Key contributor:** George Stalk Jr. (1988)  
+**Paper:** "Time — The Next Source of Competitive Advantage" — *Harvard Business Review*, July 1988
+
+Stalk established that time — not cost or quality alone — is the dominant competitive variable in fast-moving markets. Companies that compress cycle times across operations outcompete those that optimize other variables.
+
+### Connection to ASF
+
+Stalk's framework identifies time compression across product development, order processing, and delivery cycles as the source of competitive advantage. ASF's ALS formula is the measurement instrument for exactly the cycle times Stalk identified as strategically decisive.
+
+**Stalk's claim:** Faster organizations win  
+**ASF's addition:** Here is how to measure how fast your organization currently is, which dimension is the binding constraint, and how long it will take at current velocity to close a specific capability gap
