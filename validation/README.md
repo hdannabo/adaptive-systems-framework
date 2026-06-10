@@ -16,6 +16,7 @@
 | [scoring_evidence.json](scoring_evidence.json) | Machine-readable evidence for all 3 companies | ✅ Complete |
 | [inter_rater_reliability.md](inter_rater_reliability.md) | κ=0.739, 100% bottleneck agreement | ✅ v0.1 |
 | [calibration_report.md](calibration_report.md) | CRT vs actual: 20 programs, T_base recalibration | ✅ v0.1 |
+| [external_validation_protocol.md](external_validation_protocol.md) | External IRR study design — 3 analysts, 5 companies, full rubric | ✅ Ready |
 | [crt_validation_results.csv](crt_validation_results.csv) | Raw data: all 20 programs predicted vs actual | ✅ Complete |
 
 ---
