@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ASF Prediction Register — Predictive Validity Tracker</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #0e0e0f;
+  --paper: #f6f4ef;
+  --rule: #d4cfc4;
+  --muted: #7a7266;
+  --accent: #1a3a5c;
+  --gold: #b8860b;
+  --confirm: #1a5c2a;
+  --confirm-bg: #eaf4ec;
+  --refute: #5c1a1a;
+  --refute-bg: #f4eaea;
+  --pending: #3a3a3a;
+  --pending-bg: #f0ede8;
+  --partial: #5c3d1a;
+  --partial-bg: #f4eeea;
+  --hi: #1a3a5c;
+  --med: #5c4a1a;
+  --lo: #4a1a5c;
+  --font-head: 'Georgia', 'Times New Roman', serif;
+  --font-body: 'Charter', 'Georgia', serif;
+  --font-mono: 'Courier New', monospace;
+  --font-ui: system-ui, -apple-system, sans-serif;
+}
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.6; }
+
+/* Masthead */
+.masthead { border-bottom: 3px solid var(--ink); padding: 20px 0 14px; text-align: center; background: var(--paper); }
+.masthead-kicker { font-family: var(--font-ui); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.masthead-title { font-family: var(--font-head); font-size: clamp(22px, 4vw, 38px); font-weight: 400; letter-spacing: -0.5px; color: var(--ink); margin-bottom: 4px; }
+.masthead-subtitle { font-family: var(--font-ui); font-size: 12px; color: var(--muted); letter-spacing: 0.5px; }
+.masthead-rule { width: 100%; height: 1px; background: var(--rule); margin: 12px 0 0; }
+
+/* Layout */
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.section { padding: 28px 0; border-bottom: 1px solid var(--rule); }
+.section:last-child { border-bottom: none; }
+.section-label { font-family: var(--font-ui); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.section-title { font-family: var(--font-head); font-size: 20px; font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+.section-body { color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+/* Principle box */
+.principle { border-left: 3px solid var(--accent); padding: 14px 18px; background: #eef2f7; margin: 20px 0; }
+.principle-head { font-family: var(--font-ui); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.principle-text { font-size: 14px; line-height: 1.7; color: var(--ink); }
+.principle-text em { font-style: normal; font-weight: bold; }
+
+/* Stats row */
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 20px 0; }
+.stat-cell { background: var(--paper); padding: 16px 14px; }
+.stat-val { font-family: var(--font-head); font-size: 28px; color: var(--ink); line-height: 1; margin-bottom: 4px; }
+.stat-val.pending { color: var(--muted); }
+.stat-val.pass { color: var(--confirm); }
+.stat-val.fail { color: var(--refute); }
+.stat-label { font-family: var(--font-ui); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+.stat-target { font-family: var(--font-ui); font-size: 10px; color: var(--rule); margin-top: 2px; }
+
+/* Prediction cards */
+.pred-grid { display: flex; flex-direction: column; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.pred-row { background: var(--paper); padding: 14px 16px; cursor: pointer; transition: background 0.12s; }
+.pred-row:hover { background: #f0ede6; }
+.pred-row.active { background: #ebe8e0; }
+.pred-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 5px; }
+.pred-id { font-family: var(--font-mono); font-size: 11px; color: var(--muted); width: 40px; flex-shrink: 0; padding-top: 1px; }
+.pred-co { font-family: var(--font-ui); font-size: 11px; font-weight: 600; color: var(--accent); width: 140px; flex-shrink: 0; }
+.pred-text { font-size: 13px; color: var(--ink); flex: 1; line-height: 1.4; }
+.pred-meta { display: flex; align-items: center; gap: 8px; padding-left: 50px; }
+.badge { font-family: var(--font-ui); font-size: 10px; letter-spacing: 0.5px; padding: 2px 8px; border-radius: 0; }
+.badge-pending { background: var(--pending-bg); color: var(--pending); border: 1px solid #ccc; }
+.badge-confirmed { background: var(--confirm-bg); color: var(--confirm); border: 1px solid #8fc49a; }
+.badge-refuted { background: var(--refute-bg); color: var(--refute); border: 1px solid #c49a8f; }
+.badge-partial { background: var(--partial-bg); color: var(--partial); border: 1px solid #c4a98f; }
+.badge-hi { background: #eef2f7; color: var(--hi); border: 1px solid #a8bfd4; font-weight: 600; }
+.badge-med { background: #f7f4ee; color: var(--med); border: 1px solid #d4c0a8; }
+.badge-lo { background: #f4eef7; color: var(--lo); border: 1px solid #c4a8d4; }
+.horizon-text { font-family: var(--font-ui); font-size: 10px; color: var(--muted); }
+
+/* Detail panel */
+.detail-panel { display: none; background: #ebe8e0; border-top: 1px solid var(--rule); padding: 18px 20px 18px 56px; }
+.detail-panel.open { display: block; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 14px; }
+.detail-field { }
+.detail-label { font-family: var(--font-ui); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.detail-val { font-size: 13px; color: var(--ink); line-height: 1.6; }
+.detail-val.mono { font-family: var(--font-mono); font-size: 12px; }
+.confirm-box { border-left: 3px solid var(--confirm); background: var(--confirm-bg); padding: 8px 12px; font-size: 12px; color: var(--confirm); margin-bottom: 8px; }
+.refute-box { border-left: 3px solid var(--refute); background: var(--refute-bg); padding: 8px 12px; font-size: 12px; color: var(--refute); }
+.signal-label { font-family: var(--font-ui); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; opacity: 0.7; }
+
+/* Category tabs */
+.cat-tabs { display: flex; gap: 0; margin-bottom: 16px; border: 1px solid var(--rule); overflow-x: auto; }
+.cat-tab { font-family: var(--font-ui); font-size: 11px; padding: 8px 14px; cursor: pointer; background: var(--paper); border: none; border-right: 1px solid var(--rule); color: var(--muted); white-space: nowrap; letter-spacing: 0.5px; transition: all 0.12s; }
+.cat-tab:last-child { border-right: none; }
+.cat-tab:hover { background: #ebe8e0; color: var(--ink); }
+.cat-tab.active { background: var(--accent); color: white; }
+
+/* Checkpoint timeline */
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.tl-item { display: flex; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.tl-item:last-child { border-bottom: none; }
+.tl-date { font-family: var(--font-mono); font-size: 12px; color: var(--accent); width: 120px; flex-shrink: 0; padding-top: 2px; }
+.tl-content { flex: 1; }
+.tl-co { font-family: var(--font-ui); font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 3px; }
+.tl-action { font-size: 13px; color: var(--ink); margin-bottom: 3px; }
+.tl-source { font-family: var(--font-ui); font-size: 11px; color: var(--muted); }
+.tl-preds { font-family: var(--font-ui); font-size: 10px; color: var(--accent); margin-top: 3px; }
+.tl-priority { border-left: 3px solid var(--gold); padding-left: 10px; }
+
+/* Metrics gauge */
+.gauge-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 14px 0; }
+.gauge { background: #f0ede8; border: 1px solid var(--rule); padding: 12px 14px; }
+.gauge-name { font-family: var(--font-ui); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.gauge-bar-bg { height: 6px; background: var(--rule); width: 100%; margin-bottom: 6px; }
+.gauge-bar-fill { height: 100%; background: var(--muted); }
+.gauge-vals { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; }
+.gauge-current { color: var(--muted); }
+.gauge-target { color: var(--muted); }
+
+/* Immutability notice */
+.immutability { background: #f7f4ee; border: 1px solid var(--gold); padding: 14px 16px; margin: 20px 0; }
+.immut-head { font-family: var(--font-ui); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.immut-text { font-size: 13px; color: var(--ink); line-height: 1.6; }
+
+footer { text-align: center; font-family: var(--font-ui); font-size: 11px; color: var(--muted); padding: 24px 0; border-top: 3px solid var(--ink); margin-top: 8px; }
+footer a { color: var(--accent); text-decoration: none; }
+@media (max-width: 640px) {
+  .grid-2, .detail-grid, .gauge-row { grid-template-columns: 1fr; }
+  .pred-top { flex-wrap: wrap; }
+  .pred-co { width: auto; }
+  .detail-panel { padding-left: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-kicker">Adaptive Systems Framework · Validation Program</div>
+  <div class="masthead-title">Prediction Register</div>
+  <div class="masthead-subtitle">Predictive validity tracker · Assessment date: June 9, 2026 · 13 registered predictions</div>
+  <div class="masthead-rule"></div>
+</div>
+
+<div class="wrap">
+
+<div class="section">
+  <div class="section-label">Why This Exists</div>
+  <div class="principle">
+    <div class="principle-head">Governing Principle</div>
+    <div class="principle-text">
+      A framework is not validated because analysts agree on scores. A framework is validated when its predictions are 
+      <em>confirmed or falsified by observable events.</em> Every prediction in this register was made before the outcome 
+      data was available. No prediction may be modified after registration. All outcomes — confirmations 
+      and refutations — are published without suppression.
+    </div>
+  </div>
+  
+  <div class="stats-row">
+    <div class="stat-cell">
+      <div class="stat-val pending" id="stat-total">13</div>
+      <div class="stat-label">Registered</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-val pending" id="stat-pending">13</div>
+      <div class="stat-label">Pending</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-val pending" id="stat-resolved">0</div>
+      <div class="stat-label">Resolved</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-val pending" id="stat-accuracy">—</div>
+      <div class="stat-label">Accuracy</div>
+      <div class="stat-target">Target ≥ 70%</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-val pending" id="stat-hi-acc">—</div>
+      <div class="stat-label">High Conf Acc</div>
+      <div class="stat-target">Target ≥ 80%</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-val pending" id="stat-lead">—</div>
+      <div class="stat-label">Avg Lead Time</div>
+      <div class="stat-target">Target ≥ 6 mo</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">All Predictions</div>
+  
+  <div class="cat-tabs">
+    <button class="cat-tab active" onclick="filterCat('all',this)">All (13)</button>
+    <button class="cat-tab" onclick="filterCat('ltm',this)">LTM (4)</button>
+    <button class="cat-tab" onclick="filterCat('att',this)">AT&T (3)</button>
+    <button class="cat-tab" onclick="filterCat('boeing',this)">Boeing (3)</button>
+    <button class="cat-tab" onclick="filterCat('cross',this)">Cross-company (1)</button>
+    <button class="cat-tab" onclick="filterCat('framework',this)">Framework (2)</button>
+    <button class="cat-tab" onclick="filterCat('high',this)">High confidence (5)</button>
+  </div>
+  
+  <div class="pred-grid" id="pred-grid"></div>
+</div>
+
+<div class="grid-2">
+  <div class="section" style="padding-top:0;border-bottom:none">
+    <div class="section-label">Checkpoint Calendar</div>
+    <div class="section-body" style="margin-bottom:12px">Predictions become resolvable in this order. July 2026 is the first observable checkpoint.</div>
+    <div class="timeline" id="timeline"></div>
+  </div>
+  
+  <div class="section" style="padding-top:0;border-bottom:none">
+    <div class="section-label">Validation Metrics</div>
+    <div class="gauge-row">
+      <div class="gauge">
+        <div class="gauge-name">Prediction Accuracy</div>
+        <div class="gauge-bar-bg"><div class="gauge-bar-fill" style="width:0%"></div></div>
+        <div class="gauge-vals"><span class="gauge-current">— (0 resolved)</span><span class="gauge-target">Target: 70%</span></div>
+      </div>
+      <div class="gauge">
+        <div class="gauge-name">High Conf Accuracy</div>
+        <div class="gauge-bar-bg"><div class="gauge-bar-fill" style="width:0%"></div></div>
+        <div class="gauge-vals"><span class="gauge-current">—</span><span class="gauge-target">Target: 80%</span></div>
+      </div>
+      <div class="gauge">
+        <div class="gauge-name">False Positive Rate</div>
+        <div class="gauge-bar-bg"><div class="gauge-bar-fill" style="width:0%"></div></div>
+        <div class="gauge-vals"><span class="gauge-current">—</span><span class="gauge-target">Ceiling: 20%</span></div>
+      </div>
+      <div class="gauge">
+        <div class="gauge-name">Average Lead Time</div>
+        <div class="gauge-bar-bg"><div class="gauge-bar-fill" style="width:0%"></div></div>
+        <div class="gauge-vals"><span class="gauge-current">— months</span><span class="gauge-target">Target: 6 mo</span></div>
+      </div>
+    </div>
+    
+    <div class="immutability">
+      <div class="immut-head">Immutability Record</div>
+      <div class="immut-text">
+        All predictions registered June 9, 2026. Git commit hash serves as the immutable timestamp. 
+        Prediction text cannot be modified after registration. Outcomes are appended, never edited.
+        False predictions are published alongside correct ones.
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  ASF Prediction Register v1.0 · Assessment date June 9, 2026 · 
+  <a href="https://github.com/hdannabo/adaptive-systems-framework">github.com/hdannabo/adaptive-systems-framework</a> ·
+  Not investment advice · All predictions based on publicly available information ·
+  Copyright © 2026 Hemanth Kumar Dannaboyina
+</footer>
+
+<script>
+const PREDICTIONS = [
+  {id:"P001",company:"LTM",cat:"ltm",category:"Revenue — Segment Recovery",
+   text:"BFSI vertical returns to positive YoY revenue growth within two quarters",
+   basis:"ALS 2.05 (Low). Fast-adapting organization (Obs=2, Dec=2, LV=4) with recognized execution bottleneck should correct single-vertical problem within 6 months.",
+   dim:"Execution Latency (3/5)",
+   horizon:"~July 22, 2026 · Q1FY27 earnings",
+   conf:"Medium",status:"Pending",
+   confirm:"LTM Q1FY27 earnings discloses BFSI vertical YoY growth ≥ 0%",
+   refute:"BFSI declines further or remains negative in Q1FY27"},
+  {id:"P002",company:"LTM",cat:"ltm",category:"Transformation — Capability Realization",
+   text:"LTM FY27 revenue growth rate exceeds FY26 rate (>6% YoY)",
+   basis:"Low ALS means the organization can accelerate when commercial execution improves. CRT window 14–23 months.",
+   dim:"Observation (2/5) + Decision (2/5)",
+   horizon:"April 2027 · Q4FY27 earnings",
+   conf:"Medium",status:"Pending",
+   confirm:"LTM Q4FY27 full-year revenue growth > 6% YoY",
+   refute:"FY27 growth ≤ 6%"},
+  {id:"P003",company:"LTM",cat:"ltm",category:"Transformation — Milestone Achievement",
+   text:"BlueVerse outcome-based contract count disclosed publicly and exceeds 10 within 12 months",
+   basis:"Decision Latency 2/5 + Learning Velocity 4/5. Fast-decision, high-learning organizations address early adoption problems within 12 months once bottleneck is named.",
+   dim:"Execution (3/5) + Decision (2/5)",
+   horizon:"Any LTM earnings through June 2027",
+   conf:"Low",status:"Pending",
+   confirm:"LTM discloses BlueVerse outcome-based contract count ≥ 10",
+   refute:"No disclosure by June 2027 or count < 10"},
+  {id:"P004",company:"AT&T",cat:"att",category:"Organizational — Decision Bottleneck",
+   text:"AT&T announces a mandatory AI adoption program with named executive ownership and quarterly targets within two quarters",
+   basis:"Decision Latency 4/5. Known problem (58% non-adoption) with no committed structural response. Financial cost creates tipping-point pressure.",
+   dim:"Decision Latency (4/5)",
+   horizon:"Q3 2026 earnings · October 2026",
+   conf:"Medium",status:"Pending",
+   confirm:"AT&T announces mandatory AI adoption program with VP+ ownership and specific quarterly targets",
+   refute:"No mandatory program announced through Q4 2026"},
+  {id:"P005",company:"AT&T",cat:"att",category:"Revenue — Cost Reduction",
+   text:"AT&T AI savings run-rate fails to reach $2B/year by end of 2026",
+   basis:"Exec 5/5 + Dep 5/5. Two maximum-score dimensions. CRT 36.5 months Critical. 4x current adoption in 12 months is inconsistent with measured constraints.",
+   dim:"Execution (5/5) + Dependency (5/5)",
+   horizon:"Q4 2026 earnings · January 2027",
+   conf:"Medium",status:"Pending",
+   confirm:"AT&T Q4 2026 earnings discloses AI savings run-rate below $2B annualized",
+   refute:"AT&T discloses AI savings rate ≥ $2B annualized by Q4 2026"},
+  {id:"P006",company:"AT&T",cat:"att",category:"Strategic — Objective Achievement",
+   text:"AT&T $4B AI savings target is not achieved by 2028 (CRT midpoint check)",
+   basis:"CRT 36.5 months from June 2026 = mid-2029. At 24-month check, AT&T should have ~$2.5B of $4B if on track.",
+   dim:"Execution (5/5) + CRT = 36.5mo Critical",
+   horizon:"AT&T annual report 2028 · February 2029",
+   conf:"Medium",status:"Pending",
+   confirm:"AT&T 2028 annual report discloses AI savings below $3B cumulative",
+   refute:"AT&T achieves $4B savings target before end of 2027"},
+  {id:"P007",company:"Boeing",cat:"boeing",category:"Transformation — Capability Realization",
+   text:"Boeing production rate does not reach 30 planes/month by Q4 2026",
+   basis:"Execution Latency 5/5. CRT 70.7 months Critical. Moving from 18 to 30 planes in 6 months requires >doubling the rate — inconsistent with 5/5 execution score.",
+   dim:"Execution Latency (5/5)",
+   horizon:"Q4 2026 Boeing earnings · January 2027",
+   conf:"High",status:"Pending",
+   confirm:"Boeing Q4 2026 earnings discloses average monthly production rate below 30 planes",
+   refute:"Boeing reaches 30+ planes/month by Q4 2026"},
+  {id:"P008",company:"Boeing",cat:"boeing",category:"Organizational — Execution Bottleneck",
+   text:"Boeing management explicitly attributes production constraint to quality feedback cycle or governance overhead in next annual report or earnings",
+   basis:"Execution 5/5 with Feedback Delay 4/5 as the mechanism. If Boeing confirms this constraint in their own language, the bottleneck identification is validated.",
+   dim:"Execution (5/5) + Feedback Delay (4/5)",
+   horizon:"Boeing Annual Report 2026 · February 2027",
+   conf:"Medium",status:"Pending",
+   confirm:"Boeing management explicitly references quality signal routing or feedback cycle as a production lever",
+   refute:"Boeing attributes all constraints solely to workforce and suppliers, no mention of internal governance cycle"},
+  {id:"P009",company:"Boeing",cat:"boeing",category:"Strategic — Objective Achievement",
+   text:"Boeing does not reach 38 planes/month target before end of 2028",
+   basis:"CRT 70.7 months from June 2026 = April 2032. CRT lower bound (52.8 months) = October 2030. Neither reaches 2028.",
+   dim:"Execution (5/5) + CRT = 70.7mo Critical",
+   horizon:"Boeing Q4 2028 earnings · January 2029",
+   conf:"High",status:"Pending",
+   confirm:"Boeing Q4 2028 earnings discloses production rate below 38 planes/month",
+   refute:"Boeing reaches 38 planes/month by end of 2027"},
+  {id:"P010",company:"Boeing + AT&T",cat:"cross",category:"Organizational — Risk Band Stability",
+   text:"Both Boeing and AT&T remain in High Risk band (ALS > 3.5) at 12-month re-scoring",
+   basis:"Boeing ALS 3.70, AT&T ALS 3.85. High ALS reflects structural friction that takes 24+ months to materially change.",
+   dim:"Execution (5/5) both companies",
+   horizon:"Re-scoring at June 2027",
+   conf:"High",status:"Pending",
+   confirm:"Re-scoring at June 2027 produces ALS > 3.0 for both companies",
+   refute:"Either company scores ALS < 3.0 at June 2027 re-scoring"},
+  {id:"P011",company:"LTM",cat:"ltm",category:"Organizational — Risk Band Stability",
+   text:"LTM remains in Low Risk band (ALS < 2.5) at 12-month re-scoring",
+   basis:"LTM ALS 2.05 (Low). Fast observation, decision, learning. These structural capabilities do not degrade rapidly.",
+   dim:"Observation (2) + Decision (2) + Learning (4)",
+   horizon:"Re-scoring at June 2027",
+   conf:"High",status:"Pending",
+   confirm:"Re-scoring at June 2027 produces LTM ALS < 2.5",
+   refute:"Re-scoring produces LTM ALS ≥ 2.5"},
+  {id:"P012",company:"ASF Framework",cat:"framework",category:"Framework — Model Accuracy",
+   text:"Revised T_base values produce ≥ 75% of 20 calibration programs within ±30%",
+   basis:"Calibration study found 14/20 within ±30% with current T_base. Revised values (+25% correction) should improve accuracy.",
+   dim:"CRT T_base recalibration: Manufacturing 7.8, Telecom 6.5, Technology 7.5",
+   horizon:"Internal — re-calculation (immediate)",
+   conf:"High",status:"Pending",
+   confirm:"Re-running calibration produces ≥ 15/20 programs within ±30%",
+   refute:"Revised values produce fewer than 12/20 within ±30%"},
+  {id:"P013",company:"ASF Framework",cat:"framework",category:"Framework — Methodology Reproducibility",
+   text:"External analyst study produces Cohen's Kappa ≥ 0.50 and ≥ 80% bottleneck agreement",
+   basis:"Simulated IRR: κ = 0.739. External analysts will produce lower agreement. Setting κ ≥ 0.50 as prediction is more conservative.",
+   dim:"IRR simulation — Boeing 3 contested dims; LTM and AT&T 100% exact agreement",
+   horizon:"External study completion (6–8 weeks)",
+   conf:"Medium",status:"Pending",
+   confirm:"External study produces mean κ ≥ 0.50 and ≥ 80% bottleneck agreement",
+   refute:"External study produces κ < 0.40 or bottleneck agreement < 70%"},
+];
+
+const CHECKPOINTS = [
+  {date:"~July 22, 2026",co:"LTM (LTIMindtree)",action:"Q1FY27 earnings release",source:"ltimindtree.com/investors",preds:["P001"],priority:true},
+  {date:"October 2026",co:"AT&T",action:"Q3 2026 earnings call",source:"ir.att.com",preds:["P004"],priority:false},
+  {date:"Ongoing",co:"LTM",action:"Monitor any earnings or investor event for BlueVerse disclosure",source:"ltimindtree.com/investors",preds:["P003"],priority:false},
+  {date:"January 2027",co:"Boeing",action:"Q4 2026 earnings release",source:"ir.boeing.com",preds:["P007"],priority:false},
+  {date:"January 2027",co:"AT&T",action:"Q4 2026 earnings release",source:"ir.att.com",preds:["P005"],priority:false},
+  {date:"February 2027",co:"Boeing",action:"Annual Report 2026 (10-K)",source:"sec.gov",preds:["P008"],priority:false},
+  {date:"April 2027",co:"LTM",action:"Q4FY27 full-year earnings",source:"ltimindtree.com/investors",preds:["P002"],priority:false},
+  {date:"June 2027",co:"All three companies",action:"12-month re-scoring with updated public data",source:"All IR sites",preds:["P010","P011"],priority:false},
+];
+
+function statusBadge(s){
+  const map = {Pending:"badge-pending",Confirmed:"badge-confirmed",Refuted:"badge-refuted",Partial:"badge-partial"};
+  const text = {Pending:"⏳ Pending",Confirmed:"✓ Confirmed",Refuted:"✗ Refuted",Partial:"◑ Partial"};
+  return `<span class="badge ${map[s]||'badge-pending'}">${text[s]||s}</span>`;
+}
+function confBadge(c){
+  const map = {High:"badge-hi",Medium:"badge-med",Low:"badge-lo"};
+  return `<span class="badge ${map[c]||'badge-med'}">${c}</span>`;
+}
+
+let activeId = null;
+let activeFilter = 'all';
+
+function filterCat(cat, btn){
+  activeFilter = cat;
+  document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPreds();
+}
+
+function renderPreds(){
+  const filterMap = {
+    all: ()=>true,
+    ltm: p=>p.cat==='ltm',
+    att: p=>p.cat==='att',
+    boeing: p=>p.cat==='boeing',
+    cross: p=>p.cat==='cross',
+    framework: p=>p.cat==='framework',
+    high: p=>p.conf==='High',
+  };
+  const filtered = PREDICTIONS.filter(filterMap[activeFilter]||filterMap.all);
+  
+  document.getElementById('pred-grid').innerHTML = filtered.map(p=>{
+    const isActive = activeId === p.id;
+    const detail = isActive ? `
+      <div class="detail-panel open">
+        <div class="detail-grid">
+          <div class="detail-field">
+            <div class="detail-label">ASF Basis</div>
+            <div class="detail-val">${p.basis}</div>
+          </div>
+          <div class="detail-field">
+            <div class="detail-label">Driving Dimension</div>
+            <div class="detail-val mono">${p.dim}</div>
+          </div>
+        </div>
+        <div class="confirm-box">
+          <div class="signal-label">Confirming signal</div>
+          ${p.confirm}
+        </div>
+        <div class="refute-box">
+          <div class="signal-label">Refuting signal</div>
+          ${p.refute}
+        </div>
+      </div>` : '';
+    
+    return `<div class="pred-row${isActive?' active':''}" onclick="toggleDetail('${p.id}')">
+      <div class="pred-top">
+        <span class="pred-id">${p.id}</span>
+        <span class="pred-co">${p.company}</span>
+        <span class="pred-text">${p.text}</span>
+      </div>
+      <div class="pred-meta">
+        ${statusBadge(p.status)}
+        ${confBadge(p.conf)}
+        <span class="horizon-text">${p.horizon}</span>
+      </div>
+      ${detail}
+    </div>`;
+  }).join('');
+}
+
+function toggleDetail(id){
+  activeId = activeId === id ? null : id;
+  renderPreds();
+}
+
+function renderTimeline(){
+  document.getElementById('timeline').innerHTML = CHECKPOINTS.map(c=>`
+    <div class="tl-item${c.priority?' tl-priority':''}">
+      <div class="tl-date">${c.date}</div>
+      <div class="tl-content">
+        <div class="tl-co">${c.co}</div>
+        <div class="tl-action">${c.action}</div>
+        <div class="tl-source">${c.source}</div>
+        <div class="tl-preds">Predictions: ${c.preds.join(', ')}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+renderPreds();
+renderTimeline();
+</script>
+</body>
+</html>
