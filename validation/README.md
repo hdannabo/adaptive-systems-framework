@@ -2,23 +2,41 @@
 
 **Purpose:** Demonstrate the complete ASF chain — Document → Evidence → Score → Formula → Bottleneck → CRT → Recommendation — using real public-company examples.
 
-**Status:** v0.1 — Three case studies, all evidence from public sources.
+**Status:** v0.2 — Three case studies + Inter-rater reliability + CRT calibration study.
 
 ---
 
-## What These Case Studies Prove
+## Validation Artifacts
 
-Each case study demonstrates that:
+| File | Description | Status |
+|---|---|---|
+| [CASE_STUDY_001.md](CASE_STUDY_001.md) | Boeing — ALS 3.70, CRT 70.7mo Critical | ✅ Complete |
+| [CASE_STUDY_002.md](CASE_STUDY_002.md) | LTM — ALS 2.05, CRT 19.0mo High | ✅ Complete |
+| [CASE_STUDY_003.md](CASE_STUDY_003.md) | AT&T — ALS 3.85, CRT 36.5mo Critical | ✅ Complete |
+| [scoring_evidence.json](scoring_evidence.json) | Machine-readable evidence for all 3 companies | ✅ Complete |
+| [inter_rater_reliability.md](inter_rater_reliability.md) | κ=0.739, 100% bottleneck agreement | ✅ v0.1 |
+| [calibration_report.md](calibration_report.md) | CRT vs actual: 20 programs, T_base recalibration | ✅ v0.1 |
+| [crt_validation_results.csv](crt_validation_results.csv) | Raw data: all 20 programs predicted vs actual | ✅ Complete |
 
-1. **Every score is traceable.** Each of the six dimension scores maps to a specific public document, a specific quote or metric, and a one-sentence reasoning statement. No score is asserted without evidence.
+---
 
-2. **The formula is deterministic.** Given the six scores, the ALS and risk band are computed by `src/asf/scoring/engine.py` without analyst judgment. The formula output is verified against the engine in each case.
+## CRT Calibration Summary (NEW)
 
-3. **The bottleneck follows from the scores.** The primary bottleneck is the highest-scoring dimension. It is not subjectively chosen — it is the mathematical result of the scoring.
+20 historical transformation programs analyzed across 5 domains.
 
-4. **The recommendation follows from the bottleneck.** The P0 intervention addresses the bottleneck dimension specifically, not the company generally.
+**Key finding:** CRT systematically underestimates by 18.7% on average. Technology domain is most underestimated (-43%). Telecom domain is most accurate (-2.8%).
 
-5. **The outcome can be validated.** Each case study identifies specific, observable signals in future public disclosures that would confirm or refute the ASF bottleneck identification.
+**Recommended T_base corrections:**
+
+| Domain | Current | Recommended | Evidence programs |
+|---|---|---|---|
+| Manufacturing | 6.0 | 7.8 | 5 programs |
+| Telecom | 6.5 | 6.5 | 3 programs |
+| Technology | 3.5 | 7.5 | 5 programs |
+| Financial Services | 4.5 | 5.6 | 4 programs |
+| Government | 7.0 | 7.7 | 3 programs |
+
+**Status:** CRT moves from "unvalidated estimate" to "empirically grounded estimate with documented systematic bias." Apply 1.25× correction factor to all CRT outputs until T_base values are updated.
 
 ---
 
@@ -32,17 +50,37 @@ Each case study demonstrates that:
 
 ---
 
-## Evidence File
+## Outcome Validation Schedule
 
-`scoring_evidence.json` contains the complete structured scoring data for all three companies:
-- Six dimension scores per company
-- Evidence citation per dimension
-- Source document per dimension
-- Confidence level per dimension
-- CRT inputs and output
-- Formula verification string
+| Company | Validation signal | Observable in | Status |
+|---|---|---|---|
+| Boeing | Production rate increase toward 25+ planes/month | Q3 2026 Boeing earnings | Pending |
+| LTM | BFSI vertical returns to positive YoY growth | **Q1FY27 LTM earnings (July 2026)** | **PRIORITY** |
+| AT&T | Mandatory adoption program announced | Q3 2026 AT&T earnings | Pending |
 
-This file is the machine-readable version of the case study documents.
+**LTM July 2026 is the first available outcome check.** If BFSI returns to positive growth, this becomes the first confirmed ASF prediction.
+
+---
+
+## Inter-rater Reliability (v0.1)
+
+- **κ = 0.739** (substantial agreement)
+- 18/18 dimensions within ±1
+- 100% bottleneck agreement on all 3 companies
+- [See full results →](inter_rater_reliability.md)
+
+**Limitation:** Analyst B is simulated (same system as Analyst A). Formal study requires external analyst.
+
+---
+
+## Validation Roadmap
+
+| Stage | Status | Required evidence |
+|---|---|---|
+| 1 — Interesting | ✅ Complete | Case studies, evidence chains |
+| 2 — Credible | 🔄 In progress | One confirmed prediction + external IRR study |
+| 3 — Defensible | 📋 Planned | 3 confirmed predictions, κ>0.60 external |
+| 4 — Trusted | 📋 Planned | Longitudinal outcome study, peer review |
 
 ---
 
@@ -55,7 +93,6 @@ import sys
 sys.path.insert(0, 'src')
 from asf import analyze, AnalysisInput
 
-# Boeing example
 inp = AnalysisInput(
     system_name="Boeing",
     domain="Aerospace Manufacturing",
@@ -64,12 +101,8 @@ inp = AnalysisInput(
     input_event="FAA oversight; quality governance failures",
     adaptation_requirement="38 planes/month production rate",
     current_operating_state="18 planes/month",
-    observation_latency=3,
-    decision_latency=3,
-    execution_latency=5,
-    feedback_delay=4,
-    learning_velocity=2,
-    dependency_index=4,
+    observation_latency=3, decision_latency=3, execution_latency=5,
+    feedback_delay=4, learning_velocity=2, dependency_index=4,
 )
 report = analyze(inp)
 print(f"ALS: {report.scores.adaptation_latency_score}")   # → 3.70
@@ -77,50 +110,8 @@ print(f"Risk: {report.scores.risk_band.value}")           # → High
 print(f"Bottleneck: {report.bottleneck_dimension}")       # → Execution Latency
 ```
 
-The formula can also be verified by hand:
-```
-(3×0.15) + (3×0.25) + (5×0.30) + (4×0.15) + (4×0.15) − (2×0.10)
-= 0.45 + 0.75 + 1.50 + 0.60 + 0.60 − 0.20
-= 3.70
-```
-
----
-
-## Outcome Validation Schedule
-
-These case studies become validated when observable signals appear in future public disclosures:
-
-| Company | Validation signal | Observable in | Status |
-|---|---|---|---|
-| Boeing | Production rate increase toward 25+ planes/month | Q3 2026 Boeing earnings | Pending |
-| Boeing | CEO commentary confirming quality feedback cycle as constraint | Next earnings or annual report | Pending |
-| LTM | BFSI vertical returns to positive YoY growth | Q1FY27 LTM earnings (July 2026) | Pending |
-| LTM | BlueVerse outcome contract count disclosed and growing | Any LTM earnings/Investor Day | Pending |
-| AT&T | Mandatory adoption program announced | Q3 2026 AT&T earnings | Pending |
-| AT&T | AI savings acceleration toward $2B/year | Q4 2026 AT&T earnings | Pending |
-
----
-
-## Confidence Levels Explained
-
-**High confidence** means the input evidence is quantitative, primary, and within the last 12 months. Boeing's production rate (18 planes/month), LTM's revenue (+6% YoY), and AT&T's savings ($1B of $4B) are all High confidence inputs.
-
-**Medium confidence** means the input is inferred from qualitative language in an official disclosure. Boeing's observation latency score (3/5) is Medium confidence because the monthly review cycle is described in process terms, not measured in hours.
-
-**Low confidence** is not present in these three case studies. It would indicate that a score was assigned without any direct public evidence.
-
 ---
 
 ## Limitations
 
-These case studies do not predict outcomes. They estimate adaptation velocity relative to stated targets. The following assumptions are explicitly noted:
-
-1. The six dimension weights (0.15, 0.25, 0.30, 0.15, 0.15, −0.10) are derived from the 100-case ASF dataset, not from regression analysis against outcome data. The weights represent the best current estimate.
-
-2. CRT base_months_per_capability_point values (Boeing: 8.0, LTM: 4.0, AT&T: 5.0) are domain estimates, not empirically validated calibration values.
-
-3. The AT&T decision latency score (4/5) involves inference — the absence of a publicly announced mandatory adoption program is interpreted as decision delay. An internal program may exist without public disclosure.
-
-4. Public company disclosures reflect what companies choose to share. Internal operational reality may differ from public communication.
-
-ASF scores and CRT estimates are analytical tools for decision support, not audited measurements.
+All scores based on publicly available information. Friction inputs are analyst-assigned, not measured. CRT T_base values are now empirically grounded (20 programs) but remain estimates — target is 50+ programs per domain for reliable calibration. Inter-rater reliability study is v0.1 simulation; formal external study is Priority 2.
