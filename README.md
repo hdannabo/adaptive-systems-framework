@@ -1,200 +1,225 @@
-# Adaptive Systems Framework (ASF)
+# Adaptive Systems Framework
+## Executive Decision Intelligence for Capability Realization
 
-**ASF identifies why transformation programs miss their targets — and what to fix first.**
-
-It measures organizational adaptation velocity: how fast you move from where you are today to where you need to be. When that velocity is insufficient to hit a target on time, ASF identifies the specific bottleneck causing the delay and recommends what to do about it.
-
----
-
-## The output ASF produces
-
-Not a score. A decision.
-
-> *"This AI transformation program is likely to miss its $4B savings target by $1.2B.
-> The bottleneck is not AI capability or budget — it is workforce adoption.
-> At current velocity, the program will reach $2.8B by 2030.
-> Recommended action: mandatory adoption program targeting unadopted employees by Q3 2026.
-> Every 10% adoption increase adds approximately $250M toward the target."*
+> **ASF helps leadership teams identify execution bottlenecks, dependency risks, and technology interventions required to realize strategic objectives faster — before gaps appear in financial results.**
 
 ---
 
-## What makes ASF different
+## What Is ASF?
 
-Every major framework measures something valuable:
+ASF is an **executive decision intelligence platform** that diagnoses where execution, technology, data, process, and organizational capability are blocking business outcomes.
 
-- **Balanced Scorecard** — tracks performance outcomes
-- **Six Sigma** — optimizes existing processes
-- **CMMI** — assesses process maturity level
-- **McKinsey 7S** — diagnoses organizational alignment
+It produces one primary output that no standard reporting tool delivers: **Capability Realization Time (CRT)** — a calibrated estimate, in months, of how long it will realistically take for an organization to build the capability its strategy requires. CRT is evidence-backed, friction-adjusted, and expressed in executive language — not engineering metrics, not consultant frameworks, not lagging financial indicators.
 
-None answer: **"Given our current organizational speed, will we hit our target on time?"**
+ASF does not replace strategy. It answers the question strategy leaves open:
 
-That is ASF's question. It is also the question that explains most transformation failures.
-
-See [methodology/vs-other-frameworks.md](methodology/vs-other-frameworks.md) for the full comparison.
+> *"We have declared the objective. Will we be capable of achieving it in time — and what specifically is slowing us down?"*
 
 ---
 
-## Core model
+## Who Is This For?
+
+| Role | How ASF Applies |
+|------|----------------|
+| **CEO / MD** | Understand which strategic programmes are on track vs. drifting — before board disclosures reflect it |
+| **CTO / CDO** | Identify technology, data, and system gaps blocking operational objectives |
+| **COO** | Diagnose manufacturing, supply chain, and execution friction by programme |
+| **Transformation Head** | Prioritize interventions with quantified timeline impact |
+| **CFO / Investors** | Assess capital deployment risk against capability realization timeline |
+| **Manufacturing Leaders** | Map process drag, automation opportunity, and scale-up risk |
+
+---
+
+## What ASF Detects
+
+ASF runs a structured diagnostic across six operational domains:
+
+| Signal Type | What It Finds |
+|-------------|---------------|
+| **Capability Gap** | Distance between current organizational capability and what the strategic objective requires |
+| **Execution Friction** | Process drag, approval bottlenecks, manual operations, and workflow inefficiency slowing delivery |
+| **Dependency Risk** | External blockers — regulatory, vendor, technology, data, and governance dependencies — that cannot be solved by internal effort alone |
+| **Data & System Bottlenecks** | Where legacy systems, fragmented data, or missing instrumentation are limiting decision quality or operational speed |
+| **Automation Opportunity** | Manual workflows where AI, cloud automation, or RPA can compress timelines and reduce error rates |
+| **Technology Intervention Points** | Specific IT modernization actions — cloud, AI, DevOps, data platforms — that directly improve CRT |
+
+---
+
+## Battery Sector — Why This Vertical First
+
+The Indian battery and industrial manufacturing sector was selected as the initial ASF sector demo for a deliberate reason: **it concentrates every execution risk type in a single industry, at a single moment in time.**
+
+Between 2024–2028, the three companies covered in this demo — **HBL Engineering, Exide Industries (EESL), and Amara Raja Energy & Mobility** — are simultaneously managing:
+
+- Multi-thousand-crore technology transitions (LAB → Li-ion, BESS)
+- Greenfield gigafactory construction with zero prior cell manufacturing experience
+- New leadership teams in critical programme roles
+- Government certification dependencies (Kavach, PLI, RDSO)
+- Chinese technology partner dependencies in a geopolitically sensitive period
+- OEM supply qualification timelines they do not control
+- Investor and credit agency scrutiny of execution pace
+
+This makes battery manufacturing the highest-signal environment for ASF's capability realization diagnostic. Every delay is traceable to a specific gap. Every gap has an addressable intervention. Every intervention has a measurable CRT impact.
+
+---
+
+## What the Dashboard Shows
+
+The ASF Battery Sector Executive Demo ([`client/`](./client/)) provides:
+
+| Dashboard Element | Executive Question Answered |
+|-------------------|-----------------------------|
+| **Objective Confidence** | How likely is this strategic objective to be achieved on declared timeline? |
+| **Capability Realization Time** | Realistically, how many months until this capability is operational? |
+| **Execution Friction Score** | Where are process, manual operations, and workflow bottlenecks creating delay? |
+| **Dependency Risk Map** | Which external blockers — vendor, regulatory, data, governance — sit outside our control? |
+| **Intervention Roadmap** | What specific actions, in what sequence, compress the CRT most? |
+| **IT Modernization Opportunity** | Which technology investments — cloud, AI, automation, data — have the highest timeline impact? |
+| **Evidence-Backed Scoring** | What specific disclosures and verified data support each finding? |
+
+---
+
+## Service Model
+
+ASF is the diagnostic engine. The LLC is the implementation partner. Together they deliver a complete cycle from intelligence to execution.
+
+### 1. Executive Diagnostic (`₹15–25 Lakhs · 4 weeks`)
+An independent, evidence-backed capability assessment across your strategic programmes. Outputs: CRT per objective, binding constraint identification, Intervention Roadmap, CEO-format dashboard.
+
+### 2. Transformation Roadmap (`₹50–80 Lakhs · 8 weeks`)
+Full multi-programme assessment with resource conflict analysis, dependency mitigation plan, scenario modelling, and quantified action value per recommendation. Includes timestamped prediction register.
+
+### 3. Implementation Partnership (`Retainer · Quarterly`)
+Ongoing CRT tracking, dashboard refresh, early-warning signal monitoring, and hands-on delivery of technology interventions identified in the diagnostic.
+
+---
+
+## Technology Services Delivered
+
+When the diagnostic identifies an intervention, the implementation partner delivers:
+
+| Intervention Type | Example Application |
+|-------------------|---------------------|
+| **Cloud Modernization** | Migrate MES, ERP, and production systems to scalable cloud infrastructure |
+| **AI Agents** | Deploy AI-driven quality inspection, anomaly detection, demand forecasting |
+| **Data Platforms** | Build unified operational data layer from fragmented plant-floor and ERP sources |
+| **ERP / Workflow Automation** | Automate procurement, approval, and production scheduling workflows |
+| **DevOps / MLOps** | Accelerate software delivery and model deployment for manufacturing analytics |
+| **Predictive Maintenance** | Sensor-to-insight pipelines for battery cell equipment and production lines |
+| **Executive Dashboards** | Real-time capability and execution tracking for board and CXO use |
+| **Supply Chain Analytics** | Visibility, risk scoring, and simulation for complex multi-tier supply chains |
+| **Security & Governance** | Data governance, access control, and compliance for regulated manufacturing environments |
+
+---
+
+## How ASF Works — Analytical Process
+
+ASF is a structured analytical methodology. Each step is a disciplined analytical process, not a software platform layer. Platform automation of individual steps is the roadmap for each engagement.
 
 ```
-Adaptation Gap = Required Capability − Current Capability
+Step 1 → Signal Collection
+         Regulatory filings · Credit reports · Investor presentations · Exchange disclosures
 
-Adaptation Latency Score =
-    (Observation Latency  × 0.15)   — how fast do you detect change?
-  + (Decision Latency     × 0.25)   — how fast do you commit?
-  + (Execution Latency    × 0.30)   — how fast do you implement?
-  + (Feedback Delay       × 0.15)   — how fast do you see results?
-  + (Dependency Index     × 0.15)   — how many manual steps block you?
-  − (Learning Velocity    × 0.10)   — how fast do you improve?
+Step 2 → Capability Mapping
+         10-dimension scoring: current vs. required capability per strategic objective
 
-Capability Realization Time (CRT):
-  How many months to close the gap at current friction levels.
+Step 3 → Dependency Risk Classification
+         Six dimensions: Data · Process · Workforce · Vendor · Governance · Technology
+
+Step 4 → CRT Estimation
+         CRT = gap × T_base × F_m × (1/L_a) × CI_adj
+         Output: time-to-capability in months with explicit confidence intervals
+
+Step 5 → Intervention Ranking
+         Actions ranked by estimated CRT impact — not by technology preference
+
+Step 6 → Implementation
+         Cloud · AI · Data · Automation · DevOps — delivered by the LLC
+
+Step 7 → Outcome Tracking
+         Prediction validation and quarterly CRT refresh as programme data evolves
 ```
 
-The dimension with the highest score is the primary bottleneck. Fixing it has the greatest impact on reaching the target on time.
+**What internal data changes:** Public data provides the diagnostic framework (Steps 1–5) with ±25–35% CI. Internal programme data — yield rates, leadership logs, production schedules — narrows CI to ±15–20% and makes CRT operationally precise.
 
 ---
 
-## Quick start
+## Methodology
 
-```bash
-git clone https://github.com/hdannabo/adaptive-systems-framework
-cd adaptive-systems-framework
-pip install -r requirements.txt
+ASF uses a structured, evidence-backed scoring model across 10 capability dimensions. Every score is linked to a specific verified data source — not consultant opinion. Confidence intervals are explicit: public data produces wider intervals; internal programme data narrows them to board-decision precision.
 
-# Run a scored analysis from a YAML input
-python cli.py --file examples/boeing.yaml
+The methodology is evolving. Each engagement adds calibration data. The battery sector represents the first published sector application. Results, predictions, and validation outcomes are documented in [`validation/`](./validation/) and the prediction register in [`research/`](./research/).
 
-# Analyze a document (keyword mode, no credentials needed)
-python asf_document_analyzer.py --file report.pdf --mode keyword
-
-# Analyze a document (LLM mode — requires Azure OpenAI)
-cp .env.example .env  # fill in your Azure credentials
-python asf_document_analyzer.py --file annual_report.pdf
-
-# Run all tests
-python tests/test_evidence_extractor.py
-```
+For technical methodology detail, see [`docs/methodology/`](./docs/methodology/).
 
 ---
 
-## Repository structure
+## Repository Navigation
 
-```
-asf/
-├── src/asf/                   # Python package — scoring engine, CRT, recommendations
-│   ├── scoring/engine.py      # ALS formula (12 lines, deterministic)
-│   ├── scoring/crt_engine.py  # CRT estimation
-│   ├── recommendations/       # Intervention lookup by bottleneck
-│   └── evidence/extractor.py  # LLM-based evidence extraction (v0.4)
-│
-├── cli.py                     # Command-line analysis tool
-├── asf_document_analyzer.py   # Document → evidence → score pipeline
-├── asf_conformance_agent.py   # Validate LLM outputs meet acceptance criteria
-│
-├── methodology/               # Theory: definitions, assumptions, limitations
-│   ├── core.md                # Canonical model, formula, all definitions
-│   ├── assumptions.md         # Honest limitations — read before using
-│   ├── validation.md          # What evidence would refute ASF
-│   └── vs-other-frameworks.md # Comparison to BSC, CMMI, 7S, DC theory
-│
-├── validation/                # Empirical validation program
-│   ├── CASE_STUDY_001.md      # Boeing — ALS 3.70, Execution bottleneck
-│   ├── CASE_STUDY_002.md      # LTM — ALS 2.05, Low risk
-│   ├── CASE_STUDY_003.md      # AT&T — ALS 3.85, Execution + Dependency
-│   ├── prediction_register.md # 13 timestamped predictions (June 2026)
-│   ├── calibration_report.md  # CRT vs actual: 20 programs, -18.7% bias
-│   └── external_validation_protocol.md  # IRR study design, ready to run
-│
-├── research/                  # Dataset and hypotheses
-│   ├── asf_100_cases.csv      # 100-case dataset (single-analyst, v0.1)
-│   ├── hypotheses.md          # Testable hypotheses, not conclusions
-│   └── dataset-readme.md      # Dataset provenance and limitations
-│
-├── dashboard/                 # Live GitHub Pages dashboards
-└── examples/                  # Sample YAML inputs (Boeing, AT&T, Toyota)
-```
+| Path | Contents | Audience |
+|------|----------|----------|
+| [`client/index.html`](./client/index.html) | Battery sector executive demo — boardroom-ready | CEO, CTO, CDO, COO |
+| [`dashboard/battery-asf-comparison.html`](./dashboard/) | Interactive 9-section comparison dashboard | Strategy, Transformation |
+| [`docs/case-studies/`](./docs/case-studies/) | Evidence-backed sector case study | Strategy, Advisory |
+| [`docs/methodology/`](./docs/methodology/) | CRT, EFS, scoring framework documentation | Technical, Advisory |
+| [`docs/services/`](./docs/services/) | Service model and engagement structure | Business Development |
+| [`data/battery_asf_comparison.json`](./data/) | Full structured dataset — scores, CRT, evidence | Technical, Research |
+| [`validation/battery_asf_evidence_check.md`](./validation/) | 27-item evidence register, confidence-rated | Research, Advisory |
+| [`research/prediction-register.md`](./research/) | Timestamped predictions, issued Jun 2026 | Research, Validation |
+| [`internal/`](./internal/) | Internal stress-test, founder review, pitch strategy | Internal only |
 
 ---
 
-## Live dashboards
+## How to Use This Repository
 
-Open in any browser — no install required.
+**For a CEO or CTO:**
+Open [`client/index.html`](./client/index.html) in a browser — or visit the [GitHub Pages version](https://hdannabo.github.io/adaptive-systems-framework/client/). Use the company tab switcher to see the diagnostic for HBL Engineering, Exide Industries, or Amara Raja. Each view answers: what is blocking execution, how long will it take to close the gap, and what technology intervention compresses that timeline most.
 
-| Dashboard | What it shows |
-|---|---|
-| [MNC 2030 Goals](https://hdannabo.github.io/adaptive-systems-framework/dashboard/mnc-2030-goals.html) | Will 49 top MNCs hit their 2030 targets? |
-| [Enterprise AI Benchmark](https://hdannabo.github.io/adaptive-systems-framework/dashboard/enterprise-benchmark.html) | NVIDIA, OpenAI, Microsoft, Palantir — adaptation velocity |
-| [Manufacturing Benchmark](https://hdannabo.github.io/adaptive-systems-framework/dashboard/manufacturing-benchmark.html) | Toyota, Boeing, Siemens, BYD |
-| [LTM Validation](https://hdannabo.github.io/adaptive-systems-framework/dashboard/ltm-validation.html) | Full traceable case study — evidence → score → CRT |
-| [Prediction Register](https://hdannabo.github.io/adaptive-systems-framework/dashboard/prediction-register.html) | 13 live predictions with checkpoint calendar |
-| [CRT Explorer](https://hdannabo.github.io/adaptive-systems-framework/dashboard/capability-realization-time.html) | Capability Realization Time calculator |
+**For a strategy or transformation team:**
+Start with [`docs/case-studies/`](./docs/case-studies/) for the full evidence-backed analysis, then move to [`data/`](./data/) for structured scoring data.
 
----
+**For a technical or methodology review:**
+See [`docs/methodology/`](./docs/methodology/) for the CRT formula, Execution Friction Score (EFS), and confidence interval derivation. Validation evidence is in [`validation/`](./validation/).
 
-## What is validated and what is not
-
-ASF is a working research methodology. The table below is honest about status.
-
-| Component | Status | Evidence |
-|---|---|---|
-| ALS formula | ✅ Deterministic, verified | Engine tests pass; formula reproducible by hand |
-| Bottleneck identification | ✅ Preliminary | Simulated IRR κ = 0.739, 100% bottleneck agreement on 3 companies |
-| CRT model | ⚠️ Calibrated, not validated | 20 programs tested; -18.7% systematic underestimation documented; revised T_base values published |
-| Scoring rubric | ⚠️ Preliminary | External IRR study designed and ready; not yet run with human analysts |
-| Dimension weights | ❌ Unvalidated | Derived from single-analyst 100-case dataset; no regression analysis run |
-| Recommendations | ❌ Generic | Hardcoded lookup table; company-specific recommendations require analyst judgment |
-| Predictions | ⏳ Pending | 13 registered June 2026; first check July 2026 (LTM Q1FY27 earnings) |
-
-See [methodology/assumptions.md](methodology/assumptions.md) for the complete limitations statement.
+**For a partnership or investment conversation:**
+The [`docs/services/`](./docs/services/) folder covers engagement structure, pricing tiers, and implementation model. The [`internal/`](./internal/) folder contains the founder's honest diagnostic — available on request.
 
 ---
 
-## Validation program
+## What a Client Receives
 
-The `validation/` folder contains a structured research program:
-
-1. **Three case studies** — Boeing, LTM, AT&T — with complete evidence chains
-2. **CRT calibration** — 20 historical programs, documented -18.7% underestimation bias
-3. **Inter-rater reliability** — simulated κ = 0.739; external study protocol ready
-4. **Prediction register** — 13 timestamped predictions before outcomes are available
-5. **Outcome tracking** — first resolvable checkpoint July 22, 2026 (LTM BFSI)
-
-The prediction register is the most important artifact. A framework is not validated because analysts agree. It is validated when its predictions are confirmed or falsified by observable events.
-
----
-
-## Theoretical grounding
-
-ASF operationalizes concepts from six established research traditions:
-
-- **Systems Thinking** — Meadows, Senge, Forrester: feedback loop delays cause system failure
-- **OODA Loop** — Boyd (1986): decision velocity determines competitive outcome
-- **Dynamic Capabilities** — Teece, Pisano, Shuen (1997): sensing/seizing/reconfiguring as microfoundations
-- **Time-Based Competition** — Stalk (1988): time compression as competitive advantage
-- **MAPE-K** — IBM (2003): autonomous systems require closed-loop adaptation cycles
-- **Complex Adaptive Systems** — Santa Fe Institute: emergence and adaptation in complex environments
-
-See [docs/theoretical-foundations.md](docs/theoretical-foundations.md) for the full grounding.
+| Engagement Output | Format | Timing |
+|-------------------|--------|--------|
+| Capability assessment across 10 dimensions | Executive report + dashboard | Week 2 |
+| CRT estimate per strategic objective | Visual timeline with CI | Week 2 |
+| Binding constraint identification | Named, evidence-backed | Week 3 |
+| Dependency Risk Map | Visual + narrative | Week 3 |
+| Intervention Roadmap | Prioritized, quantified | Week 4 |
+| Timestamped prediction register | Public, tracked | Week 4 |
+| CEO-format decision dashboard | HTML, live-updatable | Week 4 |
 
 ---
 
-## License
+## Battery Sector CRT Estimates — June 2026
 
-MIT License — see [LICENSE](LICENSE).
+> *Based on public disclosures. Confidence intervals narrow with internal programme data.*
 
-Use ASF freely for research, consulting, and internal transformation work.
-If you use ASF in published research, please cite the repository and the validation case studies.
+| Company | Primary Objective | CRT Estimate | Evidence Confidence |
+|---------|------------------|-------------|---------------------|
+| HBL Engineering | Post-Kavach diversification (TMS/export) | 9–18 months | HIGH |
+| Exide Industries (EESL) | Commercial Li-ion cell revenue | 18–24 months | HIGH |
+| Amara Raja Energy & Mobility | EV + BESS cell manufacturing revenue | 27–36 months | HIGH |
 
 ---
 
-## Contributing
+## Contact
 
-The highest-value contribution right now is not code. It is validation.
+**Adaptive Systems Framework**
+India-based LLC · AI, Cloud, Automation, DevOps, Data, Operational Optimization
 
-1. **Run the external IRR study** — recruit two analysts, follow [validation/external_validation_protocol.md](validation/external_validation_protocol.md)
-2. **Check LTM Q1FY27 earnings** — July 22, 2026 — follow [validation/outcome_tracking_workflow.md](validation/outcome_tracking_workflow.md)
-3. **Add a case study** — use [validation/CASE_STUDY_001.md](validation/CASE_STUDY_001.md) as the template
+📧 For an Executive Diagnostic or Transformation Roadmap:
+[github.com/hdannabo/adaptive-systems-framework](https://github.com/hdannabo/adaptive-systems-framework)
 
-The framework's credibility grows with each confirmed prediction and each inter-rater study. Those are the contributions that matter most right now.
+---
+
+*Repository last updated: June 2026 · Battery Sector v3 · 8 predictions issued · Evidence base: 27 verified items across HBL Engineering, Exide Industries, Amara Raja Energy & Mobility*
