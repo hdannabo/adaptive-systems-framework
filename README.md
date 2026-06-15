@@ -71,7 +71,7 @@ The ASF Battery Sector Executive Demo ([`client/`](./client/)) provides:
 |-------------------|-----------------------------|
 | **Objective Confidence** | How likely is this strategic objective to be achieved on declared timeline? |
 | **Capability Realization Time** | Realistically, how many months until this capability is operational? |
-| **Execution Friction Score** | Where are process, manual operations, and workflow bottlenecks creating delay? |
+| **Execution Friction Score (EFS)** | Where are process, manual operations, and workflow bottlenecks creating delay? |
 | **Dependency Risk Map** | Which external blockers — vendor, regulatory, data, governance — sit outside our control? |
 | **Intervention Roadmap** | What specific actions, in what sequence, compress the CRT most? |
 | **IT Modernization Opportunity** | Which technology investments — cloud, AI, automation, data — have the highest timeline impact? |
@@ -148,7 +148,7 @@ Step 7 → Outcome Tracking
 
 ASF uses a structured, evidence-backed scoring model across 10 capability dimensions. Every score is linked to a specific verified data source — not consultant opinion. Confidence intervals are explicit: public data produces wider intervals; internal programme data narrows them to board-decision precision.
 
-The methodology is evolving. Each engagement adds calibration data. The battery sector represents the first published sector application. Results, predictions, and validation outcomes are documented in [`validation/`](./validation/) and the prediction register in [`research/`](./research/).
+The methodology is evolving. Each engagement adds calibration data. The battery sector represents the first published sector application. Results, predictions, and validation outcomes are documented in [`validation/`](./validation/) and prediction registers in [`validation/`](./validation/).
 
 For technical methodology detail, see [`docs/methodology/`](./docs/methodology/).
 
@@ -165,8 +165,15 @@ For technical methodology detail, see [`docs/methodology/`](./docs/methodology/)
 | [`docs/services/`](./docs/services/) | Service model and engagement structure | Business Development |
 | [`data/battery_asf_comparison.json`](./data/) | Full structured dataset — scores, CRT, evidence | Technical, Research |
 | [`validation/battery_asf_evidence_check.md`](./validation/) | 27-item evidence register, confidence-rated | Research, Advisory |
-| [`research/prediction-register.md`](./research/) | Timestamped predictions, issued Jun 2026 | Research, Validation |
+| [`validation/prediction-register-core.md`](./validation/prediction-register-core.md) | Core prediction register — Boeing, LTM, AT&T (13 predictions) | Research, Validation |
+| [`validation/prediction-register-battery.md`](./validation/prediction-register-battery.md) | Battery sector prediction register — HBL, Exide, Amara Raja (8 predictions) | Research, Validation |
 | [`internal/`](./internal/) | Internal stress-test, founder review, pitch strategy | Internal only |
+
+---
+
+## Terminology Note
+
+> **EFS vs ALS:** ASF uses **Execution Friction Score (EFS)** as the canonical friction metric. Some earlier methodology documents reference **Adaptation Latency Score (ALS)** — this is an earlier name for the same construct. EFS is the current term. See [`docs/methodology/`](./docs/methodology/) for definitions.
 
 ---
 
@@ -222,4 +229,4 @@ India-based LLC · AI, Cloud, Automation, DevOps, Data, Operational Optimization
 
 ---
 
-*Repository last updated: June 2026 · Battery Sector v3 · 8 predictions issued · Evidence base: 27 verified items across HBL Engineering, Exide Industries, Amara Raja Energy & Mobility*
+*Repository last updated: June 2026 · Battery Sector v3 · 21 predictions issued · Evidence base: 27 verified items across HBL Engineering, Exide Industries, Amara Raja Energy & Mobility*

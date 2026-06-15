@@ -1,5 +1,7 @@
 # ASF Methodology — Capability Realization Intelligence System
 
+> Note: This document is the battery-sector adaptation of ASF using EFS. The canonical ASF methodology is documented in [`methodology/core.md`](./core.md).
+
 > **Technical reference document.** This covers the CRT formula, Execution Friction Score (EFS), Confidence Interval model, evidence scoring protocol, and the 10-dimension capability assessment. This is how ASF produces its outputs — not marketing language, not black-box results.
 
 ---
@@ -169,7 +171,7 @@ Validate:   [Date when prediction should be checked against outcomes]
 Confidence: [HIGH / MEDIUM]
 ```
 
-Predictions are published in `research/prediction-register.md` and are not modified after issuance. Validation outcomes are recorded against each prediction as they become available.
+Predictions are published in [`validation/prediction-register-core.md`](../../validation/prediction-register-core.md) and [`validation/prediction-register-battery.md`](../../validation/prediction-register-battery.md) and are not modified after issuance. Validation outcomes are recorded against each prediction as they become available.
 
 This creates a public accountability mechanism that differentiates ASF from analysis that does not commit to verifiable claims.
 

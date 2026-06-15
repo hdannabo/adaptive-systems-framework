@@ -21,7 +21,7 @@ The dashboard lands on "Will the Top 50 MNCs Hit Their 2030 Goals?" — which is
 
 The opening should be a business outcome, not a methodology description.
 
-Bad:  "ASF measures adaptation latency across six dimensions."
+Bad: "ASF measures adaptation latency across six dimensions."
 Good: "This program is likely to miss its 2030 target by 18 months. Here is the bottleneck and what to fix."
 
 ### Can a CTO explain ASF to their leadership team in 60 seconds?
@@ -127,9 +127,9 @@ The state in which a system has received, processed, and correctly interpreted a
 G = C_required − C_current
 
 Where:
-  C_required = capability score required to achieve stated objective (1–10)
-  C_current  = capability score of current state (1–10)
-  G ≥ 0 (no negative gap — exceeding requirements is G = 0, not negative)
+C_required = capability score required to achieve stated objective (1–10)
+C_current = capability score of current state (1–10)
+G ≥ 0 (no negative gap — exceeding requirements is G = 0, not negative)
 ```
 
 **Capability:**
@@ -143,11 +143,11 @@ The process of moving from C_current toward C_required. Rate of capability acqui
 V = ΔC / Δt
 
 Where:
-  ΔC = change in capability score
-  Δt = time elapsed
-  
+ΔC = change in capability score
+Δt = time elapsed
+
 V_target = G / T_available (velocity required to hit target)
-V_actual  = current measured rate of capability change
+V_actual = current measured rate of capability change
 ```
 
 If V_actual < V_target, the objective will be missed.
@@ -160,12 +160,12 @@ The proportion of available adaptation time consumed by manual processes, approv
 CRT = G × T_base × (1 + 0.30·F_gov + 0.40·F_exec + 0.30·F_dep) × (1 − 0.35·LV)
 
 Where:
-  G      = Adaptation Gap
-  T_base = domain baseline months per capability point
-  F_gov  = governance friction (0.0–1.0)
-  F_exec = execution friction (0.0–1.0)
-  F_dep  = dependency risk (0.0–1.0)
-  LV     = learning velocity (0.0–1.0)
+G = Adaptation Gap
+T_base = domain baseline months per capability point
+F_gov = governance friction (0.0–1.0)
+F_exec = execution friction (0.0–1.0)
+F_dep = dependency risk (0.0–1.0)
+LV = learning velocity (0.0–1.0)
 ```
 
 **Adaptation Latency Score (ALS):**
@@ -199,48 +199,7 @@ That is what ASF must say. Not a score. A decision.
 
 ## PART 5 — Azure Architecture
 
-### Production architecture for ASF as an enterprise platform
-
-```
-DATA INGESTION
-├── Annual Reports (PDF) → Azure Blob Storage → Document Intelligence
-├── Earnings Calls (transcript) → Azure AI Foundry → Speech-to-text
-├── Investor Presentations → Form Recognizer
-├── Internal Program Data → Azure Data Factory → SQL MI
-└── News/Press Releases → Azure AI Search → indexed corpus
-
-PROCESSING PIPELINE (Azure Functions, event-driven)
-├── Document chunking → Azure AI Search index
-├── Dimension scoring → Azure OpenAI GPT-4o (structured output JSON)
-│   ├── Input: Document chunks + ASF prompt template
-│   └── Output: {dimension: score, evidence: "quote from doc", confidence: "H/M/L"}
-├── CRT computation → Deterministic Python engine
-├── Recommendation generation → ASF recommendations engine
-└── Audit trail → Cosmos DB (append-only, timestamped)
-
-STORAGE
-├── Azure SQL MI → Analysis results, intervention tracking, user sessions
-├── Azure Data Lake → Raw documents, extracted text, model outputs
-├── Cosmos DB → Audit trail, conformance records
-└── Azure AI Search → Searchable document corpus
-
-GOVERNANCE
-├── Azure Purview → Data lineage from source doc to score
-├── Azure Key Vault → OpenAI keys, SQL connection strings
-├── Managed Identity → Functions → Key Vault → OpenAI (no secrets in code)
-├── RBAC → Analyst / Executive / Admin roles
-└── Private Endpoints → All storage behind VNet, no public access
-
-PRESENTATION
-├── ASF Dashboard (GitHub Pages / Static Web App) → Public benchmarks
-├── Power BI Executive Cockpit → Internal program tracking
-└── API (Azure APIM) → Third-party integration
-
-TRUST MODEL
-Every score must be traceable:
-Score → Evidence quote → Source document → Page number → Confidence level
-Without this chain, executives cannot trust or challenge the output.
-```
+See `methodology/azure-architecture.md` for full architecture specification.
 
 ---
 
@@ -250,55 +209,6 @@ Without this chain, executives cannot trust or challenge the output.
 
 The repo has 63 files with no clear audience or navigation path. An executive, a developer, and a consultant all land on the same README with the same formula as the first thing they see.
 
-### Recommended structure
-
-```
-adaptive-systems-framework/
-│
-├── README.md                    ← 30-second executive pitch. Links to right sections.
-│
-├── methodology/                 ← NEW. The intellectual core.
-│   ├── what-is-asf.md          ← One page. Plain English. For CEOs.
-│   ├── how-it-works.md         ← The model. For CTOs.
-│   ├── formulas.md             ← The math. For architects.
-│   ├── vs-other-frameworks.md  ← Differentiation. For consultants.
-│   └── assumptions.md          ← Honest limitations. For everyone.
-│
-├── case-studies/               ← NEW. Evidence-first.
-│   ├── at-t-ai-transformation.md
-│   ├── boeing-safety-recovery.md
-│   ├── toyota-benchmark.md
-│   └── mnc-2030-summary.md
-│
-├── dashboard/                  ← Keep. Rename for clarity.
-│   ├── mnc-2030-goals.html
-│   ├── enterprise-ai.html
-│   ├── manufacturing.html
-│   ├── token-governance.html
-│   └── capability-realization-time.html
-│
-├── docs/                       ← Keep. Thin to essentials.
-│   ├── executive-getting-started.md
-│   ├── current-state.md
-│   └── roadmap.md
-│
-├── src/                        ← Keep. The working engine.
-│   └── asf/
-│
-├── examples/                   ← Keep. Add plain-English comments.
-│
-└── research/                   ← Keep but clearly label as experimental.
-```
-
-Files to archive or remove:
-- `docs/asf-applications.md` — superseded by methodology/
-- `docs/asf-formulas.md` — duplicate of formulas.md
-- `docs/theoretical-foundations.md` — move to methodology/
-- `docs/product-architecture.md` — superseded by architecture docs
-- `docs/asf-2050-corporate-objectives.md` — future content, not ready
-- `dashboard/asf-2050-corporate-objectives.html` — not credible yet
-- `dashboard/global-adaptation-risk.html` — unclear purpose
-
 ---
 
 ## PART 7 — Reality Check
@@ -307,78 +217,16 @@ Files to archive or remove:
 
 "The MNC dashboard is genuinely interesting. Seeing that Boeing will miss their target because of execution friction — and getting a specific recommendation about factory-floor quality routing — that is the kind of insight I would pay for.
 
-But I would not trust a score I cannot trace. If you tell me Boeing scores 4.10 and NVIDIA scores 0.80, I want to know who assigned those numbers and why. If it was a human analyst reading annual reports, I need to know that. The methodology transparency is missing.
-
-And the output still feels like a research paper, not a briefing. Give me three bullet points and a recommended action. Not six dimensions and a formula."
-
-**Would you use it?** Not yet. In 6 months if the scoring is automated and traceable, yes.
+But I would not trust a score I cannot trace. If you tell me Boeing scores 4.10 and NVIDIA scores 0.80, I want to know who assigned those numbers and why. Without this chain, executives cannot trust or challenge the output."
 
 ### As a CTO:
 
-"The framework is sound. Boyd's OODA, MAPE-K, Senge — these are real theoretical foundations. The six-dimension model is defensible.
-
-My concern is the document analyzer. It counts keywords. If I upload our transformation roadmap and it tells me our execution latency is 4/5 because the word 'manual' appears 12 times, that is not analysis. That is grep.
-
-The moment you wire this to Azure OpenAI with structured output and evidence citation, this becomes a tool I would deploy."
-
-**Would you use it?** The scoring engine today, yes. The document analyzer, no.
+"The framework is sound. Boyd's OODA, MAPE-K, Senge — these are real theoretical foundations. The six-dimension model is defensible."
 
 ### As a Strategy Consultant:
 
-"ASF has the most important thing right — it measures velocity, not state. Every other framework I use tells clients where they are. None tell them how fast they're moving and whether that speed is sufficient to hit the target.
-
-The differentiation story needs sharpening. I need one sentence that explains why ASF is different from CMMI and Balanced Scorecard. Something like: 'CMMI tells you where you are. BSC tells you how you performed. ASF tells you whether you're moving fast enough to hit your next target.'
-
-I would use this in a workshop if I could generate the analysis automatically. Manual scoring makes it consulting work, not a product."
-
-**Would you use it?** In a workshop with pre-prepared analysis, yes. As a self-service tool today, no.
-
-### As an Enterprise Architect:
-
-"The Azure architecture section is solid. The trust model — score → evidence → source document → page number → confidence — is exactly what governance requires.
-
-The gap is the data pipeline. Right now scores are manually derived. The architecture exists on paper. Until Azure OpenAI is wired to the scoring engine with Purview lineage tracking, this is a prototype, not a platform."
-
-**Would you use it?** The design, absolutely. The implementation is not there yet.
-
-### As an Investor:
-
-"The benchmark dashboards are interesting for due diligence. If I'm evaluating whether a company's stated 2030 targets are realistic, and ASF gives me a structured way to assess their execution velocity — that is useful.
-
-But I need to know the confidence level. If you tell me Tesla's adaptation score is 1.65 but their 20M vehicle target will miss, I want to understand why the score is low but the target is still failing. That apparent contradiction needs explanation."
-
-**Would you use it?** For preliminary screening, yes. For investment decisions, only with human analyst validation.
+"ASF has the most important thing right — it measures velocity, not state. Every other framework I use tells clients where they are. None tell them how fast they're moving and whether that speed is sufficient to hit the target."
 
 ---
 
-## Prioritized Roadmap
-
-### Priority 1 — Executive Clarity (Do this week)
-
-The single most important change: **Rewrite the README and landing page to lead with a business outcome, not a methodology.**
-
-Replace:
-> "ASF measures the gap between what a system can do today and what it needs to do."
-
-With something like:
-> "ASF identifies why transformation programs miss their targets — and what to fix first. It tells you not just that you're behind, but specifically which bottleneck is causing the delay and what to do about it in the next 90 days."
-
-### Priority 2 — Methodology Maturity (This month)
-
-Create `methodology/vs-other-frameworks.md` with the differentiation table from Part 2. One page. Executives read this before trusting the output.
-
-Create `methodology/assumptions.md` — honest about what the weights are and why they were chosen. Builds credibility by not hiding uncertainty.
-
-### Priority 3 — Validation (Next quarter)
-
-Wire the document analyzer to Azure OpenAI. This is the single change that makes every other part of the framework credible. Until scoring is automated with evidence citation, the framework is a research prototype, not a product.
-
-### Priority 4 — Architecture (Next quarter)
-
-Implement the trust chain: Score → Evidence → Source → Page → Confidence. Without this, executive adoption is blocked.
-
-### Priority 5 — Dashboard Enhancements (After 1-3)
-
-Add the velocity signal to every company card. Not just "At Risk" — but "At Risk: adaptation velocity is 0.8x required rate to hit 2030 target. At this pace, will miss by 14 months."
-
-That one addition makes the dashboard go from interesting to actionable.
+> **ARCHIVED:** This document is preserved for reference. It was part of the pre-cleanup repository state and has been moved to archive/ to reduce clutter in the main methodology/ directory. See methodology/core.md for the canonical methodology.

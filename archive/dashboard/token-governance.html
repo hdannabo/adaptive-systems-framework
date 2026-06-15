@@ -1,9 +1,10 @@
+<!-- ARCHIVED: Moved from dashboard/token-governance.html to archive/dashboard/ June 2026. Preserved for reference. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>ASF — AI Token Governance Scorer</title>
+<title>ASF — AI Token Governance Scorer [ARCHIVED]</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;font-size:14px}
@@ -50,6 +51,9 @@ footer{text-align:center;font-size:11px;color:#6e7681;padding:20px 0;border-top:
 </style>
 </head>
 <body>
+<div style="background:#2d1a00;border-left:4px solid #d29922;color:#d29922;padding:10px 18px;font-size:13px;font-family:-apple-system,sans-serif">
+  ⚠ <strong>ARCHIVED (June 2026)</strong> — This dashboard has been moved to <code>archive/dashboard/</code> and is preserved for reference only. It is no longer part of the active dashboard set.
+</div>
 <div class="wrap">
 <h1>ASF — AI Token Governance Scorer</h1>
 <p class="sub">Enter your AI program details. ASF computes your governance score, identifies the primary adaptation bottleneck, and generates prioritized interventions.</p>
@@ -172,7 +176,6 @@ function score(){
     ],
   };
 
-  // Render ring
   const circ=188.5;
   const offset=circ-(s/100)*circ;
   document.getElementById('ring-arc').style.strokeDashoffset=offset;
