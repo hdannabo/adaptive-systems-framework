@@ -1,0 +1,150 @@
+# ASF — Acceptance Criteria and Azure Architecture
+
+## What "Done" Looks Like
+
+This document defines the acceptance criteria for ASF as a production product.
+Each criterion is measurable, testable, and binary — it either passes or it does not.
+
+> **ARCHIVED:** This document has been moved to archive/docs/ to reduce clutter in the main docs/ directory. It captures the v1.0 acceptance criteria and Azure architecture definition as of June 2026.
+
+---
+
+## AC-01: Document Upload → ASF Report
+
+**Status: Partially complete**
+
+| Criterion | Status | How to test |
+|---|---|---|
+| User uploads PDF, DOCX, or TXT | ✅ Done | Upload `examples/boeing_report.pdf` |
+| System extracts text reliably | ✅ Done | Check extracted word count > 100 |
+| LLM scores all 6 dimensions with evidence | ⚠️ Partial | Currently keyword counting, not LLM reasoning |
+| Each score cites page/section from document | ❌ Not done | Check report for citation strings |
+| Report generated in under 30 seconds | ❌ Not done | Measure end-to-end latency |
+
+**Acceptance test:**
+```
+GIVEN a user uploads Boeing's 2025 annual report PDF
+WHEN the system analyzes it
+THEN the output must contain:
+- All 6 dimension scores (1–5)
+- At least one evidence citation per dimension
+- Primary bottleneck identified
+- Minimum 3 P0/P1/P2 interventions
+- Total latency under 30 seconds
+```
+
+---
+
+## AC-02: Governance Scorer
+
+**Status: Complete**
+
+| Criterion | Status | How to test |
+|---|---|---|
+| User enters spend, users, adoption, hours saved | ✅ Done | Fill form in token-governance.html |
+| Score computed deterministically 0–100 | ✅ Done | Same inputs = same score every time |
+| Primary bottleneck identified | ✅ Done | Check bottleneck label is non-null |
+| P0/P1/P2 interventions generated | ✅ Done | Check at least 3 interventions returned |
+| Output exportable as PDF or JSON | ❌ Not done | No export button exists yet |
+
+---
+
+## AC-03: Web Interface — No Install Required
+
+**Status: Not done**
+
+| Criterion | Status | How to test |
+|---|---|---|
+| Works in browser — no Python required | ❌ Not done | Open URL in fresh browser, no setup |
+| Mobile responsive | ❌ Not done | Open on iPhone, check layout |
+| File drag-and-drop upload | ❌ Not done | Drag PDF onto upload zone |
+| Report renders in browser, downloadable | ❌ Not done | Download button produces PDF |
+| No auth required for basic use | ❌ Not done | Access without login |
+
+---
+
+## AC-04: API Contract
+
+**Status: Not done**
+
+```
+POST /api/v1/analyze/document
+Authorization: Bearer {api_key}
+Content-Type: multipart/form-data
+
+Response 200:
+{
+  "system_name": "string",
+  "domain": "string",
+  "scores": {
+    "observation_latency": 1-5,
+    "decision_latency": 1-5,
+    "execution_latency": 1-5,
+    "feedback_delay": 1-5,
+    "learning_velocity": 1-5,
+    "dependency_index": 1-5,
+    "adaptation_latency_score": 0.0-5.0,
+    "risk_band": "Low|Medium|High"
+  },
+  "evidence": { ... },
+  "primary_friction": "string",
+  "bottleneck_dimension": "string",
+  "interventions": [ ... ],
+  "summary": "string",
+  "token_cost_usd": float,
+  "analysis_duration_ms": integer
+}
+```
+
+---
+
+## AC-05: Scoring Correctness
+
+**Status: Complete**
+
+| System | Expected Score | Expected Risk | Expected Bottleneck |
+|---|---|---|---|
+| Toyota | < 1.5 | Low | Dependency Index (minor) |
+| Netflix (post-migration) | < 2.0 | Low | Feedback Delay (minor) |
+| AT&T | 3.8–4.2 | High | Execution Latency |
+| Boeing | 3.8–4.5 | High | Feedback Delay / Dependency |
+| Kodak (historical) | > 4.5 | High | Decision Latency |
+
+---
+
+## AC-06: Observability
+
+**Status: Not done**
+
+Every analysis must produce a telemetry record. Alert thresholds: total_duration_ms > 30000 → warning; token_cost_usd > 0.50 → warning; error_rate_1h > 0.01 → critical.
+
+---
+
+## Definition of Done — v1.0
+
+The product is done when:
+
+1. A non-technical user can open a URL in their browser
+2. Drag a PDF onto the page
+3. Receive a full ASF report within 30 seconds
+4. Download or share it without assistance
+5. The token cost of that analysis is logged and visible
+6. The system handles 100 concurrent users without degradation
+7. All acceptance criteria above pass
+
+Until all 7 are true, it is a framework. After all 7 are true, it is a product.
+
+---
+
+## The Honest Gap Summary
+
+**What's done:** Scoring engine, dashboards, dataset, theory, CLI tools, GitHub Pages hosting.
+
+**What's needed for v1.0:**
+- LLM-powered document scoring with evidence citations (4 hours)
+- Azure Functions API wrapping the scoring engine (6 hours)
+- Web interface — file upload, report rendering (8 hours)
+- CI/CD pipeline (3 hours)
+- Observability (2 hours)
+
+**Total: approximately 23 hours of engineering.**
