@@ -1,0 +1,214 @@
+<!-- ARCHIVED: Moved from dashboard/token-governance.html to archive/dashboard/ June 2026. Preserved for reference. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ASF — AI Token Governance Scorer [ARCHIVED]</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;font-size:14px}
+.wrap{max-width:900px;margin:0 auto;padding:24px 20px}
+h1{font-size:22px;font-weight:600;color:#58a6ff;margin-bottom:6px}
+.sub{font-size:13px;color:#8b949e;margin-bottom:24px;line-height:1.6}
+.formula{background:#161b22;border:1px solid #30363d;border-left:3px solid #58a6ff;border-radius:6px;padding:14px 18px;margin-bottom:24px;font-family:monospace;font-size:12px;color:#79c0ff;line-height:2}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:11px;color:#8b949e;text-transform:uppercase;letter-spacing:.5px}
+input,select{padding:8px 12px;background:#161b22;border:1px solid #30363d;border-radius:6px;color:#e6edf3;font-size:13px;width:100%}
+input:focus,select:focus{outline:none;border-color:#58a6ff}
+.hint{font-size:11px;color:#6e7681;margin-top:2px}
+.btn{width:100%;padding:12px;background:#238636;border:none;border-radius:6px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+.btn:hover{background:#2ea043}
+.result{display:none;margin-top:24px}
+.score-row{display:flex;align-items:center;gap:16px;background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px;margin-bottom:16px}
+.ring{width:80px;height:80px;position:relative;flex-shrink:0}
+.ring svg{transform:rotate(-90deg)}
+.ring-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700}
+.score-title{font-size:16px;font-weight:600;margin-bottom:4px}
+.score-sub{font-size:12px;color:#8b949e;line-height:1.5}
+.statement{background:#161b22;border:1px solid #30363d;border-left:3px solid #30363d;border-radius:6px;padding:14px 16px;margin-bottom:16px;font-size:13px;line-height:1.8}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.kpi{background:#161b22;border:1px solid #21262d;border-radius:8px;padding:10px 12px}
+.kl{font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.kv{font-size:17px;font-weight:700}
+.ks{font-size:10px;color:#8b949e;margin-top:2px}
+h3{font-size:11px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.dim{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.dl{font-size:12px;color:#8b949e;width:130px;flex-shrink:0}
+.dt{flex:1;height:5px;background:#21262d;border-radius:3px;overflow:hidden}
+.df{height:100%;border-radius:3px}
+.dv{font-size:12px;font-weight:700;width:28px;text-align:right}
+.ints{margin-top:16px}
+.int{display:flex;gap:8px;padding:10px 12px;border:1px solid #21262d;border-radius:8px;margin-bottom:7px}
+.p0b{font-size:10px;padding:2px 8px;border-radius:6px;flex-shrink:0;height:fit-content;margin-top:2px;font-weight:600;background:#3c0614;color:#f85149;white-space:nowrap}
+.p1b{font-size:10px;padding:2px 8px;border-radius:6px;flex-shrink:0;height:fit-content;margin-top:2px;font-weight:600;background:#2d2000;color:#d29922;white-space:nowrap}
+.p2b{font-size:10px;padding:2px 8px;border-radius:6px;flex-shrink:0;height:fit-content;margin-top:2px;font-weight:600;background:#1a2d3d;color:#58a6ff;white-space:nowrap}
+.it{font-size:12px;color:#e6edf3;line-height:1.5}
+.iw{font-size:11px;color:#8b949e;margin-top:2px}
+.green{color:#3fb950}.yellow{color:#d29922}.red{color:#f85149}
+footer{text-align:center;font-size:11px;color:#6e7681;padding:20px 0;border-top:1px solid #21262d;margin-top:24px}
+</style>
+</head>
+<body>
+<div style="background:#2d1a00;border-left:4px solid #d29922;color:#d29922;padding:10px 18px;font-size:13px;font-family:-apple-system,sans-serif">
+  ⚠ <strong>ARCHIVED (June 2026)</strong> — This dashboard has been moved to <code>archive/dashboard/</code> and is preserved for reference only. It is no longer part of the active dashboard set.
+</div>
+<div class="wrap">
+<h1>ASF — AI Token Governance Scorer</h1>
+<p class="sub">Enter your AI program details. ASF computes your governance score, identifies the primary adaptation bottleneck, and generates prioritized interventions.</p>
+
+<div class="formula">
+  ASF Governance Score = (Value Realization × 0.30) + (User Adoption × 0.20) + (Cost Visibility × 0.20) + (Budget Controls × 0.15) + (Model Policy × 0.15)
+</div>
+
+<div class="grid">
+  <div class="field"><label>Organization</label><input type="text" id="org" placeholder="e.g. Acme Corp"></div>
+  <div class="field"><label>Primary AI Provider</label>
+    <select id="provider"><option value="">Select provider</option><option>OpenAI</option><option>Anthropic</option><option>Google</option><option>DeepSeek</option><option>Azure OpenAI</option><option>Multiple</option></select>
+  </div>
+  <div class="field"><label>Monthly AI Spend (USD)</label><input type="number" id="spend" placeholder="e.g. 50000"><div class="hint">Total monthly token / API spend</div></div>
+  <div class="field"><label>Active AI Users</label><input type="number" id="users" placeholder="e.g. 500"></div>
+  <div class="field"><label>Adoption Rate (%)</label><input type="number" id="adoption" placeholder="e.g. 45" min="0" max="100"><div class="hint">% of licensed users actively using AI</div></div>
+  <div class="field"><label>Hours Saved Monthly</label><input type="number" id="hours" placeholder="e.g. 2000"></div>
+  <div class="field"><label>Real-time Cost Visibility?</label>
+    <select id="vis"><option value="2">No — monthly invoice only</option><option value="5">Partial — some dashboards</option><option value="8">Yes — real-time per-team dashboards</option></select>
+  </div>
+  <div class="field"><label>Token Budget Controls?</label>
+    <select id="ctrl"><option value="1">No controls — unlimited usage</option><option value="4">Soft limits — alerts only</option><option value="8">Hard limits — enforced per team</option></select>
+  </div>
+  <div class="field"><label>Model Selection Policy?</label>
+    <select id="pol"><option value="1">No policy — teams choose freely</option><option value="4">Informal guidance only</option><option value="8">Formal policy — task-based routing</option></select>
+  </div>
+  <div class="field"><label>Agentic Workflows?</label>
+    <select id="ag"><option value="0">No</option><option value="1">Yes — with token controls</option><option value="2">Yes — without controls</option></select>
+  </div>
+</div>
+
+<button class="btn" onclick="score()">Generate ASF Governance Score</button>
+
+<div class="result" id="result">
+  <div class="score-row">
+    <div class="ring">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="30" fill="none" stroke-width="7" stroke="#21262d"/>
+        <circle cx="40" cy="40" r="30" fill="none" stroke-width="7" id="ring-arc" stroke-dasharray="188.5" stroke-dashoffset="188.5" stroke-linecap="round"/>
+      </svg>
+      <div class="ring-num" id="ring-num">—</div>
+    </div>
+    <div><div class="score-title" id="score-title">—</div><div class="score-sub" id="score-sub">—</div></div>
+  </div>
+  <div class="statement" id="statement"></div>
+  <div class="kpis" id="kpis"></div>
+  <h3>Governance dimensions</h3>
+  <div id="dims"></div>
+  <div class="ints"><h3>Prioritized interventions</h3><div id="ints"></div></div>
+</div>
+
+<footer>ASF · <a href="https://github.com/hdannabo/adaptive-systems-framework" style="color:#58a6ff;text-decoration:none">github.com/hdannabo/adaptive-systems-framework</a> · © 2026 Hemanth Kumar Dannaboyina</footer>
+</div>
+
+<script>
+function fmt(n){if(n>=1e6)return'$'+(n/1e6).toFixed(1)+'M';if(n>=1000)return'$'+(n/1000).toFixed(0)+'K';return'$'+Math.round(n)}
+function sc(v){return v>=75?'#3fb950':v>=55?'#d29922':'#f85149'}
+
+function score(){
+  const org=document.getElementById('org').value||'Your organization';
+  const spend=parseFloat(document.getElementById('spend').value)||0;
+  const users=parseFloat(document.getElementById('users').value)||0;
+  const adopt=parseFloat(document.getElementById('adoption').value)||0;
+  const hours=parseFloat(document.getElementById('hours').value)||0;
+  const vis=parseFloat(document.getElementById('vis').value);
+  const ctrl=parseFloat(document.getElementById('ctrl').value);
+  const pol=parseFloat(document.getElementById('pol').value);
+  const ag=parseFloat(document.getElementById('ag').value);
+
+  if(!spend){alert('Please enter your monthly AI spend.');return;}
+
+  const biz=(hours*75)+(spend*0.3);
+  const vrr=spend>0?Math.round((biz/spend)*10)/10:0;
+  const adopt_n=adopt/100;
+  const vis_n=vis/8;
+  const ctrl_n=ctrl/8;
+  const pol_n=pol/8;
+  const vrr_n=Math.min(vrr/15,1);
+  const agent_pen=ag===2?0.85:1.0;
+
+  const raw=(vrr_n*0.30+adopt_n*0.20+vis_n*0.20+ctrl_n*0.15+pol_n*0.15)*agent_pen;
+  const s=Math.round(raw*100);
+  const risk=s>=75?'Low':s>=55?'Medium':'High';
+  const color=sc(s);
+
+  const dims_data=[
+    {l:'Value realization',v:Math.min(Math.round(vrr_n*100),100)},
+    {l:'User adoption',v:Math.round(adopt_n*100)},
+    {l:'Cost visibility',v:Math.round(vis_n*100)},
+    {l:'Budget controls',v:Math.round(ctrl_n*100)},
+    {l:'Model policy',v:Math.round(pol_n*100)},
+  ];
+  const min_dim=dims_data.reduce((a,b)=>b.v<a.v?b:a);
+
+  const interventions={
+    'Value realization':[
+      {p:'P0',t:'Define measurable business outcomes before scaling spend',w:'Cannot improve what is not measured. Value realization is the primary bottleneck.'},
+      {p:'P1',t:'Instrument AI usage per use case — connect token consumption to outcomes',w:'Aggregated spend data hides which use cases generate value.'},
+      {p:'P2',t:'Run 30-day value audit — find top 3 highest-ROI use cases',w:'Pareto applies: 20% of use cases typically generate 80% of value.'},
+    ],
+    'User adoption':[
+      {p:'P0',t:'Reduce time-to-first-value to under 30 minutes with guided onboarding',w:'Low adoption means high cost per active user.'},
+      {p:'P1',t:'Activate internal AI champions — peer-to-peer adoption spreads fastest',w:'Social proof within teams is the strongest adoption driver.'},
+      {p:'P2',t:'Publish internal AI use case library with peer examples',w:'Teams adopt faster when they see what works for colleagues.'},
+    ],
+    'Cost visibility':[
+      {p:'P0',t:'Implement real-time token cost dashboards per team',w:'Monthly invoices create a 30-day feedback delay. You cannot govern what you cannot see.'},
+      {p:'P1',t:'Set up cost attribution by team, use case, and model',w:'Visibility alone reduces spend 20-40% through natural behavioral change.'},
+      {p:'P2',t:'Weekly AI spend digest to all team leads',w:'Regular visibility creates accountability without central enforcement.'},
+    ],
+    'Budget controls':[
+      {p:'P0',t:'Implement hard token budget limits per team — not alerts, hard stops',w:'Soft alerts are ignored under deadline pressure.'},
+      {p:'P1',t:'Add early-exit conditions to all agent pipelines',w:'Agents without exit conditions burn tokens even when tasks are essentially complete.'},
+      {p:'P2',t:'Implement prompt caching for repeated queries',w:'Caching reduces cost 40-70% for repeated enterprise AI workflows.'},
+    ],
+    'Model policy':[
+      {p:'P0',t:'Publish model selection policy — which model for which task tier',w:'Without policy, teams default to the most capable (most expensive) model for everything.'},
+      {p:'P1',t:'Route classification and summarization to efficient models',w:'80% of enterprise AI tasks do not need frontier capability. Routing saves 60-80%.'},
+      {p:'P2',t:'Evaluate self-hosted open models for high-volume workloads',w:'Self-hosted Llama eliminates token cost entirely for suitable workloads.'},
+    ],
+  };
+
+  const circ=188.5;
+  const offset=circ-(s/100)*circ;
+  document.getElementById('ring-arc').style.strokeDashoffset=offset;
+  document.getElementById('ring-arc').style.stroke=color;
+  document.getElementById('ring-num').textContent=s;
+  document.getElementById('ring-num').style.color=color;
+
+  document.getElementById('score-title').textContent=`${risk} risk — ${s>=75?'Strong':s>=55?'Moderate':'Weak'} token governance`;
+  document.getElementById('score-sub').textContent=`${org} · ${document.getElementById('provider').value||'AI program'} · ${users.toLocaleString()} users`;
+
+  document.getElementById('statement').innerHTML=
+    `<strong>${org}</strong> spends <strong>${fmt(spend)}/month</strong> on AI, serves <strong>${users.toLocaleString()} users</strong> at <strong>${adopt}% adoption</strong>, saves <strong>${hours.toLocaleString()} hours/month</strong>, and generates an estimated <strong>${fmt(biz)}</strong> in business value — a <strong>${vrr}× value realization ratio</strong>. ASF Governance Score: <strong style="color:${color}">${s}/100 · ${risk} risk</strong>. Primary adaptation bottleneck: <strong>${min_dim.l}</strong>.`;
+
+  document.getElementById('kpis').innerHTML=[
+    {l:'Monthly spend',v:fmt(spend),s:'per month',c:'#f85149'},
+    {l:'Business value',v:fmt(biz),s:'estimated',c:'#3fb950'},
+    {l:'Value ratio',v:vrr+'×',s:'return on spend',c:vrr>=8?'#3fb950':vrr>=4?'#d29922':'#f85149'},
+    {l:'Adoption',v:adopt+'%',s:'of licensed users',c:adopt>=70?'#3fb950':adopt>=40?'#d29922':'#f85149'},
+  ].map(k=>`<div class="kpi"><div class="kl">${k.l}</div><div class="kv" style="color:${k.c}">${k.v}</div><div class="ks">${k.s}</div></div>`).join('');
+
+  document.getElementById('dims').innerHTML=dims_data.map(d=>{
+    const c=d.v>=70?'#3fb950':d.v>=45?'#d29922':'#f85149';
+    return `<div class="dim"><span class="dl">${d.l}</span><div class="dt"><div class="df" style="width:${d.v}%;background:${c}"></div></div><span class="dv" style="color:${c}">${d.v}</span></div>`;
+  }).join('');
+
+  const ints_data=interventions[min_dim.l]||interventions['Value realization'];
+  document.getElementById('ints').innerHTML=ints_data.map(i=>
+    `<div class="int"><span class="${i.p.toLowerCase()}b">${i.p}</span><div><div class="it">${i.t}</div><div class="iw">${i.w}</div></div></div>`
+  ).join('');
+
+  document.getElementById('result').style.display='block';
+  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+</script>
+</body>
+</html>
