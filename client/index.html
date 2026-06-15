@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ASF — Battery Sector Executive Decision Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0f172a;--ink2:#1e293b;--ink3:#334155;--ink4:#64748b;--ink5:#94a3b8;
+  --bg:#f8fafc;--bg2:#f1f5f9;--surf:#fff;--bdr:#e2e8f0;--bdr2:#f1f5f9;
+  --indigo:#4338ca;--indigo-l:#eef2ff;--indigo-b:#c7d2fe;--indigo-dk:#312e81;
+  --cyan:#0891b2;--cyan-l:#ecfeff;--cyan-b:#a5f3fc;
+  --grn:#15803d;--grn-l:#f0fdf4;--grn-b:#bbf7d0;
+  --amb:#b45309;--amb-l:#fffbeb;--amb-b:#fde68a;
+  --red:#b91c1c;--red-l:#fef2f2;--red-b:#fecaca;
+  --pur:#7c3aed;--pur-l:#f5f3ff;--pur-b:#ddd6fe;
+  --r:10px;--rs:6px;
+  --sh:0 1px 3px rgba(0,0,0,.07);--shm:0 4px 14px rgba(0,0,0,.09);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:14px}
+
+/* COVER */
+.cover{background:linear-gradient(145deg,#0f172a 0%,#1e1b4b 45%,#0c2340 100%);overflow:hidden;position:relative;padding-bottom:0}
+.c-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(79,70,229,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(79,70,229,.06) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.c-glow{position:absolute;top:-160px;right:-160px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(99,102,241,.18) 0%,transparent 65%);pointer-events:none}
+.c-inner{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:52px 40px 0}
+.c-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(129,140,248,.3);background:rgba(129,140,248,.1);border-radius:999px;padding:5px 16px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#a5b4fc;margin-bottom:20px}
+.c-dot{width:6px;height:6px;background:#818cf8;border-radius:50%;animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.cover h1{font-family:'IBM Plex Sans',sans-serif;font-size:clamp(22px,3.5vw,40px);font-weight:700;color:#fff;line-height:1.12;max-width:680px;margin-bottom:10px}
+.cover h1 em{font-style:normal;color:#818cf8}
+.c-sub{font-size:14px;color:rgba(255,255,255,.55);max-width:560px;line-height:1.7;margin-bottom:36px}
+
+/* DECISION SIGNAL BAR (replaces old KPI bar) */
+.signal-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);border-radius:var(--r) var(--r) 0 0;overflow:hidden}
+.sig{padding:18px 20px;border-right:1px solid rgba(255,255,255,.07);text-align:center}
+.sig:last-child{border-right:none}
+.sig-label{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:5px}
+.sig-v{font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:700;line-height:1.2;margin-bottom:3px}
+.sig-sub{font-size:10px;color:rgba(255,255,255,.32)}
+.c-bar-note{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:8px 40px;font-size:10px;color:rgba(255,255,255,.25);text-align:right}
+
+/* NAV */
+.nav{background:#fff;border-bottom:1px solid var(--bdr);position:sticky;top:0;z-index:100;overflow-x:auto}
+.nav-in{max-width:1080px;margin:0 auto;padding:0 40px;display:flex;align-items:stretch}
+.nav-brand{display:flex;align-items:center;gap:8px;padding:0 16px 0 0;border-right:1px solid var(--bdr);margin-right:4px;font-size:11px;font-weight:700;color:var(--indigo);letter-spacing:.04em;white-space:nowrap}
+.nav-icon{width:22px;height:22px;background:var(--indigo);border-radius:5px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:800}
+.nav-link{padding:12px 10px;font-size:11px;font-weight:600;color:var(--ink4);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:.15s;letter-spacing:.03em}
+.nav-link:hover{color:var(--indigo);border-color:var(--indigo)}
+
+/* LAYOUT */
+.pg{max-width:1080px;margin:0 auto;padding:0 40px}
+section{padding:52px 0}
+section.alt{background:#fff;border-top:1px solid var(--bdr2);border-bottom:1px solid var(--bdr2)}
+.s-eye{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);margin-bottom:7px}
+.s-rule{width:28px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--indigo),var(--cyan));margin-bottom:12px}
+h2.sh{font-family:'IBM Plex Sans',sans-serif;font-size:21px;font-weight:700;color:var(--ink);margin-bottom:5px}
+.s-sub{font-size:13px;color:var(--ink4);max-width:680px;line-height:1.65;margin-bottom:28px}
+
+/* TABS */
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--bdr);margin-bottom:24px}
+.tab{padding:9px 18px;font-size:12px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;border-radius:var(--rs) var(--rs) 0 0;color:var(--ink4);transition:.15s;white-space:nowrap}
+.tab.on{color:var(--indigo);border-color:var(--indigo);background:var(--indigo-l)}
+.panel{display:none}.panel.on{display:block}
+
+/* COMPANY CARDS */
+.co-head{padding:18px 22px;border-radius:var(--r) var(--r) 0 0;border:2px solid;display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.co-name{font-family:'IBM Plex Sans',sans-serif;font-size:16px;font-weight:700}
+.co-meta{font-size:11px;opacity:.65;margin-top:3px}
+.co-crt{text-align:right}
+.crt-val{font-family:'IBM Plex Sans',sans-serif;font-size:26px;font-weight:800;line-height:1}
+.crt-lab{font-size:9px;text-transform:uppercase;letter-spacing:.08em;opacity:.55;margin-top:3px}
+.co-body{border:2px solid;border-top:none;border-radius:0 0 var(--r) var(--r);overflow:hidden;margin-bottom:20px}
+.hbl .co-head,.hbl .co-body{border-color:#92400e}
+.hbl .co-head{background:linear-gradient(135deg,#78350f,#92400e);color:#fff}
+.ex .co-head,.ex .co-body{border-color:#065f46}
+.ex .co-head{background:linear-gradient(135deg,#064e3b,#065f46);color:#fff}
+.ar .co-head,.ar .co-body{border-color:#1e3a8a}
+.ar .co-head{background:linear-gradient(135deg,#172554,#1e3a8a);color:#fff}
+.co-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.co-block{padding:18px 20px;border-bottom:1px solid var(--bdr);border-right:1px solid var(--bdr)}
+.co-block:nth-child(even){border-right:none}
+.co-block.full{grid-column:1/-1;border-right:none}
+.co-block:nth-last-child(-n+2){border-bottom:none}
+.cb-label{font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink5);margin-bottom:7px}
+.cb-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px}
+.cb-text{font-size:12px;color:var(--ink3);line-height:1.6}
+.chip-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.chip{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700}
+.cr{background:var(--red-l);color:var(--red);border:1px solid var(--red-b)}
+.ca{background:var(--amb-l);color:var(--amb);border:1px solid var(--amb-b)}
+.cg{background:var(--grn-l);color:var(--grn);border:1px solid var(--grn-b)}
+.ci{background:var(--indigo-l);color:var(--indigo);border:1px solid var(--indigo-b)}
+.cc{background:var(--cyan-l);color:var(--cyan);border:1px solid var(--cyan-b)}
+.cp{background:var(--pur-l);color:var(--pur);border:1px solid var(--pur-b)}
+
+/* INTERVENTION WITH TRACE */
+.int-list{display:grid;gap:10px;margin-top:8px}
+.int-item{border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden}
+.int-head{display:flex;gap:10px;padding:12px 14px;cursor:pointer;align-items:flex-start}
+.int-head:hover{background:var(--bg2)}
+.int-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0;margin-top:1px}
+.int-content{flex:1}
+.int-title{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.int-desc{font-size:11px;color:var(--ink3);line-height:1.5}
+.int-toggle{font-size:10px;font-weight:700;color:var(--indigo);margin-top:4px;display:inline-flex;align-items:center;gap:3px}
+.trace-panel{display:none;padding:12px 14px 14px;border-top:1px solid var(--bdr2);background:#fafafa}
+.trace-panel.open{display:block}
+.trace-grid{display:grid;grid-template-columns:130px 1fr;gap:4px 12px;font-size:11px}
+.trace-key{color:var(--ink4);font-weight:600;padding:3px 0}
+.trace-val{color:var(--ink3);padding:3px 0;border-bottom:1px solid var(--bdr2)}
+.trace-key:last-of-type,.trace-val:last-of-type{border-bottom:none}
+.conf-badge{display:inline-block;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:700}
+.conf-h{background:var(--grn-l);color:var(--grn)}
+.conf-m{background:var(--amb-l);color:var(--amb)}
+
+/* IMPACT SIMULATOR */
+.sim-box{background:linear-gradient(135deg,var(--indigo-l),#f0f9ff);border:1px solid var(--indigo-b);border-radius:var(--r);padding:14px 16px;margin-top:10px}
+.sim-label{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--indigo);margin-bottom:10px}
+.sim-row{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center}
+.sim-col{text-align:center}
+.sim-col-label{font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.sim-col-val{font-family:'IBM Plex Sans',sans-serif;font-size:18px;font-weight:800;color:var(--ink)}
+.sim-col-ci{font-size:10px;color:var(--ink4);margin-top:2px}
+.sim-arrow{font-size:18px;color:var(--grn);font-weight:700;text-align:center}
+.sim-saving{text-align:center;margin-top:8px;font-size:11px;color:var(--grn);font-weight:600}
+.sim-caveat{font-size:10px;color:var(--ink5);margin-top:4px;text-align:center}
+
+/* CONFIDENCE BREAKDOWN */
+.conf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+.conf-card{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh)}
+.conf-card-title{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bdr)}
+.conf-dim{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--bdr2);font-size:11px}
+.conf-dim:last-child{border-bottom:none}
+.conf-dim-name{color:var(--ink3)}
+.conf-dim-val{font-weight:700;font-size:10px}
+.ch{color:var(--grn)}.cm{color:var(--amb)}.cl{color:var(--red)}
+.conf-overall{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:8px;border-top:2px solid var(--bdr);font-size:11px;font-weight:700;color:var(--ink)}
+
+/* MONDAY MORNING */
+.mma-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.mma-card{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);border-left:4px solid}
+.mma-num{font-size:11px;font-weight:800;color:var(--ink5);margin-bottom:6px}
+.mma-action{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.35}
+.mma-impact{font-size:11px;color:var(--ink3);line-height:1.55;margin-bottom:8px}
+.mma-meta{display:flex;gap:8px;flex-wrap:wrap}
+.mma-tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px}
+
+/* VALIDATION TRACKER */
+.vt-bar{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:20px 24px;box-shadow:var(--sh);display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;margin-bottom:16px}
+.vt-stats{display:flex;gap:24px}
+.vt-stat{text-align:center}
+.vt-stat-v{font-family:'IBM Plex Sans',sans-serif;font-size:24px;font-weight:800;line-height:1;color:var(--ink)}
+.vt-stat-l{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink4);margin-top:3px}
+.vt-status{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--ink3)}
+.vt-link{font-size:11px;font-weight:700;color:var(--indigo);text-decoration:none}
+.vt-link:hover{text-decoration:underline}
+.pred-rows{display:grid;gap:8px}
+.pred-row{background:#fff;border:1px solid var(--bdr);border-radius:var(--rs);padding:12px 14px;display:grid;grid-template-columns:auto 1fr auto auto;gap:12px;align-items:center;font-size:11px}
+.pred-id{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--indigo);font-weight:700;white-space:nowrap}
+.pred-stmt{font-weight:600;color:var(--ink)}
+.pred-validate{font-size:10px;color:var(--ink4);white-space:nowrap}
+.pred-status{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;white-space:nowrap}
+.ps-active{background:var(--indigo-l);color:var(--indigo)}
+.ps-confirmed{background:var(--grn-l);color:var(--grn)}
+.ps-refuted{background:var(--red-l);color:var(--red)}
+
+/* CRT TIMELINE */
+.crt-track{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:20px 24px;box-shadow:var(--sh);margin-bottom:12px;overflow-x:auto}
+.crt-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.crt-co{font-weight:700;font-size:14px;color:var(--ink)}
+.crt-ci{font-size:11px;color:var(--ink4)}
+.crt-duo{display:grid;gap:8px}
+.crt-row-label{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.crt-phases{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--bdr);border-radius:var(--rs);overflow:hidden;min-width:600px}
+.crt-phase{padding:12px 14px;border-right:1px solid var(--bdr)}
+.crt-phase:last-child{border-right:none}
+.cp-label{font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink5);margin-bottom:4px}
+.cp-head{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px;line-height:1.3}
+.cp-text{font-size:11px;color:var(--ink3);line-height:1.5}
+.cp-tag{display:inline-block;margin-top:5px;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:700}
+.tp-now{background:#e2e8f0;color:#475569}
+.tp-90{background:var(--indigo-l);color:var(--indigo)}
+.tp-6m{background:var(--cyan-l);color:var(--cyan)}
+.tp-12m{background:var(--grn-l);color:var(--grn)}
+.crt-row-act{background:#f8fafc}
+.crt-row-sq{background:#fff8f8}
+.crt-arrow{height:2px;background:linear-gradient(90deg,var(--indigo),var(--grn));border-radius:1px;margin:8px 0 4px;position:relative}
+.crt-arrow::after{content:'';position:absolute;right:-1px;top:-3px;width:0;height:0;border-left:7px solid var(--grn);border-top:4px solid transparent;border-bottom:4px solid transparent}
+.crt-row-sq .crt-arrow{background:linear-gradient(90deg,#e2e8f0,#fca5a5)}
+.crt-row-sq .crt-arrow::after{border-left-color:#ef4444}
+
+/* DEP MAP */
+.dep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.dep-card{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.dep-head{padding:11px 14px;font-size:11px;font-weight:700;border-bottom:2px solid}
+.dep-items{padding:10px 14px;display:grid;gap:6px}
+.dep-item{display:flex;align-items:flex-start;gap:8px;font-size:11px;padding-bottom:6px;border-bottom:1px solid var(--bdr2)}
+.dep-item:last-child{border-bottom:none;padding-bottom:0}
+.dep-content{flex:1}
+.dep-dim{font-weight:600;color:var(--ink)}
+.dep-note{color:var(--ink3);font-size:10px;margin-top:2px}
+.dep-mit{font-size:10px;color:var(--indigo);font-weight:600;margin-top:3px}
+.risk-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.rd-c{background:#dc2626}.rd-h{background:#ea580c}.rd-m{background:#ca8a04}.rd-l{background:#16a34a}
+.dep-legend{display:flex;gap:12px;font-size:10px;color:var(--ink4);align-items:center}
+.dl-i{display:flex;align-items:center;gap:4px}
+
+/* HOW ASF WORKS */
+.flow-steps{display:grid;grid-template-columns:repeat(7,1fr);gap:0;background:#fff;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.flow-step{padding:16px 12px;text-align:center;border-right:1px solid var(--bdr);position:relative}
+.flow-step:last-child{border-right:none}
+.flow-num{width:26px;height:26px;border-radius:50%;background:var(--indigo);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
+.flow-name{font-size:10px;font-weight:700;color:var(--ink);margin-bottom:4px;line-height:1.3}
+.flow-desc{font-size:9px;color:var(--ink4);line-height:1.4}
+.flow-arrow{position:absolute;right:-6px;top:50%;transform:translateY(-50%);z-index:1;font-size:10px;color:var(--indigo);font-weight:700;background:#fff;padding:2px 0}
+
+/* IT MAP */
+.it-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.it-card{background:#fff;border:1px solid var(--bdr);border-radius:var(--r);padding:14px 16px;box-shadow:var(--sh)}
+.it-card-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.it-title{font-size:12px;font-weight:700;color:var(--ink)}
+.it-pri{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;white-space:nowrap}
+.pri-h{background:#fef3c7;color:#92400e}
+.pri-m{background:var(--indigo-l);color:var(--indigo)}
+.pri-e{background:var(--bg2);color:var(--ink4)}
+.it-desc{font-size:11px;color:var(--ink3);line-height:1.55;margin-bottom:7px}
+.it-impact{font-size:10px;font-weight:600;color:var(--grn);margin-bottom:5px}
+.it-tags{display:flex;gap:4px;flex-wrap:wrap}
+.it-tag{font-size:9px;padding:2px 6px;border-radius:3px;background:var(--bg);border:1px solid var(--bdr);color:var(--ink4)}
+
+/* EVIDENCE */
+.ev-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--bdr);box-shadow:var(--sh);margin-bottom:16px}
+table.ev{width:100%;border-collapse:collapse;background:#fff;min-width:640px}
+table.ev th{padding:9px 13px;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:var(--bg);border-bottom:2px solid var(--bdr);color:var(--ink4)}
+table.ev td{padding:9px 13px;font-size:11px;border-bottom:1px solid var(--bdr2);vertical-align:top}
+table.ev tr:last-child td{border-bottom:none}
+.ev-id{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--indigo);font-weight:700}
+.ev-fact{font-weight:600;color:var(--ink);margin-bottom:2px}
+.ev-src{font-size:10px;color:var(--ink4)}
+.ch-b{background:var(--grn-l);color:var(--grn);border:1px solid var(--grn-b);padding:2px 7px;border-radius:3px;font-size:9px;font-weight:700;white-space:nowrap}
+.cm-b{background:var(--amb-l);color:var(--amb);border:1px solid var(--amb-b);padding:2px 7px;border-radius:3px;font-size:9px;font-weight:700;white-space:nowrap}
+
+/* CTA */
+.cta-wrap{background:linear-gradient(140deg,var(--indigo-dk) 0%,#1e1b4b 100%);border-radius:var(--r);padding:36px 40px}
+.cta-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px}
+.cta-tier{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:20px}
+.cta-tier-lab{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.42);margin-bottom:7px}
+.cta-tier-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
+.cta-tier-price{font-size:12px;color:#a5b4fc;margin-bottom:12px}
+.cta-items{display:grid;gap:5px}
+.cta-i{display:flex;gap:7px;font-size:11px;color:rgba(255,255,255,.62)}
+.cta-i-dot{width:5px;height:5px;border-radius:50%;background:#6ee7b7;flex-shrink:0;margin-top:4px}
+.cta-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:18px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.cta-tagline{font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:600;color:#fff;margin-bottom:4px}
+.cta-note{font-size:11px;color:rgba(255,255,255,.45)}
+.cta-contact{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:var(--rs);padding:12px 18px;text-align:center}
+.cta-contact-label{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.4);margin-bottom:4px}
+.cta-contact-email{font-size:13px;font-weight:700;color:#fff}
+
+@media(max-width:800px){
+  .c-inner{padding:32px 18px 0}.signal-bar{grid-template-columns:repeat(2,1fr)}.pg{padding:0 18px}
+  .co-grid{grid-template-columns:1fr}.co-block:nth-child(odd){border-right:none}
+  .dep-grid,.conf-grid,.mma-grid,.cta-top,.it-grid{grid-template-columns:1fr}
+  .crt-phases{grid-template-columns:1fr 1fr}.flow-steps{grid-template-columns:1fr}
+  .flow-step{border-right:none;border-bottom:1px solid var(--bdr)}.flow-arrow{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="c-grid"></div><div class="c-glow"></div>
+  <div class="c-inner">
+    <div class="c-badge"><span class="c-dot"></span>Battery &amp; Industrial Manufacturing · Executive Decision Intelligence · June 2026</div>
+    <h1>Adaptive Systems Framework<br/><em>Capability Realization Intelligence</em></h1>
+    <p class="c-sub">An independent diagnostic that identifies execution bottlenecks, capability gaps, and dependency risks before they appear in financial results — and quantifies the time to close them.</p>
+    <div class="signal-bar">
+      <div class="sig">
+        <div class="sig-label">Highest Risk</div>
+        <div class="sig-v" style="color:#f87171">Amara Raja</div>
+        <div class="sig-sub">27–36 mo CRT · Dual gigafactory</div>
+      </div>
+      <div class="sig">
+        <div class="sig-label">Most Urgent Intervention</div>
+        <div class="sig-v" style="color:#fbbf24">Exide — Yield Governance</div>
+        <div class="sig-sub">₹4,800 Cr at risk · 60-day window</div>
+      </div>
+      <div class="sig">
+        <div class="sig-label">Strongest Position</div>
+        <div class="sig-v" style="color:#34d399">HBL Engineering</div>
+        <div class="sig-sub">9–18 mo CRT · Kavach execution strong</div>
+      </div>
+      <div class="sig">
+        <div class="sig-label">Capital Concentration</div>
+        <div class="sig-v" style="color:#a5b4fc">₹14,300 Cr</div>
+        <div class="sig-sub">Technology transition capex, 3 companies</div>
+      </div>
+    </div>
+  </div>
+  <div class="c-bar-note">All findings based on publicly disclosed information · Internal data reduces confidence intervals by 50–60%</div>
+  <div style="height:36px"></div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-in">
+    <div class="nav-brand"><div class="nav-icon">ASF</div>Intelligence</div>
+    <a class="nav-link" href="#s1">Company Analysis</a>
+    <a class="nav-link" href="#s2">Confidence</a>
+    <a class="nav-link" href="#s3">Monday Actions</a>
+    <a class="nav-link" href="#s4">CRT Timeline</a>
+    <a class="nav-link" href="#s5">Dependency Map</a>
+    <a class="nav-link" href="#s6">IT Opportunities</a>
+    <a class="nav-link" href="#s7">How ASF Works</a>
+    <a class="nav-link" href="#s8">Evidence</a>
+    <a class="nav-link" href="#s9">Predictions</a>
+    <a class="nav-link" href="#s10">Engage</a>
+  </div>
+</nav>
+
+<!-- S1: COMPANY ANALYSIS -->
+<section class="alt" id="s1">
+  <div class="pg">
+    <div class="s-eye">Section 1 · Company Analysis</div>
+    <div class="s-rule"></div>
+    <h2 class="sh">Strategic Diagnostic by Company</h2>
+    <p class="s-sub">For each intervention, click <strong>Show Rationale</strong> to see the decision trace — the evidence, signals, and dependencies behind the recommendation.</p>
+
+    <div class="tabs">
+      <div class="tab on" onclick="sw(this,'hbl')">HBL Engineering</div>
+      <div class="tab" onclick="sw(this,'exide')">Exide Industries (EESL)</div>
+      <div class="tab" onclick="sw(this,'ar')">Amara Raja</div>
+    </div>
+
+    <!-- HBL -->
+    <div class="panel hbl on" id="p-hbl">
+      <div class="co-head hbl">
+        <div>
+          <div class="co-name">HBL Engineering</div>
+          <div class="co-meta">NSE: HBLENGINE · Dr. A.J. Prasad, CMD · 9M FY26 Revenue ₹2,699 Cr (+80% YoY) · EBITDA 37.23% · CARE A+/Positive</div>
+        </div>
+        <div class="co-crt">
+          <div class="crt-val">9–18 mo</div>
+          <div class="crt-lab">CRT to Post-Kavach Capability<br/>Estimated Time to Outcome · ±25% CI</div>
+        </div>
+      </div>
+      <div class="co-body hbl">
+        <div class="co-grid">
+          <div class="co-block">
+            <div class="cb-label">Strategic Objective</div>
+            <div class="cb-title">Execute Kavach book · Enter TMS/CTC · Scale Ni-Cad exports · Deepen defence</div>
+            <div class="cb-text">₹4,479 Cr Kavach order book (Jul 2025). First Kavach V4.0 OEM certification (May 2025). Post-Kavach growth requires TMS software, Ni-Cad export scale, and defence electronics — all requiring new capabilities.</div>
+          </div>
+          <div class="co-block">
+            <div class="cb-label">Capability Gap — What ASF Detects</div>
+            <div class="cb-title">Three gaps limiting the post-Kavach transition</div>
+            <div class="cb-text">Ni-Cad at 90% utilization — physical ceiling on export growth. TMS software capability not built at scale. Defence electronics requires domains not delivered at volume.</div>
+            <div class="chip-row"><span class="chip cr">Capacity Ceiling</span><span class="chip ca">TMS Talent Gap</span><span class="chip ca">Defence Adjacency</span></div>
+          </div>
+          <div class="co-block full">
+            <div class="cb-label">Intervention Roadmap — Decision Trace Enabled</div>
+            <div class="int-list">
+              <div class="int-item">
+                <div class="int-head" onclick="toggleTrace(this)">
+                  <div class="int-num" style="background:var(--red)">1</div>
+                  <div class="int-content">
+                    <div class="int-title">Commit Ni-Cad capacity expansion — Board decision required within 90 days</div>
+                    <div class="int-desc">New capacity takes 18–24 months to commission. Each quarter deferred delays FY28 export revenue. This is the binding constraint on near-term growth.</div>
+                    <div class="int-toggle">▸ Show Rationale</div>
+                  </div>
+                </div>
+                <div class="trace-panel">
+                  <div class="trace-grid">
+                    <span class="trace-key">Objective</span><span class="trace-val">Scale Ni-Cad exports to reduce government revenue concentration below 55%</span>
+                    <span class="trace-key">Observed Signal</span><span class="trace-val">Ni-Cad capacity at ~90% utilization (CARE Ratings Feb 2026, MEDIUM confidence). Export growth 40% YoY already constrained by physical ceiling.</span>
+                    <span class="trace-key">Dependency Risk</span><span class="trace-val">Vendor/System: Limited global cadmium suppliers. Supply disruption at capacity ceiling = production stop.</span>
+                    <span class="trace-key">Why Priority 1</span><span class="trace-val">This constraint blocks all other export-related objectives. TMS and defence diversification reduce revenue concentration only if Ni-Cad export ceiling is lifted simultaneously.</span>
+                    <span class="trace-key">Expected Impact</span><span class="trace-val">Capacity decision now → equipment commissioned by FY28 → export revenue ceiling lifted. Impact quantification requires internal production data.</span>
+                    <span class="trace-key">Confidence</span><span class="trace-val"><span class="conf-badge conf-m">MEDIUM</span> — utilization figure is CARE-cited, not auditor-verified. If actual utilization is lower, urgency decreases.</span>
+                  </div>
+                  <div class="sim-box">
+                    <div class="sim-label">Intervention Impact Simulation — Ni-Cad Capacity Decision</div>
+                    <div class="sim-row">
+                      <div class="sim-col"><div class="sim-col-label">Current CRT</div><div class="sim-col-val">9–18 mo</div><div class="sim-col-ci">±25% CI</div></div>
+                      <div class="sim-arrow">→</div>
+                      <div class="sim-col"><div class="sim-col-label">Post-Decision CRT</div><div class="sim-col-val" style="color:var(--grn)">7–14 mo</div><div class="sim-col-ci">±25% CI (export path)</div></div>
+                    </div>
+                    <div class="sim-saving">Estimated improvement: 2–4 months · Binding constraint removed</div>
+                    <div class="sim-caveat">Simulation based on public data. Internal capacity and procurement data required for precision.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="int-item">
+                <div class="int-head" onclick="toggleTrace(this)">
+                  <div class="int-num" style="background:var(--amb)">2</div>
+                  <div class="int-content">
+                    <div class="int-title">Launch TMS software engineering team — within 120 days</div>
+                    <div class="int-desc">RDSO TMS tender timeline is 12–18 months from now. HBL must build capability before the tender, not after it.</div>
+                    <div class="int-toggle">▸ Show Rationale</div>
+                  </div>
+                </div>
+                <div class="trace-panel">
+                  <div class="trace-grid">
+                    <span class="trace-key">Objective</span><span class="trace-val">Enter TMS/CTC market as second revenue stream post-Kavach</span>
+                    <span class="trace-key">Observed Signal</span><span class="trace-val">No TMS software team, product programme, or RDSO TMS certification application disclosed in any public filing. HBL's Kavach expertise is hardware + firmware, not application-layer software.</span>
+                    <span class="trace-key">Dependency Risk</span><span class="trace-val">Governance: RDSO TMS tender will require certification of new product category. Qualification timelines are non-negotiable — capability must exist before tender.</span>
+                    <span class="trace-key">Why Priority 2</span><span class="trace-val">TMS tender window is time-bounded. Missing it delays TMS revenue by 24–36 months (next tender cycle). Ni-Cad is priority 1 but TMS hiring can proceed in parallel.</span>
+                    <span class="trace-key">Confidence</span><span class="trace-val"><span class="conf-badge conf-h">HIGH</span> — absence of evidence is itself high-confidence signal here. If TMS development were underway, it would typically appear in investor communications or hiring patterns.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="int-item">
+                <div class="int-head" onclick="toggleTrace(this)">
+                  <div class="int-num" style="background:var(--indigo)">3</div>
+                  <div class="int-content">
+                    <div class="int-title">Deploy regulatory workflow intelligence — automate RDSO submission and escalation</div>
+                    <div class="int-desc">Replace manual RDSO submission with structured digital workflows. Reduce average approval cycle by 30–45 days.</div>
+                    <div class="int-toggle">▸ Show Rationale</div>
+                  </div>
+                </div>
+                <div class="trace-panel">
+                  <div class="trace-grid">
+                    <span class="trace-key">Observed Signal</span><span class="trace-val">FY25: RDSO delay + CLW order adjustment impacted HBL revenue. CARE notes RDSO dependency as a recurring concentration risk. No digital submission or tracking system is disclosed.</span>
+                    <span class="trace-key">Status Quo Risk</span><span class="trace-val">Without intervention, next RDSO delay will surface as a revenue event in quarterly results rather than as a managed programme risk with early warning. This is the pattern that produced FY25 impact.</span>
+                    <span class="trace-key">Evidence</span><span class="trace-val">E-HBL-01 (HIGH): RDSO V4.0 certification May 2025. E-HBL-03 (HIGH): FY25 RDSO delay revenue impact. CARE Ratings Feb 2026.</span>
+                    <span class="trace-key">Confidence</span><span class="trace-val"><span class="conf-badge conf-h">HIGH</span> — structural dependency is well-documented. Cycle time improvement estimate (30–45 days) is a directional estimate, not a guaranteed outcome.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="co-block full">
+            <div class="cb-label">Status Quo Risk — If Leadership Does Not Act in 90 Days</div>
+            <div style="background:var(--red-l);border:1px solid var(--red-b);border-radius:var(--rs);padding:12px 14px;font-size:12px;color:#7f1d1d;line-height:1.65">
+              Ni-Cad export ceiling remains in place through FY28. TMS opportunity window closes if RDSO tender releases and HBL is not certified. Next RDSO delay will surface as a board-level revenue surprise rather than a managed programme risk. Government revenue concentration remains above 60% with no reduction path activated.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXIDE -->
+    <div class="panel ex" id="p-exide">
+      <div class="co-head ex">
+        <div>
+          <div class="co-name">Exide Industries (EESL)</div>
+          <div class="co-meta">NSE: EXIDEIND · Pravin Saraf, EESL MD &amp; CEO (Dec 2025) · ₹4,800 Cr invested · ₹0 Li-ion revenue · ICRA AAA/Stable</div>
+        </div>
+        <div class="co-crt">
+          <div class="crt-val">18–24 mo</div>
+          <div class="crt-lab">CRT to Commercial Li-ion Revenue<br/>Estimated Time to Outcome · ±30% CI</div>
+        </div>
+      </div>
+      <div class="co-body ex">
+        <div class="co-grid">
+          <div class="co-block">
+            <div class="cb-label">Strategic Objective</div>
+            <div class="cb-title">Commercial LFP/NMC cells · Hyundai/Kia supply qualification · Cost parity by FY28</div>
+            <div class="cb-text">₹4,202–4,802 Cr deployed in EESL. Bengaluru 6 GWh facility in trial production. Hyundai/Kia MoU (Apr 2024). SVOLT technology partner. New CEO (Dec 2025) = fresh mandate window.</div>
+          </div>
+          <div class="co-block">
+            <div class="cb-label">Capability Gap — What ASF Detects</div>
+            <div class="cb-title">Trial production ≠ Commercial manufacturing capability</div>
+            <div class="cb-text">The gap is process engineering and quality management, not technology. Cell yield rates are the most decision-critical unknown. Every commercialization timeline is directional until yield rates are governed.</div>
+            <div class="chip-row"><span class="chip cr">Yield Rate Unknown</span><span class="chip cr">Process Capability Gap</span><span class="chip ca">OEM Qualification Pending</span></div>
+          </div>
+          <div class="co-block full">
+            <div class="cb-label">Intervention Roadmap — Decision Trace Enabled</div>
+            <div class="int-list">
+              <div class="int-item">
+                <div class="int-head" onclick="toggleTrace(this)">
+                  <div class="int-num" style="background:var(--red)">1</div>
+                  <div class="int-content">
+                    <div class="int-title">Establish yield rate governance — CEO's Priority 1 action within 60 days</div>
+                    <div class="int-desc">Cell yield rates must become a board-visible metric within 60 days. No commercialization decision is reliable without this data.</div>
+                    <div class="int-toggle">▸ Show Rationale</div>
+                  </div>
+                </div>
+                <div class="trace-panel">
+                  <div class="trace-grid">
+                    <span class="trace-key">Observed Signal</span><span class="trace-val">Exide's trial production has been ongoing since H1 FY26. No yield rates, formation yields, or process consistency metrics have been disclosed in any public filing, ICRA report, or investor communication.</span>
+                    <span class="trace-key">What This Signals</span><span class="trace-val">Either yield rates are not being systematically measured, or they are being measured but are not at commercially acceptable levels. Both scenarios are risk signals.</span>
+                    <span class="trace-key">New CEO Entry Angle</span><span class="trace-val">Pravin Saraf took the EESL CEO role December 22, 2025. A new CEO's first external signal will define the programme's credibility with Hyundai/Kia and ICRA. Yield governance established in first 60 days is a trust-building action.</span>
+                    <span class="trace-key">Evidence</span><span class="trace-val">E-EX-01 (HIGH): Zero Li-ion revenue, ICRA Jul 2024. E-EX-04 (HIGH): New CEO NSE filing Dec 22, 2025. E-EX-07 (HIGH): Two successive commercialization delays.</span>
+                    <span class="trace-key">Confidence</span><span class="trace-val"><span class="conf-badge conf-h">HIGH</span> — Absence of yield data in a programme with ₹4,800 Cr deployed and two delays is itself a high-confidence risk signal.</span>
+                  </div>
+                  <div class="sim-box">
+                    <div class="sim-label">Intervention Impact Simulation — MES + Yield Governance</div>
+                    <div class="sim-row">
+                      <div class="sim-col"><div class="sim-col-label">Current CRT</div><div class="sim-col-val">18–24 mo</div><div class="sim-col-ci">±30% CI</div></div>
+                      <div class="sim-arrow">→</div>
+                      <div class="sim-col"><div class="sim-col-label">Post-Intervention CRT</div><div class="sim-col-val" style="color:var(--grn)">14–20 mo</div><div class="sim-col-ci">±20% CI (yield data visible)</div></div>
+                    </div>
+                    <div class="sim-saving">Estimated improvement: 3–5 months · Confidence interval narrows by 33%</div>
+                    <div class="sim-caveat">CRT improvement requires yield rates to be at or near commercial specification. If yield is very low, CRT may extend regardless of governance.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="int-item">
+                <div class="int-head" onclick="toggleTrace(this)">
+                  <div class="int-num" style="background:var(--amb)">2</div>
+                  <div class="int-content">
+                    <div class="int-title">Deploy AI quality analytics on cell production line — within 90 days</div>
+                    <div class="int-desc">Manual inspection cannot detect process variation at commercial scale. AI-based analytics compresses the trial-to-commercial quality gap.</div>
+                    <div class="int-toggle">▸ Show Rationale</div>
+                  </div>
+                </div>
+                <div class="trace-panel">
+                  <div class="trace-grid">
+                    <span class="trace-key">Observed Signal</span><span class="trace-val">Trial scale production. Manual quality processes at trial scale are insufficient for OEM-grade consistency at commercial volume. SVOLT technology transfer provides cell chemistry — not quality system.</span>
+                    <span class="trace-key">Dependency Risk</span><span class="trace-val">SVOLT controls the technology transfer pace. Exide cannot control when SVOLT delivers process engineering improvements. AI quality analytics is an intervention Exide can control independently.</span>
+                    <span class="trace-key">Why Priority 2</span><span class="trace-val">AI quality analytics is within Exide's internal control (Priority 1 is about creating visibility; this is about using that visibility to improve). Can be deployed without SVOLT involvement.</span>
+                    <span class="trace-key">Confidence</span><span class="trace-val"><span class="conf-badge conf-m">MEDIUM</span> — deployment timeline estimate (90 days) is directional. Actual timeline depends on Bengaluru facility access, integration with existing systems.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="int-item">
+                <div class="int-head" onclick="toggleTrace(this)">
+                  <div class="int-num" style="background:var(--indigo)">3</div>
+                  <div class="int-content">
+                    <div class="int-title">Build OEM qualification data infrastructure — Hyundai/Kia readiness within 6 months</div>
+                    <div class="int-desc">Build the data traceability system now, before cells achieve commercial specification, so qualification does not add delay.</div>
+                    <div class="int-toggle">▸ Show Rationale</div>
+                  </div>
+                </div>
+                <div class="trace-panel">
+                  <div class="trace-grid">
+                    <span class="trace-key">Evidence</span><span class="trace-val">E-EX-03 (HIGH): Hyundai/Kia MoU signed April 2024. OEM qualification requires systematic test data, lot traceability, and specification adherence documentation that must be prepared in advance.</span>
+                    <span class="trace-key">Rationale</span><span class="trace-val">Building the qualification data system in parallel with cell development means when cells achieve commercial specification, qualification can begin immediately rather than requiring an additional build phase.</span>
+                    <span class="trace-key">Confidence</span><span class="trace-val"><span class="conf-badge conf-m">MEDIUM</span> — Hyundai/Kia qualification requirements are standard OEM practice but specific requirements are governed by MoU terms that are not publicly disclosed.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="co-block full">
+            <div class="cb-label">Status Quo Risk — If Leadership Does Not Act in 90 Days</div>
+            <div style="background:var(--red-l);border:1px solid var(--red-b);border-radius:var(--rs);padding:12px 14px;font-size:12px;color:#7f1d1d;line-height:1.65">
+              ICRA noted ₹4,802 Cr capex without Li-ion revenue as a potential downgrade trigger. Each quarter without commercial progress increases ICRA review probability. Hyundai/Kia may seek alternative supply if Exide misses qualification windows. A third successive commercialization deferral would materially damage the programme's credibility with all stakeholders.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AR -->
+    <div class="panel ar" id="p-ar">
+      <div class="co-head ar">
+        <div>
+          <div class="co-name">Amara Raja Energy &amp; Mobility</div>
+          <div class="co-meta">NSE: ARE&amp;M · Jayadev Galla, Chairman MD &amp; CEO · ₹9,500 Cr programme · EV (16 GWh) + BESS (5 GWh) + LAB · 3 leadership roles ramping</div>
+        </div>
+        <div class="co-crt">
+          <div class="crt-val">27–36 mo</div>
+          <div class="crt-lab">CRT to EV Cell Revenue<br/>Estimated Time to Outcome · ±35% CI</div>
+        </div>
+      </div>
+      <div class="co-body ar">
+        <div class="co-grid">
+          <div class="co-block">
+            <div class="cb-label">Strategic Objective</div>
+            <div class="cb-title">EV gigafactory (16 GWh) + BESS gigafactory (5 GWh) + LAB leadership</div>
+            <div class="cb-text">Three simultaneous technology transitions. CQP construction commenced August 2025 (Guntakal, AP). Gotion technology partner for both gigafactories. New COO (Jan 2026), ARACT Head (Apr 2026), CMO International (Apr 2026) — all ramping during highest-complexity period.</div>
+          </div>
+          <div class="co-block">
+            <div class="cb-label">Capability Gap — What ASF Detects</div>
+            <div class="cb-title">Dual gigafactory resource conflict is the binding constraint</div>
+            <div class="cb-text">EV and BESS compete for the same management bandwidth, equipment procurement capacity, Gotion support, and capital approval cycles. No public prioritization decision disclosed.</div>
+            <div class="chip-row"><span class="chip cr">Dual-Build Conflict</span><span class="chip cr">Zero Cell Experience</span><span class="chip ca">3 Leadership Positions Ramping</span><span class="chip ca">Gotion Dependency</span></div>
+          </div>
+          <div class="co-block full">
+            <div class="cb-label">Intervention Roadmap — Decision Trace Enabled</div>
+            <div class="int-list">
+              <div class="int-item">
+                <div class="int-head" onclick="toggleTrace(this)">
+                  <div class="int-num" style="background:var(--red)">1</div>
+                  <div class="int-content">
+                    <div class="int-title">Formally sequence EV vs BESS — Board decision within 90 days</div>
+                    <div class="int-desc">Without explicit sequencing, both programmes underperform. A board-level decision removes the resource conflict before it becomes visible to investors and credit agencies.</div>
+                    <div class="int-toggle">▸ Show Rationale</div>
+                  </div>
+                </div>
+                <div class="trace-panel">
+                  <div class="trace-grid">
+                    <span class="trace-key">Observed Signal</span><span class="trace-val">Amara Raja announced 5 GWh BESS gigafactory (E-AR-01, HIGH) alongside existing 16 GWh EV programme. Both are described as simultaneous in public communications. No prioritization or sequencing decision disclosed.</span>
+                    <span class="trace-key">Why Critical</span><span class="trace-val">Three new senior leaders (COO, ARACT Head, CMO International) are simultaneously ramping. Leadership bandwidth is the scarcest resource during the highest-complexity programme period. Running both factories at full intensity is not operationally viable with current team structure.</span>
+                    <span class="trace-key">What Happens If No Decision</span><span class="trace-val">Both programmes proceed at reduced velocity. Neither hits commissioning milestones on schedule. Credit agencies may note execution risk. Gotion support gets split across two programmes, reducing technology transfer quality for both.</span>
+                    <span class="trace-key">Confidence</span><span class="trace-val"><span class="conf-badge conf-h">HIGH</span> — resource conflict analysis is based on verifiable organizational facts (2 programmes, 3 new leaders). Specific impact requires internal resource data.</span>
+                  </div>
+                  <div class="sim-box">
+                    <div class="sim-label">Intervention Impact Simulation — EV/BESS Sequencing Decision</div>
+                    <div class="sim-row">
+                      <div class="sim-col"><div class="sim-col-label">Current CRT (EV)</div><div class="sim-col-val">27–36 mo</div><div class="sim-col-ci">±35% CI</div></div>
+                      <div class="sim-arrow">→</div>
+                      <div class="sim-col"><div class="sim-col-label">Post-Sequencing CRT</div><div class="sim-col-val" style="color:var(--grn)">22–30 mo</div><div class="sim-col-ci">±30% CI</div></div>
+                    </div>
+                    <div class="sim-saving">Estimated improvement: 4–6 months on EV CRT · BESS deferred by 6–9 months (explicit)</div>
+                    <div class="sim-caveat">Sequencing EV first accelerates EV; it delays BESS by definition. The net programme value depends on EV vs BESS commercial priority — a strategic decision only Amara Raja leadership can make.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="int-item">
+                <div class="int-head" onclick="toggleTrace(this)">
+                  <div class="int-num" style="background:var(--amb)">2</div>
+                  <div class="int-content">
+                    <div class="int-title">Deploy programme intelligence platform — unified CQP + BESS visibility within 60 days</div>
+                    <div class="int-desc">Managing two gigafactory programmes without a unified data platform means leadership is making decisions on meeting cadences, not data signals.</div>
+                    <div class="int-toggle">▸ Show Rationale</div>
+                  </div>
+                </div>
+                <div class="trace-panel">
+                  <div class="trace-grid">
+                    <span class="trace-key">Observed Signal</span><span class="trace-val">No unified programme intelligence platform disclosed. At ₹9,500 Cr programme scale with two simultaneous gigafactories, Gotion handover tracking, equipment procurement, and workforce readiness require structured programme data management — not meeting cadences.</span>
+                    <span class="trace-key">Leadership Gap</span><span class="trace-val">Three new senior leaders ramping simultaneously means institutional knowledge is fragmented. A programme data platform creates shared visibility that reduces onboarding friction and prevents information silos.</span>
+                    <span class="trace-key">Confidence</span><span class="trace-val"><span class="conf-badge conf-m">MEDIUM</span> — absence of disclosed programme platform is the signal. Internal tools may exist but not be disclosed publicly.</span>
+                  </div>
+                </div>
+              </div>
+              <div class="int-item">
+                <div class="int-head" onclick="toggleTrace(this)">
+                  <div class="int-num" style="background:var(--indigo)">3</div>
+                  <div class="int-content">
+                    <div class="int-title">Launch Giga Corridor cell manufacturing talent programme — within 120 days</div>
+                    <div class="int-desc">Cell manufacturing engineers are globally scarce. A talent programme starting now is the only way to have a qualified workforce at CQP commissioning.</div>
+                    <div class="int-toggle">▸ Show Rationale</div>
+                  </div>
+                </div>
+                <div class="trace-panel">
+                  <div class="trace-grid">
+                    <span class="trace-key">Observed Signal</span><span class="trace-val">Amara Raja has no prior cell manufacturing experience (LAB manufacturing is a different engineering discipline). CQP commissioning is estimated 12–18 months from now. Cell manufacturing engineer training takes 6–12 months at minimum.</span>
+                    <span class="trace-key">Timeline Constraint</span><span class="trace-val">A talent programme started in month 5 produces qualified engineers in months 11–17. CQP commissioning in month 15 requires engineers available by month 12. Window is tight — starting later risks a commissioning delay caused entirely by workforce readiness, not technology.</span>
+                    <span class="trace-key">Confidence</span><span class="trace-val"><span class="conf-badge conf-m">MEDIUM</span> — CQP commissioning timeline is derived from public construction start date (Aug 2025) and standard gigafactory timelines. Actual schedule may vary.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="co-block full">
+            <div class="cb-label">Status Quo Risk — If Leadership Does Not Act in 90 Days</div>
+            <div style="background:var(--red-l);border:1px solid var(--red-b);border-radius:var(--rs);padding:12px 14px;font-size:12px;color:#7f1d1d;line-height:1.65">
+              Resource conflict between EV and BESS programmes continues unresolved. Three new leaders operating without shared programme data. Cell manufacturing workforce cannot be built in time for commissioning. CRT extends from 27–36 months to 33–45+ months. First CRT range already at the upper bound of comparable gigafactory programmes globally.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2: CONFIDENCE BREAKDOWN -->
+<section id="s2">
+  <div class="pg">
+    <div class="s-eye">Section 2 · Confidence Breakdown</div>
+    <div class="s-rule"></div>
+    <h2 class="sh">Why Are We Confident (or Not) in Each Estimate?</h2>
+    <p class="s-sub">Confidence is built from six dimensions. Each dimension is rated by the quality of evidence available. Internal engagement data systematically upgrades MEDIUM dimensions to HIGH.</p>
+    <div class="conf-grid">
+      <div class="conf-card">
+        <div class="conf-card-title">HBL Engineering · Overall: HIGH</div>
+        <div class="conf-dim"><span class="conf-dim-name">Execution Capability</span><span class="conf-dim-val ch">HIGH</span></div>
+        <div class="conf-dim"><span class="conf-dim-name">Technology Readiness</span><span class="conf-dim-val ch">HIGH</span></div>
+        <div class="conf-dim"><span class="conf-dim-name">Data Readiness</span><span class="conf-dim-val cm">MEDIUM</span></div>
+        <div class="conf-dim"><span class="conf-dim-name">Leadership Alignment</span><span class="conf-dim-val ch">HIGH</span></div>
+        <div class="conf-dim"><span class="conf-dim-name">Dependency Risk</span><span class="conf-dim-val ch">HIGH</span></div>
+        <div class="conf-dim"><span class="conf-dim-name">Evidence Quality</span><span class="conf-dim-val ch">HIGH</span></div>
+        <div class="conf-overall"><span>CI Applied</span><span style="color:var(--grn)">±25%</span></div>
+      </div>
+      <div class="conf-card">
+        <div class="conf-card-title">Exide EESL · Overall: MEDIUM-HIGH</div>
+        <div class="conf-dim"><span class="conf-dim-name">Execution Capability</span><span class="conf-dim-val cm">MEDIUM</span></div>
+        <div class="conf-dim"><span class="conf-dim-name">Technology Readiness</span><span class="conf-dim-val cm">MEDIUM</span></div>
+        <div class="conf-dim"><span class="conf-dim-name">Data Readiness</span><span class="conf-dim-val cl">LOW — Yield Not Disclosed</span></div>
+        <div class="conf-dim"><span class="conf-dim-name">Leadership Alignment</span><span class="conf-dim-val cm">MEDIUM — New CEO</span></div>
+        <div class="conf-dim"><span class="conf-dim-name">Dependency Risk</span><span class="conf-dim-val ch">HIGH</span></div>
+        <div class="conf-dim"><span class="conf-dim-name">Evidence Quality</span><span class="conf-dim-val ch">HIGH</span></div>
+        <div class="conf-overall"><span>CI Applied</span><span style="color:var(--amb)">±30%</span></div>
+      </div>
+      <div class="conf-card">
+        <div class="conf-card-title">Amara Raja · Overall: MEDIUM</div>
+        <div class="conf-dim"><span class="conf-dim-name">Execution Capability</span><span class="conf-dim-val cm">MEDIUM — No Cell Exp.</span></div>
+        <div class="conf-dim"><span class="conf-dim-name">Technology Readiness</span><span class="conf-dim-val cm">MEDIUM — Gotion TT</span></div>
+        <div class="conf-dim"><span class="conf-dim-name">Data Readiness</span><span class="conf-dim-val cl">LOW — No Prog. Platform</span></div>
+        <div class="conf-dim"><span class="conf-dim-name">Leadership Alignment</span><span class="conf-dim-val cl">LOW — 3 Roles Ramping</span></div>
+        <div class="conf-dim"><span class="conf-dim-name">Dependency Risk</span><span class="conf-dim-val ch">HIGH — Dual Dependency</span></div>
+        <div class="conf-dim"><span class="conf-dim-name">Evidence Quality</span><span class="conf-dim-val ch">HIGH</span></div>
+        <div class="conf-overall"><span>CI Applied</span><span style="color:var(--red)">±35%</span></div>
+      </div>
+    </div>
+    <div style="background:var(--indigo-l);border:1px solid var(--indigo-b);border-radius:var(--rs);padding:12px 16px;font-size:12px;color:var(--indigo-dk)">
+      <strong>What improves confidence:</strong> Internal programme data (yield rates, production schedules, leadership decision logs, resource plans) upgrades MEDIUM/LOW dimensions to HIGH and narrows CI from ±30–35% to ±15–20%. A Tier 1 engagement (4 weeks) typically upgrades 3–4 dimensions per company.
+    </div>
+  </div>
+</section>
+
+<!-- S3: MONDAY MORNING ACTIONS -->
+<section class="alt" id="s3">
+  <div class="pg">
+    <div class="s-eye">Section 3 · Monday Morning Actions</div>
+    <div class="s-rule"></div>
+    <h2 class="sh">What Leadership Can Do in the Next Leadership Meeting</h2>
+    <p class="s-sub">These are not programme-level recommendations. These are specific decisions or questions leadership can raise in the next 48 hours, based on the diagnostic findings.</p>
+    <div class="mma-grid">
+      <div class="mma-card" style="border-left-color:#92400e">
+        <div class="mma-num">HBL ENGINEERING</div>
+        <div class="mma-action">Ask the board: "Have we committed to a Ni-Cad expansion decision date?"</div>
+        <div class="mma-impact">If the answer is no, the binding constraint on export revenue through FY28 is unaddressed. The specific question forces a timeline commitment, not a discussion.</div>
+        <div class="mma-meta"><span class="mma-tag" style="background:#fef3c7;color:#92400e">Timeline: This week</span><span class="mma-tag" style="background:var(--red-l);color:var(--red)">Priority: Critical</span></div>
+      </div>
+      <div class="mma-card" style="border-left-color:#065f46">
+        <div class="mma-num">EXIDE INDUSTRIES (EESL)</div>
+        <div class="mma-action">Request the current Bengaluru cell yield rate from the programme team — in writing, this week</div>
+        <div class="mma-impact">If the number cannot be provided, or if it is not being systematically tracked, that is itself the finding. A ₹4,800 Cr programme without a governed yield metric is the risk, not the yield rate itself.</div>
+        <div class="mma-meta"><span class="mma-tag" style="background:#d1fae5;color:#065f46">Timeline: 48 hours</span><span class="mma-tag" style="background:var(--red-l);color:var(--red)">Priority: Critical</span></div>
+      </div>
+      <div class="mma-card" style="border-left-color:#1e3a8a">
+        <div class="mma-num">AMARA RAJA</div>
+        <div class="mma-action">Put the EV vs BESS sequencing decision on the next board agenda as a formal resolution, not a discussion item</div>
+        <div class="mma-impact">Every quarter this decision is deferred, both programmes are running below optimal resource allocation. The sequencing decision is the single action that immediately clarifies resource priority for three new senior leaders and Gotion simultaneously.</div>
+        <div class="mma-meta"><span class="mma-tag" style="background:#dbeafe;color:#1e3a8a">Timeline: Next board meeting</span><span class="mma-tag" style="background:var(--red-l);color:var(--red)">Priority: Critical</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S4: CRT TIMELINE WITH STATUS QUO -->
+<section id="s4">
+  <div class="pg">
+    <div class="s-eye">Section 4 · Capability Realization Timeline</div>
+    <div class="s-rule"></div>
+    <h2 class="sh">Two Paths: If Leadership Acts vs. If Nothing Changes</h2>
+    <p class="s-sub">Each company shows both the intervention path (if recommended actions are taken) and the status quo path (if current approach continues unchanged).</p>
+
+    <!-- HBL -->
+    <div class="crt-track">
+      <div class="crt-header">
+        <div class="crt-co">HBL Engineering — Post-Kavach Capability Realization</div>
+        <div class="crt-ci">±25% CI · Public data</div>
+      </div>
+      <div class="crt-duo">
+        <div>
+          <div class="crt-row-label" style="color:var(--grn)">▸ If Leadership Acts</div>
+          <div class="crt-arrow"></div>
+          <div class="crt-phases crt-row-act">
+            <div class="crt-phase"><div class="cp-label">Now</div><div class="cp-head">Kavach strong. Post-Kavach gaps unaddressed.</div><div class="cp-text">Ni-Cad at ceiling. No TMS team. RDSO manual.</div><span class="cp-tag tp-now">Baseline</span></div>
+            <div class="crt-phase"><div class="cp-label">90-Day Action</div><div class="cp-head">Ni-Cad expansion committed. TMS team forming. RDSO workflows live.</div><div class="cp-text">Board approves capacity. Engineering hire begins.</div><span class="cp-tag tp-90">Intervention</span></div>
+            <div class="crt-phase"><div class="cp-label">6-Month Capability</div><div class="cp-head">TMS functional. RDSO cycle time reduced. Export backlog growing.</div><div class="cp-text">First TMS software delivered. RDSO submission automated.</div><span class="cp-tag tp-6m">Capability</span></div>
+            <div class="crt-phase"><div class="cp-label">12-Month Outcome</div><div class="cp-head">TMS tender ready. Export upside unlocked. Dependency managed.</div><div class="cp-text">Government concentration tracking toward 55%.</div><span class="cp-tag tp-12m">Outcome</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="crt-row-label" style="color:var(--red)">✕ Status Quo Path</div>
+          <div class="crt-arrow crt-row-sq"></div>
+          <div class="crt-phases">
+            <div class="crt-phase" style="background:#fff8f8"><div class="cp-label">Now</div><div class="cp-head">Same baseline. No action taken.</div><div class="cp-text">All gaps remain.</div><span class="cp-tag tp-now">Baseline</span></div>
+            <div class="crt-phase" style="background:#fff8f8"><div class="cp-label">90 Days</div><div class="cp-head">Ni-Cad ceiling persists. TMS opportunity window closing.</div><div class="cp-text">Kavach revenue continues. No diversification progress.</div><div class="cp-tag" style="background:var(--red-l);color:var(--red);margin-top:5px">Drift</div></div>
+            <div class="crt-phase" style="background:#fff8f8"><div class="cp-label">6 Months</div><div class="cp-head">RDSO TMS tender likely released. HBL not certified.</div><div class="cp-text">TMS revenue opportunity deferred 24–36 months. Next RDSO event surfaces as revenue risk.</div><div class="cp-tag" style="background:var(--red-l);color:var(--red);margin-top:5px">Missed Window</div></div>
+            <div class="crt-phase" style="background:#fff8f8"><div class="cp-label">12 Months</div><div class="cp-head">Post-Kavach diversification delayed by 18–24 months vs. intervention path.</div><div class="cp-text">Government concentration remains 60%+. Export ceiling intact.</div><div class="cp-tag" style="background:var(--red-l);color:var(--red);margin-top:5px">Delay</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXIDE -->
+    <div class="crt-track">
+      <div class="crt-header">
+        <div class="crt-co">Exide Industries (EESL) — Li-ion Commercialization</div>
+        <div class="crt-ci">±30% CI · Narrows to ±15% with yield data</div>
+      </div>
+      <div class="crt-duo">
+        <div>
+          <div class="crt-row-label" style="color:var(--grn)">▸ If Leadership Acts</div>
+          <div class="crt-arrow"></div>
+          <div class="crt-phases crt-row-act">
+            <div class="crt-phase"><div class="cp-label">Now</div><div class="cp-head">₹4,800 Cr invested. Trial only. Zero revenue.</div><div class="cp-text">New CEO 6 months in role.</div><span class="cp-tag tp-now">Baseline</span></div>
+            <div class="crt-phase"><div class="cp-label">90-Day Action</div><div class="cp-head">MES live. Yield governed. AI quality analytics deployed.</div><div class="cp-text">CEO has data to brief board and Hyundai/Kia.</div><span class="cp-tag tp-90">Intervention</span></div>
+            <div class="crt-phase"><div class="cp-label">6-Month Capability</div><div class="cp-head">Yield improving. OEM data platform building. Qualification on track.</div><div class="cp-text">Hyundai/Kia qualification dataset growing in parallel.</div><span class="cp-tag tp-6m">Capability</span></div>
+            <div class="crt-phase"><div class="cp-label">12-Month Outcome</div><div class="cp-head">Commercial samples ready. Qualification active. Revenue line visible.</div><div class="cp-text">ICRA downgrade risk materially reduced.</div><span class="cp-tag tp-12m">Outcome</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="crt-row-label" style="color:var(--red)">✕ Status Quo Path</div>
+          <div class="crt-arrow crt-row-sq"></div>
+          <div class="crt-phases">
+            <div class="crt-phase" style="background:#fff8f8"><div class="cp-label">Now</div><div class="cp-head">Same baseline.</div></div>
+            <div class="crt-phase" style="background:#fff8f8"><div class="cp-label">90 Days</div><div class="cp-head">Trial production continues. Yield rates unmonitored.</div><div class="cp-text">Leadership decisions made without yield visibility. SVOLT pace controls timeline.</div><div class="cp-tag" style="background:var(--red-l);color:var(--red);margin-top:5px">Data Blind</div></div>
+            <div class="crt-phase" style="background:#fff8f8"><div class="cp-label">6 Months</div><div class="cp-head">Third commercialization deferral risk increases. ICRA review possible.</div><div class="cp-text">Hyundai/Kia patience is finite. Alternative suppliers may be evaluated.</div><div class="cp-tag" style="background:var(--red-l);color:var(--red);margin-top:5px">Escalating Risk</div></div>
+            <div class="crt-phase" style="background:#fff8f8"><div class="cp-label">12 Months</div><div class="cp-head">CRT extends to 24–30 months. ICRA downgrade risk increases.</div><div class="cp-text">₹4,800 Cr without commercial progress for 2+ years triggers rating review.</div><div class="cp-tag" style="background:var(--red-l);color:var(--red);margin-top:5px">Rating Risk</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AR -->
+    <div class="crt-track">
+      <div class="crt-header">
+        <div class="crt-co">Amara Raja — EV + BESS Capability Realization</div>
+        <div class="crt-ci">±35% CI · Dual-build complexity requires internal data</div>
+      </div>
+      <div class="crt-duo">
+        <div>
+          <div class="crt-row-label" style="color:var(--grn)">▸ If Leadership Acts</div>
+          <div class="crt-arrow"></div>
+          <div class="crt-phases crt-row-act">
+            <div class="crt-phase"><div class="cp-label">Now</div><div class="cp-head">Two factories. Three new leaders. Zero cells.</div><span class="cp-tag tp-now">Baseline</span></div>
+            <div class="crt-phase"><div class="cp-label">90-Day Action</div><div class="cp-head">EV/BESS sequencing decided. Programme platform live. Talent programme launched.</div><span class="cp-tag tp-90">Intervention</span></div>
+            <div class="crt-phase"><div class="cp-label">6-Month Capability</div><div class="cp-head">CQP on data-visible schedule. 30+ engineers deployed. Procurement optimized.</div><span class="cp-tag tp-6m">Capability</span></div>
+            <div class="crt-phase"><div class="cp-label">12-Month Outcome</div><div class="cp-head">CQP qualification active. First samples. BESS sequenced with cleared bandwidth.</div><span class="cp-tag tp-12m">Outcome</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="crt-row-label" style="color:var(--red)">✕ Status Quo Path</div>
+          <div class="crt-arrow crt-row-sq"></div>
+          <div class="crt-phases">
+            <div class="crt-phase" style="background:#fff8f8"><div class="cp-label">Now</div><div class="cp-head">Same baseline.</div></div>
+            <div class="crt-phase" style="background:#fff8f8"><div class="cp-label">90 Days</div><div class="cp-head">Resource conflict unresolved. Both programmes below optimal velocity.</div><div class="cp-tag" style="background:var(--red-l);color:var(--red);margin-top:5px">Conflict Active</div></div>
+            <div class="crt-phase" style="background:#fff8f8"><div class="cp-label">6 Months</div><div class="cp-head">CQP commissioning schedule unclear. Talent shortage risk materializing.</div><div class="cp-tag" style="background:var(--red-l);color:var(--red);margin-top:5px">Schedule Risk</div></div>
+            <div class="crt-phase" style="background:#fff8f8"><div class="cp-label">12 Months</div><div class="cp-head">CRT extends to 33–45 months. Commissioning delays from talent + resource conflict.</div><div class="cp-tag" style="background:var(--red-l);color:var(--red);margin-top:5px">Extended CRT</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S5: DEPENDENCY MAP (condensed) -->
+<section class="alt" id="s5">
+  <div class="pg">
+    <div class="s-eye">Section 5 · Dependency Risk Map</div>
+    <div class="s-rule"></div>
+    <h2 class="sh">What Sits Outside Operational Control</h2>
+    <p class="s-sub">These are blockers that cannot be resolved through internal execution alone — each with a specific mitigation path.</p>
+    <div class="dep-grid">
+      <div class="dep-card">
+        <div class="dep-head" style="border-color:#92400e;background:#fffbeb;color:#78350f">HBL Engineering</div>
+        <div class="dep-items">
+          <div class="dep-item"><div class="risk-dot rd-c"></div><div class="dep-content"><div class="dep-dim">Governance — RDSO</div><div class="dep-note">Single approval bottleneck for all products</div><div class="dep-mit">→ Automate submission, add early warning</div></div></div>
+          <div class="dep-item"><div class="risk-dot rd-h"></div><div class="dep-content"><div class="dep-dim">Vendor — Ni-Cad inputs</div><div class="dep-note">Limited global cadmium suppliers</div><div class="dep-mit">→ Dual-source strategy + inventory buffer</div></div></div>
+          <div class="dep-item"><div class="risk-dot rd-h"></div><div class="dep-content"><div class="dep-dim">Workforce — Railway software</div><div class="dep-note">TMS engineers globally scarce</div><div class="dep-mit">→ Start hiring programme now, before tender</div></div></div>
+          <div class="dep-item"><div class="risk-dot rd-m"></div><div class="dep-content"><div class="dep-dim">Data — No RDSO pipeline visibility</div><div class="dep-note">Delay surfaces as revenue event, not leading signal</div><div class="dep-mit">→ Regulatory intelligence dashboard</div></div></div>
+        </div>
+      </div>
+      <div class="dep-card">
+        <div class="dep-head" style="border-color:#065f46;background:#ecfdf5;color:#064e3b">Exide Industries (EESL)</div>
+        <div class="dep-items">
+          <div class="dep-item"><div class="risk-dot rd-c"></div><div class="dep-content"><div class="dep-dim">Technology — SVOLT transfer pace</div><div class="dep-note">Cell chemistry IP is partner-dependent</div><div class="dep-mit">→ Parallel internal process engineering team</div></div></div>
+          <div class="dep-item"><div class="risk-dot rd-c"></div><div class="dep-content"><div class="dep-dim">Data — Yield rates not governed</div><div class="dep-note">Most critical programme data invisible to leadership</div><div class="dep-mit">→ MES deployment — Priority 1 action</div></div></div>
+          <div class="dep-item"><div class="risk-dot rd-h"></div><div class="dep-content"><div class="dep-dim">Vendor — OEM qualification timeline</div><div class="dep-note">Hyundai/Kia approval is OEM-controlled</div><div class="dep-mit">→ Build qualification data system now</div></div></div>
+          <div class="dep-item"><div class="risk-dot rd-h"></div><div class="dep-content"><div class="dep-dim">Workforce — Electrochemistry talent</div><div class="dep-note">Cell engineers globally scarce, India almost none</div><div class="dep-mit">→ International hiring + Gotion training</div></div></div>
+        </div>
+      </div>
+      <div class="dep-card">
+        <div class="dep-head" style="border-color:#1e3a8a;background:#eff6ff;color:#172554">Amara Raja</div>
+        <div class="dep-items">
+          <div class="dep-item"><div class="risk-dot rd-c"></div><div class="dep-content"><div class="dep-dim">Technology — Gotion (dual)</div><div class="dep-note">Both EV + BESS depend on same partner</div><div class="dep-mit">→ Sequencing decision reduces dual-dependency</div></div></div>
+          <div class="dep-item"><div class="risk-dot rd-c"></div><div class="dep-content"><div class="dep-dim">Process — No programme data layer</div><div class="dep-note">Two builds managed without unified platform</div><div class="dep-mit">→ Programme intelligence platform — Priority 2</div></div></div>
+          <div class="dep-item"><div class="risk-dot rd-h"></div><div class="dep-content"><div class="dep-dim">Workforce — 3 leaders ramping</div><div class="dep-note">COO, ARACT Head, CMO all new simultaneously</div><div class="dep-mit">→ Structured onboarding + shared programme data</div></div></div>
+          <div class="dep-item"><div class="risk-dot rd-h"></div><div class="dep-content"><div class="dep-dim">Vendor — No EV off-take disclosed</div><div class="dep-note">Revenue thesis on agreements not yet public</div><div class="dep-mit">→ OEM relationship acceleration post-sequencing</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="dep-legend"><div class="dl-i"><div class="risk-dot rd-c"></div>Critical</div><div class="dl-i"><div class="risk-dot rd-h"></div>High</div><div class="dl-i"><div class="risk-dot rd-m"></div>Medium</div><span style="margin-left:auto;font-size:10px">Each dependency shows a mitigation path</span></div>
+  </div>
+</section>
+
+<!-- S6: IT OPPORTUNITIES -->
+<section id="s6">
+  <div class="pg">
+    <div class="s-eye">Section 6 · Technology Services Opportunity</div>
+    <div class="s-rule"></div>
+    <h2 class="sh">Ranked by CRT Impact — Not by Technology Novelty</h2>
+    <p class="s-sub">Each intervention is prioritized by its estimated impact on Capability Realization Time. High CRT Impact = directly shortens the path to the strategic objective.</p>
+    <div class="it-grid">
+      <div class="it-card"><div class="it-card-head"><div class="it-title">Manufacturing Execution System</div><div class="it-pri pri-h">High CRT Impact</div></div><div class="it-desc">Real-time cell production monitoring, yield tracking, and quality data. Makes the most critical unknown (yield rates) visible to management.</div><div class="it-impact">↑ CRT Impact: −3–5 months (Exide)</div><div class="it-tags"><span class="it-tag">Exide EESL</span><span class="it-tag">Amara Raja</span></div></div>
+      <div class="it-card"><div class="it-card-head"><div class="it-title">AI Quality Analytics</div><div class="it-pri pri-h">High CRT Impact</div></div><div class="it-desc">Computer vision and ML for cell manufacturing quality inspection. Compresses trial-to-commercial gap without waiting for manual quality cycles.</div><div class="it-impact">↑ CRT Impact: −2–4 months (Exide + AR)</div><div class="it-tags"><span class="it-tag">Exide EESL</span><span class="it-tag">Amara Raja</span></div></div>
+      <div class="it-card"><div class="it-card-head"><div class="it-title">ERP / Workflow Automation</div><div class="it-pri pri-h">High CRT Impact</div></div><div class="it-desc">Automate RDSO submission, procurement approvals, and production scheduling. Removes the manual bottleneck that converts regulatory dependency into revenue events.</div><div class="it-impact">↑ CRT Impact: −1–3 months (HBL)</div><div class="it-tags"><span class="it-tag">HBL Engineering</span><span class="it-tag">Regulatory</span></div></div>
+      <div class="it-card"><div class="it-card-head"><div class="it-title">Programme Intelligence Dashboard</div><div class="it-pri pri-h">High CRT Impact</div></div><div class="it-desc">Unified programme tracking across both Amara Raja gigafactories — construction, Gotion handover, equipment procurement, and workforce readiness in one view.</div><div class="it-impact">↑ CRT Impact: −2–4 months (AR)</div><div class="it-tags"><span class="it-tag">Amara Raja</span><span class="it-tag">Programme</span></div></div>
+      <div class="it-card"><div class="it-card-head"><div class="it-title">Predictive Maintenance</div><div class="it-pri pri-m">Medium CRT Impact</div></div><div class="it-desc">Sensor-to-insight pipeline for manufacturing equipment. Increases effective capacity without new capital — directly relevant to HBL Ni-Cad at ceiling utilization.</div><div class="it-impact">↑ CRT Impact: −1–2 months (HBL)</div><div class="it-tags"><span class="it-tag">HBL Engineering</span><span class="it-tag">Manufacturing</span></div></div>
+      <div class="it-card"><div class="it-card-head"><div class="it-title">DevOps / MLOps Platform</div><div class="it-pri pri-m">Medium CRT Impact</div></div><div class="it-desc">Software delivery infrastructure for TMS, CTC, and embedded systems teams. Accelerates HBL's TMS capability build timeline vs. traditional development.</div><div class="it-impact">↑ CRT Impact: −2–4 months (HBL TMS)</div><div class="it-tags"><span class="it-tag">HBL Engineering</span><span class="it-tag">TMS/CTC</span></div></div>
+      <div class="it-card"><div class="it-card-head"><div class="it-title">Supply Chain Analytics</div><div class="it-pri pri-m">Medium CRT Impact</div></div><div class="it-desc">End-to-end supply chain visibility. Risk scoring for critical materials (cadmium, lithium, anode/cathode inputs), lead time forecasting, and alternate sourcing.</div><div class="it-impact">↑ CRT Impact: −1–2 months (all companies)</div><div class="it-tags"><span class="it-tag">All 3 Companies</span><span class="it-tag">Materials</span></div></div>
+      <div class="it-card"><div class="it-card-head"><div class="it-title">Executive Decision Dashboard</div><div class="it-pri pri-m">Medium CRT Impact</div></div><div class="it-desc">Real-time CRT tracking, programme milestone visibility, and dependency risk monitoring at board level. Converts programme execution from meeting-driven to data-driven.</div><div class="it-impact">↑ Decision quality across all programmes</div><div class="it-tags"><span class="it-tag">All 3 Companies</span><span class="it-tag">Board Level</span></div></div>
+      <div class="it-card"><div class="it-card-head"><div class="it-title">Data Governance &amp; OEM Qualification</div><div class="it-pri pri-e">Enabling</div></div><div class="it-desc">Data governance, traceability, and compliance infrastructure. Required for OEM qualification data systems and PLI milestone documentation.</div><div class="it-impact">↑ OEM qualification readiness (Exide + AR)</div><div class="it-tags"><span class="it-tag">Exide EESL</span><span class="it-tag">OEM Qualification</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- S7: HOW ASF WORKS -->
+<section class="alt" id="s7">
+  <div class="pg">
+    <div class="s-eye">Section 7 · How ASF Works</div>
+    <div class="s-rule"></div>
+    <h2 class="sh">From Signal Collection to Executive Decision</h2>
+    <p class="s-sub">ASF is a structured analytical methodology — not a software platform. Each layer represents a disciplined analytical process. Platform automation of individual layers is the roadmap for each engagement.</p>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-name">Signal Collection</div><div class="flow-desc">Regulatory filings, credit reports, investor presentations, exchange disclosures</div><div class="flow-arrow">›</div></div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-name">Capability Mapping</div><div class="flow-desc">10-dimension scoring — current vs required capability per strategic objective</div><div class="flow-arrow">›</div></div>
+      <div class="flow-step"><div class="flow-num">3</div><div class="flow-name">Dependency Risk</div><div class="flow-desc">Six-dimension external risk classification — what is outside operational control</div><div class="flow-arrow">›</div></div>
+      <div class="flow-step"><div class="flow-num">4</div><div class="flow-name">CRT Estimation</div><div class="flow-desc">Time-to-capability estimate with explicit confidence intervals</div><div class="flow-arrow">›</div></div>
+      <div class="flow-step"><div class="flow-num">5</div><div class="flow-name">Intervention Ranking</div><div class="flow-desc">Actions ranked by estimated CRT impact — not by technology preference</div><div class="flow-arrow">›</div></div>
+      <div class="flow-step"><div class="flow-num">6</div><div class="flow-name">Implementation</div><div class="flow-desc">Cloud, AI, data, automation, DevOps — delivered by the LLC</div><div class="flow-arrow">›</div></div>
+      <div class="flow-step"><div class="flow-num">7</div><div class="flow-name">Outcome Tracking</div><div class="flow-desc">Prediction validation and quarterly CRT refresh as programme evolves</div></div>
+    </div>
+    <div style="margin-top:16px;padding:14px 16px;background:#fff;border:1px solid var(--bdr);border-radius:var(--rs);font-size:12px;color:var(--ink3)">
+      <strong style="color:var(--ink)">What internal data changes:</strong> Public data provides the diagnostic framework (Steps 1–5 above) with ±25–35% CI. Internal programme data — yield rates, leadership decision logs, production schedules, resource plans — replaces MEDIUM-confidence items with HIGH-confidence operational data, narrows CI to ±15–20%, and makes the CRT estimate operationally precise rather than directionally indicative.
+    </div>
+  </div>
+</section>
+
+<!-- S8: EVIDENCE -->
+<section id="s8">
+  <div class="pg">
+    <div class="s-eye">Section 8 · Evidence Base</div>
+    <div class="s-rule"></div>
+    <h2 class="sh">Every Finding Has a Source</h2>
+    <p class="s-sub">Key evidence items supporting this analysis. Full 27-item register: <code>validation/battery_asf_evidence_check.md</code></p>
+    <div class="ev-wrap">
+      <table class="ev">
+        <thead><tr><th>ID</th><th>Finding</th><th>Source</th><th>Confidence</th></tr></thead>
+        <tbody>
+          <tr><td class="ev-id">E-HBL-01</td><td><div class="ev-fact">Kavach V4.0 RDSO certification May 13, 2025 — first OEM certified</div><div class="ev-src">CARE Ratings Feb 2026 / RDSO Notice</div></td><td>CARE Ratings</td><td><span class="ch-b">HIGH</span></td></tr>
+          <tr><td class="ev-id">E-HBL-02</td><td><div class="ev-fact">9M FY26 revenue ₹2,699 Cr (+80% YoY) · EBITDA 37.23% · Order book ₹4,479 Cr</div><div class="ev-src">CARE Ratings Feb 2026</div></td><td>CARE Ratings</td><td><span class="ch-b">HIGH</span></td></tr>
+          <tr><td class="ev-id">E-HBL-03</td><td><div class="ev-fact">FY25 RDSO delay impacted revenue · CLW order partially cancelled (~24%)</div><div class="ev-src">CARE Ratings Feb 2026</div></td><td>CARE Ratings</td><td><span class="ch-b">HIGH</span></td></tr>
+          <tr><td class="ev-id">E-HBL-07</td><td><div class="ev-fact">Ni-Cad at ~90% utilization · Export grew ~40% YoY · Second-largest global Ni-Cad claim</div><div class="ev-src">CARE Ratings (utilization) · HBL Annual Report (claim)</div></td><td>CARE / HBL</td><td><span class="cm-b">MEDIUM</span></td></tr>
+          <tr><td class="ev-id">E-EX-01</td><td><div class="ev-fact">EESL Bengaluru 6 GWh in trial production · Zero Li-ion revenue as of Q3 FY26</div><div class="ev-src">ICRA Rating Report · Exide Q3 FY26</div></td><td>ICRA Ratings</td><td><span class="ch-b">HIGH</span></td></tr>
+          <tr><td class="ev-id">E-EX-02</td><td><div class="ev-fact">₹4,202–4,802 Cr invested · ICRA flagged capex without revenue as downgrade trigger</div><div class="ev-src">ICRA Rating Rationale FY26</div></td><td>ICRA Ratings</td><td><span class="ch-b">HIGH</span></td></tr>
+          <tr><td class="ev-id">E-EX-03</td><td><div class="ev-fact">Hyundai/Kia MoU — all India EV models to use EESL LFP cells · Signed April 2024</div><div class="ev-src">Hyundai Global Newsroom Apr 2024</div></td><td>OEM Newsroom</td><td><span class="ch-b">HIGH</span></td></tr>
+          <tr><td class="ev-id">E-EX-04</td><td><div class="ev-fact">Pravin Saraf appointed EESL MD &amp; CEO December 22, 2025</div><div class="ev-src">NSE Board Resolution Dec 22, 2025</div></td><td>NSE Filing</td><td><span class="ch-b">HIGH</span></td></tr>
+          <tr><td class="ev-id">E-AR-01</td><td><div class="ev-fact">5 GWh BESS gigafactory announced simultaneously with existing 16 GWh EV programme</div><div class="ev-src">Amara Raja NSE Filing / Investor Update H2 FY26</div></td><td>NSE Filing</td><td><span class="ch-b">HIGH</span></td></tr>
+          <tr><td class="ev-id">E-AR-02</td><td><div class="ev-fact">CQP construction started August 2025 · Guntakal, AP · Gotion technology partner</div><div class="ev-src">Amara Raja Q2 FY26 Update</div></td><td>NSE Filing</td><td><span class="ch-b">HIGH</span></td></tr>
+          <tr><td class="ev-id">E-AR-03</td><td><div class="ev-fact">New COO (Jan 2026), ARACT Head (Apr 2026), CMO International (Apr 2026) — 3 leadership positions simultaneously ramping</div><div class="ev-src">NSE Corporate Announcements 2026 / LinkedIn</div></td><td>NSE / LinkedIn</td><td><span class="ch-b">HIGH</span></td></tr>
+          <tr><td class="ev-id">E-EX-07</td><td><div class="ev-fact">Commercial cell production target deferred twice: FY25 → FY26 → FY27</div><div class="ev-src">Autocar Professional / Benchmark Minerals 2024–2025</div></td><td>Industry Press</td><td><span class="ch-b">HIGH</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:var(--ink4);padding:0 2px">Full 27-item evidence register with source URLs: <code>validation/battery_asf_evidence_check.md</code> · All claims are traceable to named primary sources · Confidence ratings are explicit and defined in the methodology document.</div>
+  </div>
+</section>
+
+<!-- S9: VALIDATION TRACKER -->
+<section class="alt" id="s9">
+  <div class="pg">
+    <div class="s-eye">Section 9 · Prediction Register</div>
+    <div class="s-rule"></div>
+    <h2 class="sh">Timestamped Predictions — Public Accountability</h2>
+    <p class="s-sub">ASF publishes falsifiable predictions with defined validation dates. Outcomes are recorded regardless of direction. This is a public accountability mechanism, not a marketing claim.</p>
+    <div class="vt-bar">
+      <div class="vt-stats">
+        <div class="vt-stat"><div class="vt-stat-v">8</div><div class="vt-stat-l">Issued</div></div>
+        <div class="vt-stat"><div class="vt-stat-v" style="color:var(--indigo)">8</div><div class="vt-stat-l">Active</div></div>
+        <div class="vt-stat"><div class="vt-stat-v" style="color:var(--grn)">0</div><div class="vt-stat-l">Confirmed</div></div>
+        <div class="vt-stat"><div class="vt-stat-v" style="color:var(--red)">0</div><div class="vt-stat-l">Refuted</div></div>
+      </div>
+      <div class="vt-status">
+        <span>First validation: <strong>September 30, 2026</strong> (ASF-EX-002)</span>
+        <span>Companies covered: <strong>HBL · Exide EESL · Amara Raja</strong></span>
+        <span>Latest validate date: <strong>June 30, 2027</strong></span>
+      </div>
+      <a class="vt-link" href="research/prediction-register.md">Full Register →</a>
+    </div>
+    <div class="pred-rows">
+      <div class="pred-row"><span class="pred-id">ASF-HBL-001</span><div><div class="pred-stmt">HBL will not announce committed Ni-Cad expansion before September 30, 2026</div><div style="font-size:10px;color:var(--ink4);margin-top:2px">Basis: No expansion committed despite 90% utilization. Kavach bandwidth consuming leadership.</div></div><span class="pred-validate">Validate: Dec 31, 2026</span><span class="pred-status ps-active">Active</span></div>
+      <div class="pred-row"><span class="pred-id">ASF-HBL-002</span><div><div class="pred-stmt">HBL will experience at least one RDSO-related delay visible in filings by March 31, 2027</div><div style="font-size:10px;color:var(--ink4);margin-top:2px">Basis: Structural regulatory dependency. 60%+ Kavach concentration. Historical precedent (FY25).</div></div><span class="pred-validate">Validate: Mar 31, 2027</span><span class="pred-status ps-active">Active</span></div>
+      <div class="pred-row"><span class="pred-id">ASF-HBL-003</span><div><div class="pred-stmt">HBL will not have commercial TMS/CTC software revenue by June 30, 2027</div><div style="font-size:10px;color:var(--ink4);margin-top:2px">Basis: No TMS development programme, team, or RDSO TMS certification application disclosed.</div></div><span class="pred-validate">Validate: Jun 30, 2027</span><span class="pred-status ps-active">Active</span></div>
+      <div class="pred-row"><span class="pred-id">ASF-HBL-004</span><div><div class="pred-stmt">HBL government/public sector revenue will remain above 55% through FY27</div><div style="font-size:10px;color:var(--ink4);margin-top:2px">Basis: Kavach order book structure. No diversification at scale currently active.</div></div><span class="pred-validate">Validate: Mar 31, 2027</span><span class="pred-status ps-active">Active</span></div>
+      <div class="pred-row"><span class="pred-id">ASF-EX-001</span><div><div class="pred-stmt">Exide EESL will not achieve commercial cell supply to Hyundai/Kia before March 31, 2027</div><div style="font-size:10px;color:var(--ink4);margin-top:2px">Basis: Two prior deferrals. Trial production only. OEM qualification takes 6–12 months post-commercial yield — timeline structurally cannot close by Mar 2027.</div></div><span class="pred-validate">Validate: Mar 31, 2027</span><span class="pred-status ps-active">Active</span></div>
+      <div class="pred-row"><span class="pred-id">ASF-EX-002</span><div><div class="pred-stmt">ICRA will publish EESL-specific commercialization timeline language as a key rating sensitivity — without a full rating action</div><div style="font-size:10px;color:var(--ink4);margin-top:2px">Basis: ICRA already flagged ₹4,802 Cr without revenue. Third year without commercial progress will harden monitoring language.</div></div><span class="pred-validate">Validate: Sep 30, 2026</span><span class="pred-status ps-active">Active</span></div>
+      <div class="pred-row"><span class="pred-id">ASF-AR-001</span><div><div class="pred-stmt">Amara Raja will not make a formal public EV vs. BESS sequencing decision before December 31, 2026</div><div style="font-size:10px;color:var(--ink4);margin-top:2px">Basis: Organizations rarely disclose internal resource trade-offs proactively. Sequencing will happen operationally but not be formally announced.</div></div><span class="pred-validate">Validate: Dec 31, 2026</span><span class="pred-status ps-active">Active</span></div>
+      <div class="pred-row"><span class="pred-id">ASF-AR-002</span><div><div class="pred-stmt">CQP (Guntakal) will not achieve commercial cell delivery before June 30, 2027</div><div style="font-size:10px;color:var(--ink4);margin-top:2px">Basis: Construction start Aug 2025. No prior cell experience. 3 leaders ramping. Qualification timeline structurally cannot close by Jun 2027.</div></div><span class="pred-validate">Validate: Jun 30, 2027</span><span class="pred-status ps-active">Active</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- S10: CTA -->
+<section id="s10">
+  <div class="pg">
+    <div class="cta-wrap">
+      <div class="cta-top">
+        <div class="cta-tier">
+          <div class="cta-tier-lab">Tier 1 · 4 Weeks</div>
+          <div class="cta-tier-name">Executive Diagnostic</div>
+          <div class="cta-tier-price">₹15–25 Lakhs</div>
+          <div class="cta-items">
+            <div class="cta-i"><div class="cta-i-dot"></div>10-dimension capability assessment using internal programme data</div>
+            <div class="cta-i"><div class="cta-i-dot"></div>CRT per objective — CI narrows to ±12–15% with internal data</div>
+            <div class="cta-i"><div class="cta-i-dot"></div>Binding constraint — the one action with highest CRT impact</div>
+            <div class="cta-i"><div class="cta-i-dot"></div>Dependency Risk Map with mitigation recommendations</div>
+            <div class="cta-i"><div class="cta-i-dot"></div>CEO-format dashboard + Intervention Roadmap</div>
+            <div class="cta-i"><div class="cta-i-dot"></div>Timestamped prediction register — publicly tracked</div>
+          </div>
+        </div>
+        <div class="cta-tier">
+          <div class="cta-tier-lab">Tier 2 · 8 Weeks</div>
+          <div class="cta-tier-name">Transformation Roadmap</div>
+          <div class="cta-tier-price">₹50–80 Lakhs</div>
+          <div class="cta-items">
+            <div class="cta-i"><div class="cta-i-dot"></div>Everything in Tier 1, plus multi-programme CRT modelling</div>
+            <div class="cta-i"><div class="cta-i-dot"></div>Resource conflict analysis across parallel programmes</div>
+            <div class="cta-i"><div class="cta-i-dot"></div>Technology intervention scoring — CRT impact per investment</div>
+            <div class="cta-i"><div class="cta-i-dot"></div>Scenario modelling: CRT impact of each leadership decision</div>
+            <div class="cta-i"><div class="cta-i-dot"></div>Board-ready presentation with quantified action value</div>
+            <div class="cta-i"><div class="cta-i-dot"></div>Implementation brief for cloud, AI, data, DevOps delivery</div>
+          </div>
+        </div>
+        <div class="cta-tier">
+          <div class="cta-tier-lab">Tier 3 · Quarterly</div>
+          <div class="cta-tier-name">Implementation Partnership</div>
+          <div class="cta-tier-price">₹10–18 Lakhs / Quarter</div>
+          <div class="cta-items">
+            <div class="cta-i"><div class="cta-i-dot"></div>Quarterly CRT refresh as programme data evolves</div>
+            <div class="cta-i"><div class="cta-i-dot"></div>Live capability dashboard for board meetings</div>
+            <div class="cta-i"><div class="cta-i-dot"></div>Prediction register maintained and validated</div>
+            <div class="cta-i"><div class="cta-i-dot"></div>Technology implementation: cloud, AI, data, automation, DevOps</div>
+            <div class="cta-i"><div class="cta-i-dot"></div>Monthly early-warning signal review</div>
+            <div class="cta-i"><div class="cta-i-dot"></div>On-call executive intelligence between quarterly cycles</div>
+          </div>
+        </div>
+      </div>
+      <div class="cta-bottom">
+        <div>
+          <div class="cta-tagline">A 30-minute briefing uses your company's public data. No preparation required.</div>
+          <div class="cta-note">Your company's CRT estimate takes 30 minutes to produce from public disclosures. Internal programme data reduces confidence intervals by 50–60% and makes the output operationally precise rather than directionally indicative.</div>
+        </div>
+        <div class="cta-contact">
+          <div class="cta-contact-label">Start a conversation</div>
+          <div class="cta-contact-email">github.com/hdannabo/<br/>adaptive-systems-framework</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="background:var(--ink);color:rgba(255,255,255,.3);text-align:center;padding:28px 20px;font-size:11px">
+  <div style="font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,.55);margin-bottom:6px">Adaptive Systems Framework · Capability Realization Intelligence</div>
+  <p>Battery &amp; Industrial Manufacturing · India · Cloud · AI · Automation · DevOps · Data · Operational Optimization</p>
+  <p style="margin-top:6px">All analysis based on publicly disclosed information · June 2026 · github.com/hdannabo/adaptive-systems-framework</p>
+  <p style="margin-top:8px;color:rgba(255,255,255,.18)">Internal data improves precision. Every finding is evidence-backed. No fabricated clients, revenue, or outcomes.</p>
+</footer>
+
+<script>
+function sw(el,id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('p-'+id).classList.add('on');
+}
+function toggleTrace(headEl){
+  const trace=headEl.nextElementSibling;
+  const toggle=headEl.querySelector('.int-toggle');
+  const open=trace.classList.toggle('open');
+  toggle.textContent=open?'▾ Hide Rationale':'▸ Show Rationale';
+}
+</script>
+</body>
+</html>
